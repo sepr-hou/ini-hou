@@ -14,9 +14,9 @@ import seprini.data.Art;
 import seprini.models.types.AircraftType;
 
 public class AircraftTypeTest {
-	
+
 	private AircraftType aircraftType;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -27,7 +27,7 @@ public class AircraftTypeTest {
 
 	@Before
 	public void setUp() throws Exception {
-		AircraftType testAircraftType = new AircraftType(); 
+		AircraftType testAircraftType = new AircraftType();
 
 		testAircraftType.setCoords(new Vector2(0, 0)).setActive(true)
 		.setMaxClimbRate(0).setMaxSpeed(0.8f).setMaxTurningSpeed(0.4f)
@@ -35,9 +35,9 @@ public class AircraftTypeTest {
 		.setTexture(Art.getTextureRegion("aircraft"))
 		.setVelocity(new Vector2(0.8f, 0.8f))
 		.setAircraftName("Test Aircraft");
-		
+
 		aircraftType = testAircraftType;
-		
+
 	}
 
 	@After
@@ -50,8 +50,8 @@ public class AircraftTypeTest {
 		Vector2 result = aircraftType.getCoords();
 		assertEquals(testCoords.x, result.x, 0);
 		assertEquals(testCoords.y, result.y, 0);
-		
-		
+
+
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class AircraftTypeTest {
 		Vector2 result = aircraftType.getVelocity();
 		assertEquals(testVelocity.x, result.x, 0);
 		assertEquals(testVelocity.y, result.y, 0);
-		
+
 	}
 
 	@Test
