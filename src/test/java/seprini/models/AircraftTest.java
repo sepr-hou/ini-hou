@@ -1,32 +1,19 @@
 package seprini.models;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-
-import org.junit.After;
-import org.junit.AfterClass;
+import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
 import seprini.data.Art;
 import seprini.models.types.AircraftType;
 
-import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AircraftTest {
 
 	private Aircraft aircraft;
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -44,10 +31,6 @@ public class AircraftTest {
 
 		aircraft = new Aircraft(defaultAircraft, plan, 0);
 
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test
@@ -146,14 +129,5 @@ public class AircraftTest {
 
 	@Test
 	public void testSelected() {
-	}
-
-	@Test
-	public void testToString() {
-		ArrayList<Waypoint> plan = new ArrayList<Waypoint>();
-		plan.add(new Waypoint(3, 5, true));
-
-		assertTrue(("Aircraft - x: 3.0 y: 5.0\n\r flight plan: [Waypoint - x: 4.0 y: 7.0]")
-				.equals(aircraft.toString()));
 	}
 }

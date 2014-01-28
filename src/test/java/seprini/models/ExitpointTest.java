@@ -1,27 +1,14 @@
 package seprini.models;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.After;
-import org.junit.AfterClass;
+import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
+import static org.junit.Assert.assertEquals;
 
 public class ExitpointTest {
 
 	private Exitpoint exitpoint;
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -30,15 +17,6 @@ public class ExitpointTest {
 		testexitpoint.radius = 5;
 		exitpoint = testexitpoint;
 
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	@Test
-	public void testToString() {
-		assertTrue(("Exitpoint - x: 3.0 y: 3.0").equals(exitpoint.toString()));
 	}
 
 	@Test

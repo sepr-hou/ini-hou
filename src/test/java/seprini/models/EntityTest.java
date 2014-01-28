@@ -1,15 +1,11 @@
 package seprini.models;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class EntityTest {
 	private Entity entity;
@@ -18,14 +14,6 @@ public class EntityTest {
 	protected Vector2 size;
 	protected boolean debugshape;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		Entity entitytest = new Waypoint(0, 1, false);
@@ -33,10 +21,6 @@ public class EntityTest {
 		entitytest.size = new Vector2(1, 2);
 		entitytest.debugShape = false;
 		entity = entitytest;
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 
 	@Test

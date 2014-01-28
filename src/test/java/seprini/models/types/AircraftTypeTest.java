@@ -1,17 +1,10 @@
 package seprini.models.types;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.badlogic.gdx.math.Vector2;
-
+import org.junit.*;
 import seprini.data.Art;
-import seprini.models.types.AircraftType;
+
+import static org.junit.Assert.*;
 
 public class AircraftTypeTest {
 
