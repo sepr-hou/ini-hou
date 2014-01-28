@@ -1,2 +1,15 @@
-/ini-atc/bin
-.DS_Store
+# Target directory
+/target/
+
+# Eclipse settings
+.settings/
+.classpath
+.project
+
+# Binary files
+*.jar
+*.class
+
+# Backup files
+*~
+*.bak
