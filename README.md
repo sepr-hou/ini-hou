@@ -1,5 +1,6 @@
 INI(HOU) - Controller Concern
 ===
+[![Build Status](https://travis-ci.org/sepr-hou/ini-hou.png?branch=master)](https://travis-ci.org/sepr-hou/ini-hou)
 
 INI The Pharoah (or the airport) -- Now owned by HOU.
 
