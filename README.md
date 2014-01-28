@@ -1,7 +1,7 @@
-INI - Controller Concern
+INI(HOU) - Controller Concern
 ===
 
-INI The Pharoah (or the airport)
+INI The Pharoah (or the airport) -- Now owned by HOU.
 
 Code structure
 ---
