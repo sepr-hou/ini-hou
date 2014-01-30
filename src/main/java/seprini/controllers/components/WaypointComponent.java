@@ -6,7 +6,6 @@ import java.util.Random;
 
 import seprini.controllers.AircraftController;
 import seprini.controllers.SidebarController;
-import seprini.data.Config;
 import seprini.data.Debug;
 import seprini.models.Entrypoint;
 import seprini.models.Exitpoint;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class WaypointComponent {
 	
 	private ArrayList<Waypoint> permanentList = new ArrayList<Waypoint>();
-	private ArrayList<Waypoint> userList = new ArrayList<Waypoint>();
 	private ArrayList<Entrypoint> entryList = new ArrayList<Entrypoint>();
 	private ArrayList<Exitpoint> exitList = new ArrayList<Exitpoint>();
 
@@ -74,10 +72,6 @@ public class WaypointComponent {
 	public boolean createWaypoint(float x, float y, final boolean permanent) {
 		Debug.msg("Creating waypoint at: " + x + ":" + y);
 
-		if (userList.size() == Config.USER_WAYPOINT_LIMIT
-				&& !permanent)
-			return false;
-
 		Debug.msg("Waypoint at: " + x + ":" + y + " created");
 
 		final Waypoint waypoint = new Waypoint(x, y, permanent);
@@ -86,8 +80,6 @@ public class WaypointComponent {
 		// not
 		if (permanent)
 			getPermanentList().add(waypoint);
-		else
-			userList.add(waypoint);
 
 		// add it to the airspace so it is automatically drawn using root.draw()
 		controller.getAirspace().addActor(waypoint);
@@ -108,11 +100,6 @@ public class WaypointComponent {
 					return true;
 				}
 
-				if (button == Buttons.RIGHT && !permanent) {
-					userList.remove(waypoint);
-					controller.getAirspace().removeActor(waypoint);
-					return true;
-				}
 
 				return true;
 			}

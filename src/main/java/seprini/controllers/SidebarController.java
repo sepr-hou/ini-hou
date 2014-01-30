@@ -19,7 +19,7 @@ import com.esotericsoftware.tablelayout.Cell;
 /**
  * Controls the sidebar in the GameScreen
  * 
- * @author Paulius, Miguel
+ * @author Paulius, Miguel, Rob
  * 
  */
 public final class SidebarController extends ChangeListener implements
@@ -32,9 +32,8 @@ public final class SidebarController extends ChangeListener implements
 	private final HashMap<String, TextButton> buttons = new HashMap<String, TextButton>();
 	private final HashMap<String, Label> labels = new HashMap<String, Label>();
 
-	// store whether the allow redirection / create waypoint buttons have been
+	// store whether the allow redirection button has been
 	// clicked
-	private boolean allowNewWaypoints = false;
 	private boolean allowRedirection = false;
 
 	private final GameScreen screen;
@@ -101,10 +100,6 @@ public final class SidebarController extends ChangeListener implements
 		aircraftControls.row();
 
 		// adding buttons to aircraft controls
-		createButton("createWaypoint", " Create Waypoint", aircraftControls,
-				true).width(200).colspan(2);
-
-		aircraftControls.row();
 
 		createButton("assignWaypoint", " Assign Waypoint", aircraftControls,
 				true).width(200).colspan(2);
@@ -113,13 +108,13 @@ public final class SidebarController extends ChangeListener implements
 
 		createButton("accelerate", " Accelerate", aircraftControls, false)
 				.width(200).colspan(2);
-		// createButton("takeOff", "Take Off", aircraftControls).width(100);
+		//createButton("takeOff", "Take Off", aircraftControls).width(100);
 
 		aircraftControls.row().colspan(2);
 
 		createButton("decelerate", " Decelerate", aircraftControls, false)
 				.width(200);
-		// createButton("land", "Land", aircraftControls).width(100);
+		//createButton("land", "Land", aircraftControls).width(100);
 
 		aircraftControls.row().spaceTop(100);
 
@@ -230,8 +225,6 @@ public final class SidebarController extends ChangeListener implements
 	@Override
 	public void changed(ChangeEvent event, Actor actor) {
 		if (State.paused == false) {
-			if (actor.equals(buttons.get("createWaypoint")))
-				allowNewWaypoints = (allowNewWaypoints) ? false : true;
 
 			if (actor.equals(buttons.get("assignWaypoint")))
 				allowRedirection = (allowRedirection) ? false : true;
@@ -273,15 +266,7 @@ public final class SidebarController extends ChangeListener implements
 
 	}
 
-	/**
-	 * This is true when the button to create new waypoints has clicked, false
-	 * otherwise
-	 * 
-	 * @return whether the create waypoint button has been clicked
-	 */
-	public boolean allowNewWaypoints() {
-		return allowNewWaypoints;
-	}
+
 
 	/**
 	 * True when then button to redirect aircraft has been clicked, false
