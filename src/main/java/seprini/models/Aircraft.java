@@ -19,7 +19,7 @@ public final class Aircraft extends Entity {
 
 	private final int id;
 
-	private static final float INITIAL_VELOCITY_SCALAR = 1f;
+	private static final float INITIAL_VELOCITY_SCALAR = 0.5f;
 	private static final float SPEED_CHANGE = 0.1f;
 	private static final int ALTITUDE_CHANGE = 5000;
 
