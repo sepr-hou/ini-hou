@@ -3,7 +3,9 @@ package seprini.data;
 import java.util.Hashtable;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -32,7 +34,7 @@ public class Art {
 	/**
 	 * A hashtable which stores all of the sounds
 	 */
-	private final static Hashtable<String, Sound> sounds = new Hashtable<String, Sound>();
+	private final static Hashtable<String, Playable> sounds = new Hashtable<String, Playable>();
 
 	/**
 	 * A skin can be loaded via JSON or defined programmatically, either is
@@ -70,11 +72,11 @@ public class Art {
 	}
 
 	private static void loadSounds() {
-		sounds.put("ding", loadSound("ding.wav"));
-		sounds.put("warning", loadSound("warning.mp3"));
-		sounds.put("crash", loadSound("crash.mp3"));
-		sounds.put("comeflywithme", loadSound("comeflywithme.mp3"));
-		sounds.put("ambience", loadSound("ambience.mp3"));
+		sounds.put("ding", loadSound("ding.wav", false));
+		sounds.put("warning", loadSound("warning.mp3", false));
+		sounds.put("crash", loadSound("crash.mp3", false));
+		sounds.put("comeflywithme", loadSound("comeflywithme.mp3", true));
+		sounds.put("ambience", loadSound("ambience.mp3", true));
 	}
 
 	/**
@@ -153,8 +155,31 @@ public class Art {
 		return texture;
 	}
 
-	private static Sound loadSound(String soundName) {
-		return Gdx.audio.newSound(Gdx.files.internal("sounds/" + soundName));
+	/**
+	 * Loads a sound effects file
+	 *
+	 * @param soundName filename of the sound file
+	 * @return the new sound
+	 */
+	private static Playable loadSound(String soundName, boolean music) {
+		FileHandle file = Gdx.files.internal("sounds/" + soundName);
+
+		if (music)
+			return new MusicImpl(Gdx.audio.newMusic(file));
+		else
+			return new SoundImpl(Gdx.audio.newSound(file));
+	}
+
+	/**
+	 * Loads a music file
+	 *
+	 * <p>This is MUCH faster than music
+	 *
+	 * @param soundName filename of the music file
+	 * @return the new music
+	 */
+	private static Music loadMusic(String soundName) {
+		return Gdx.audio.newMusic(Gdx.files.internal("sounds/" + soundName));
 	}
 
 	/**
@@ -176,7 +201,7 @@ public class Art {
 	 * @param key
 	 * @return the required sound or null if key doesn't exist
 	 */
-	public static Sound getSound(String key) {
+	public static Playable getSound(String key) {
 		if (!sounds.containsKey(key))
 			return null;
 
@@ -185,5 +210,71 @@ public class Art {
 
 	public static Skin getSkin() {
 		return skin;
+	}
+
+	private static class SoundImpl implements Playable
+	{
+		private final Sound sound;
+
+		private SoundImpl(Sound sound)
+		{
+			this.sound = sound;
+		}
+
+		@Override
+		public void play() { sound.play(); }
+
+		@Override
+		public void playLooping() { sound.setLooping(sound.play(), true); }
+
+		@Override
+		public void play(float volume) { sound.play(volume); }
+
+		@Override
+		public void playLooping(float volume) { sound.setLooping(sound.play(volume), true); }
+
+		@Override
+		public void stop() { sound.stop(); }
+
+		@Override
+		public void dispose() { sound.dispose();}
+	}
+
+	private static class MusicImpl implements Playable
+	{
+		private final Music music;
+
+		private MusicImpl(Music music)
+		{
+			this.music = music;
+		}
+
+		@Override
+		public void play() { play(1); }
+
+		@Override
+		public void playLooping() { playLooping(1); }
+
+		@Override
+		public void play(float volume)
+		{
+			music.setLooping(false);
+			music.setVolume(volume);
+			music.play();
+		}
+
+		@Override
+		public void playLooping(float volume)
+		{
+			music.setLooping(true);
+			music.setVolume(volume);
+			music.play();
+		}
+
+		@Override
+		public void stop() { music.stop(); }
+
+		@Override
+		public void dispose() { music.dispose();}
 	}
 }

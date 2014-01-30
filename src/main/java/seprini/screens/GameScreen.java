@@ -72,8 +72,7 @@ public class GameScreen extends Screen {
 		ui.add(sidebar).width(Config.SIDEBAR_SIZE.x)
 				.height(Config.SIDEBAR_SIZE.y);
 
-		long id = Art.getSound("ambience").play(0.7f);
-		Art.getSound("ambience").setLooping(id, true);
+		Art.getSound("ambience").playLooping(0.7f);
 	}
 
 	@Override
