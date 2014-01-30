@@ -4,7 +4,6 @@ import seprini.controllers.AircraftController;
 import seprini.data.Art;
 import seprini.data.Config;
 import seprini.data.GameDifficulty;
-import seprini.data.State;
 import seprini.models.Airspace;
 
 import com.badlogic.gdx.Gdx;
@@ -27,6 +26,9 @@ public class GameScreen extends Screen {
 
 	private final Stage root;
 	private final AircraftController controller;
+
+	// Paused state
+	private boolean paused;
 
 	public GameScreen(GameDifficulty diff) {
 
@@ -91,14 +93,11 @@ public class GameScreen extends Screen {
 
 	@Override
 	public void update() {
-		if (State.paused)
-			return;
-
-		// increment global clock
-		State.tick();
-
-		controller.update();
-		root.act();
+		if (!paused)
+		{
+			controller.update();
+			root.act();
+		}
 	}
 
 	@Override
@@ -106,4 +105,7 @@ public class GameScreen extends Screen {
 		root.dispose();
 	}
 
+	public boolean isPaused() { return paused; }
+
+	public void setPaused(boolean paused) { this.paused = paused; }
 }

@@ -1,7 +1,6 @@
 package seprini.screens;
 
 import seprini.data.Art;
-import seprini.data.State;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -18,7 +17,7 @@ public class EndScreen extends Screen {
 
 	private final Stage root;
 
-	public EndScreen() {
+	public EndScreen(float time) {
 		root = new Stage();
 		Gdx.input.setInputProcessor(root);
 
@@ -45,7 +44,7 @@ public class EndScreen extends Screen {
 				"You have failed.\n"
 						+ "Two aeroplanes have collided mid-flight in a huge crash which resulted in the death of many innocent people.\n"
 						+ "However, surprisingly, you managed to avoid a crash for exactly "
-						+ Math.round(State.time())
+						+ Math.round(time)
 						+ " seconds, which is respectable (at least by some standards).\n"
 						+ "\n"
 						+ "\nPRESS ESC TO RETURN TO MAIN MENU ",

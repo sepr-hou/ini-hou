@@ -2,9 +2,10 @@ package seprini.controllers;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
+import seprini.ATC;
 import seprini.data.Art;
 import seprini.data.Config;
-import seprini.data.State;
 import seprini.models.Aircraft;
 import seprini.screens.GameScreen;
 import seprini.screens.MenuScreen;
@@ -157,7 +158,7 @@ public final class SidebarController extends ChangeListener implements
 		String speedText;
 
 		// update timer
-		labels.get("timer").setText("" + Math.round(State.time()));
+		labels.get("timer").setText("" + Math.round(aircrafts.getTimer()));
 
 		// if there is no selected aircraft, return immediately to avoid errors
 		// otherwise set it to the local selectedAircraft variable and update
@@ -230,7 +231,7 @@ public final class SidebarController extends ChangeListener implements
 
 	@Override
 	public void changed(ChangeEvent event, Actor actor) {
-		if (State.paused == false) {
+		if (!screen.isPaused()) {
 
 			if (actor.equals(buttons.get("assignWaypoint")))
 				allowRedirection = (allowRedirection) ? false : true;
@@ -260,14 +261,14 @@ public final class SidebarController extends ChangeListener implements
 
 			}
 		}
+
 		if (actor.equals(buttons.get("menu"))) {
 			Art.getSound("ambience").stop();
 			screen.setScreen(new MenuScreen());
 		}
 
 		if (actor.equals(buttons.get("pause"))) {
-			State.paused = (State.paused) ? false : true;
-
+			screen.setPaused(!screen.isPaused());
 		}
 
 	}

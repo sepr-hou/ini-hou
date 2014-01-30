@@ -3,13 +3,13 @@ package seprini.controllers;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import seprini.controllers.components.FlightPlanComponent;
 import seprini.controllers.components.WaypointComponent;
 import seprini.data.Art;
 import seprini.data.Config;
 import seprini.data.Debug;
 import seprini.data.GameDifficulty;
-import seprini.data.State;
 import seprini.models.Aircraft;
 import seprini.models.Airspace;
 import seprini.models.Map;
@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public final class AircraftController extends InputListener implements
 		Controller {
 
-	Random rand = new Random();
+	private Random rand = new Random();
 
 	// aircraft and aircraft type lists
 	private final ArrayList<AircraftType> aircraftTypeList = new ArrayList<AircraftType>();
@@ -54,6 +54,9 @@ public final class AircraftController extends InputListener implements
 	private final GameScreen screen;
 
 	private int aircraftId = 0;
+
+	// game timer
+	private float timer = 0;
 
 	/**
 	 * 
@@ -129,10 +132,13 @@ public final class AircraftController extends InputListener implements
 	public void update() {
 		Aircraft planeI, planeJ;
 
+		// Update timer
+		timer += Gdx.graphics.getDeltaTime();
+
 		breachingSound = false;
 
 		// wait at least 2 seconds before allowing to warn again
-		breachingIsPlaying = (State.time() - lastWarned >= 2) ? false : true;
+		breachingIsPlaying = (timer - lastWarned < 2);
 
 		// Updates aircraft in turn
 		// Removes aircraft which are no longer active from aircraftList.
@@ -157,6 +163,7 @@ public final class AircraftController extends InputListener implements
 						&& planeI.getCoords().dst(planeJ.getCoords()) < planeI
 								.getRadius() + planeJ.getRadius()) {
 					collisionHasOccured(planeI, planeJ);
+					return;
 				}
 
 				// Checking for breach of separation.
@@ -178,7 +185,7 @@ public final class AircraftController extends InputListener implements
 			}
 
 			if (planeI.getAltitude() <= 0) {
-				screen.setScreen(new EndScreen());
+				screen.setScreen(new EndScreen(timer));
 			}
 
 		}
@@ -188,7 +195,7 @@ public final class AircraftController extends InputListener implements
 		// aren't multiple warning sounds at the same time
 		if (breachingSound && !breachingIsPlaying) {
 			breachingIsPlaying = true;
-			lastWarned = State.time();
+			lastWarned = timer;
 			Art.getSound("warning").play(1.0f);
 		}
 
@@ -241,7 +248,7 @@ public final class AircraftController extends InputListener implements
 		Art.getSound("crash").play(0.6f);
 
 		// change the screen to the endScreen
-		screen.setScreen(new EndScreen());
+		screen.setScreen(new EndScreen(timer));
 	}
 
 	/**
@@ -281,8 +288,7 @@ public final class AircraftController extends InputListener implements
 
 		// time difference between aircraft generated - depends on difficulty
 		// selected
-		if (State.time() - lastGenerated < timeBetweenGenerations
-				+ rand.nextInt(100))
+		if (timer - lastGenerated < timeBetweenGenerations + rand.nextInt(100))
 			return null;
 
 		Aircraft newAircraft = new Aircraft(randomAircraftType(),
@@ -292,7 +298,7 @@ public final class AircraftController extends InputListener implements
 
 		// store the time when an aircraft was last generated to know when to
 		// generate the next aicraft
-		lastGenerated = State.time();
+		lastGenerated = timer;
 
 		return newAircraft;
 	}
@@ -363,6 +369,10 @@ public final class AircraftController extends InputListener implements
 		getSelectedAircraft().insertWaypoint(waypoint);
 	}
 
+	public float getTimer() {
+		return timer;
+	}
+
 	public Aircraft getSelectedAircraft() {
 		return selectedAircraft;
 	}
@@ -389,7 +399,7 @@ public final class AircraftController extends InputListener implements
 
 	@Override
 	public boolean keyDown(InputEvent event, int keycode) {
-		if (selectedAircraft != null && !State.paused) {
+		if (selectedAircraft != null && !screen.isPaused()) {
 
 			if (keycode == Keys.LEFT || keycode == Keys.A)
 				selectedAircraft.turnLeft(true);
