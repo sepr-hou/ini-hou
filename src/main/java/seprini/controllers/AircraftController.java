@@ -90,17 +90,17 @@ public final class AircraftController extends InputListener implements
 		switch (difficulty) {
 		case EASY:
 			maxAircraft = 10;
-			timeBetweenGenerations = 6;
+			timeBetweenGenerations = 4;
 			separationRadius = 150;
 			break;
 		case MEDIUM:
 			maxAircraft = 10;
-			timeBetweenGenerations = 5;
+			timeBetweenGenerations = 3;
 			separationRadius = 100;
 			break;
 		case HARD:
 			maxAircraft = 10;
-			timeBetweenGenerations = 4;
+			timeBetweenGenerations = 2;
 			separationRadius = 75;
 			break;
 		default:
