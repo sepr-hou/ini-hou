@@ -171,18 +171,6 @@ public class Art {
 	}
 
 	/**
-	 * Loads a music file
-	 *
-	 * <p>This is MUCH faster than music
-	 *
-	 * @param soundName filename of the music file
-	 * @return the new music
-	 */
-	private static Music loadMusic(String soundName) {
-		return Gdx.audio.newMusic(Gdx.files.internal("sounds/" + soundName));
-	}
-
-	/**
 	 * Returns a texture region, should be used for all drawing all models
 	 * 
 	 * @param key
