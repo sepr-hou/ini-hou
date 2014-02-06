@@ -499,6 +499,7 @@ public final class Aircraft extends Entity {
 		}
 
 		if (waypoints.size() == 0) {
+			AircraftController.score += 77;
 			this.isActive = false;
 			Debug.msg("Aircraft id " + id + ": Reached exit WP");
 		}
