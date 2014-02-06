@@ -100,13 +100,13 @@ public final class MenuController extends ChangeListener implements Controller {
 		// Pass difficulty to the newly created GameScreen so the game can
 		// change variables depending on it
 		if (actor.equals(buttons.get("startEasy")))
-			screen.setScreen(new GameScreen(GameDifficulty.EASY));
+			screen.getGame().showGameScreen(GameDifficulty.EASY);
 
 		if (actor.equals(buttons.get("startMedium")))
-			screen.setScreen(new GameScreen(GameDifficulty.MEDIUM));
+			screen.getGame().showGameScreen(GameDifficulty.MEDIUM);
 
 		if (actor.equals(buttons.get("startHard")))
-			screen.setScreen(new GameScreen(GameDifficulty.HARD));
+			screen.getGame().showGameScreen(GameDifficulty.HARD);
 
 		if (actor.equals(buttons.get("exit")))
 			Gdx.app.exit();

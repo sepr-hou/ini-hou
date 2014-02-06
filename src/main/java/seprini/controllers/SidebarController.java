@@ -262,7 +262,7 @@ public final class SidebarController extends ChangeListener implements
 
 		if (actor.equals(buttons.get("menu"))) {
 			Art.getSound("ambience").stop();
-			screen.setScreen(new MenuScreen());
+			screen.getGame().showMenuScreen();
 		}
 
 		if (actor.equals(buttons.get("pause"))) {

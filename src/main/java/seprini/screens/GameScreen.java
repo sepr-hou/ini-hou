@@ -1,5 +1,7 @@
 package seprini.screens;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import seprini.ATC;
 import seprini.controllers.AircraftController;
 import seprini.data.Art;
 import seprini.data.Config;
@@ -22,17 +24,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * @author Paulius, Miguel
  * 
  */
-public class GameScreen extends Screen {
-
-	private final Stage root;
+public class GameScreen extends AbstractScreen
+{
 	private final AircraftController controller;
 
 	// Paused state
 	private boolean paused;
 
-	public GameScreen(GameDifficulty diff) {
+	public GameScreen(ATC game, GameDifficulty diff) {
+
+		super(game);
 
 		// create a table layout, main ui
+		Stage root = getStage();
 		Table ui = new Table();
 
 		// create a separate layout for sidebar with all the buttons and
@@ -44,13 +48,18 @@ public class GameScreen extends Screen {
 
 		// create and add the Airspace group, contains aircraft and waypoints
 		Airspace airspace = new Airspace();
-
 		controller = new AircraftController(diff, airspace, sidebar, this);
-		root = new Stage();
-
 		root.setKeyboardFocus(airspace);
 
-		Gdx.input.setInputProcessor(root);
+		// set controller update as first actor
+		ui.addActor(new Actor()
+		{
+			@Override
+			public void act(float delta)
+			{
+				controller.update();
+			}
+		});
 
 		// make it fill the whole screen
 		ui.setFillParent(true);
@@ -78,33 +87,16 @@ public class GameScreen extends Screen {
 	}
 
 	@Override
-	public void render() {
-		// draw every actor on the stage
-		root.draw();
+	public void render(float delta) {
+		super.render(delta);
 
 		// debug the ui and draw fps
 		if (Config.DEBUG_UI) {
+			Stage root = getStage();
+
 			Table.drawDebug(root);
 			drawString("fps: " + Gdx.graphics.getFramesPerSecond(), 10, 20,
 					Color.BLACK, root.getSpriteBatch(), false, 1);
 		}
 	}
-
-	@Override
-	public void update() {
-		if (!paused)
-		{
-			controller.update();
-			root.act();
-		}
-	}
-
-	@Override
-	public void removed() {
-		root.dispose();
-	}
-
-	public boolean isPaused() { return paused; }
-
-	public void setPaused(boolean paused) { this.paused = paused; }
 }

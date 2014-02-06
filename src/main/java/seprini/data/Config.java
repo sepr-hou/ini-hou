@@ -13,8 +13,7 @@ public final class Config {
 	public final static int SCREEN_WIDTH = 1280;
 	public final static int SCREEN_HEIGHT = 720;
 	public final static boolean VSYNC = true;
-	// DANGER, changing it may lead to unexpected results
-	public final static boolean RESIZABLE = false;
+	public final static boolean RESIZABLE = true;
 
 	// Art related config
 	public final static Vector2 AIRSPACE_SIZE = new Vector2(1080, SCREEN_HEIGHT);

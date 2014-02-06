@@ -1,72 +1,54 @@
 package seprini;
 
+import com.badlogic.gdx.Game;
 import seprini.data.Art;
+import seprini.data.GameDifficulty;
+import seprini.screens.EndScreen;
+import seprini.screens.GameScreen;
 import seprini.screens.MenuScreen;
-import seprini.screens.Screen;
-
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 
 /**
  * Main class, calls all subsequent classes. Initialises Input, Art classes,
  * first and last class to be called
  * 
  * @author Crembo
- * 
  */
-public class ATC implements ApplicationListener {
-
-	/**
-	 * The current screen
-	 */
-	public Screen screen;
+public class ATC extends Game
+{
+	private MenuScreen menuScreen;
 
 	@Override
-	public void create() {
+	public void create()
+	{
 		Art.load();
-
-		setScreen(new MenuScreen());
+		showMenuScreen();
 	}
 
 	/**
-	 * Changes the current screen
-	 * 
-	 * @param newScreen
+	 * Shows the menu screen
 	 */
-	public void setScreen(Screen newScreen) {
-		if (screen != null)
-			screen.removed();
-
-		screen = newScreen;
-		screen.init(this);
+	public void showMenuScreen()
+	{
+		if (menuScreen == null)
+			menuScreen = new MenuScreen(this);
+		setScreen(menuScreen);
 	}
 
-	@Override
-	public void render() {
-
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		screen.update();
-		screen.render();
+	/**
+	 * Shows the game screen
+	 */
+	public void showGameScreen(GameDifficulty difficulty)
+	{
+		setScreen(new GameScreen(this, difficulty));
 	}
 
-	@Override
-	public void resize(int width, int height) {
+	/**
+	 * Shows the end screen
+	 *
+	 * @param time final time
+	 */
+	public void showEndScreen(float time)
+	{
+		setScreen(new EndScreen(this, time));
 	}
-
-	@Override
-	public void pause() {
-	}
-
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void dispose() {
-		screen.removed();
-	}
-
 }

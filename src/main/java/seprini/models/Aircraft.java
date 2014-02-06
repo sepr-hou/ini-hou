@@ -6,7 +6,7 @@ import java.util.Random;
 import seprini.data.Config;
 import seprini.data.Debug;
 import seprini.models.types.AircraftType;
-import seprini.screens.Screen;
+import seprini.screens.AbstractScreen;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -120,7 +120,7 @@ public final class Aircraft extends Entity {
 	@Override
 	protected void additionalDraw(SpriteBatch batch) {
 
-		ShapeRenderer drawer = Screen.shapeRenderer;
+		ShapeRenderer drawer = AbstractScreen.shapeRenderer;
 
 		// if the user takes control of the aircraft, draw a line to the
 		// exitpoint
@@ -163,7 +163,7 @@ public final class Aircraft extends Entity {
 			color = Color.BLACK;
 		}
 
-		Screen.drawString("alt: " + getAltitude(), getX() - 30, getY() - 20,
+		AbstractScreen.drawString("alt: " + getAltitude(), getX() - 30, getY() - 20,
 				color, batch, true, 1);
 
 

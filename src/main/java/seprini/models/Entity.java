@@ -1,7 +1,7 @@
 package seprini.models;
 
 import seprini.data.Config;
-import seprini.screens.Screen;
+import seprini.screens.AbstractScreen;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,11 +46,11 @@ public abstract class Entity extends Actor {
 
 		batch.end();
 
-		Screen.shapeRenderer.begin(ShapeType.Line);
-		Screen.shapeRenderer.setColor(1, 0, 0, 0);
-		Screen.shapeRenderer.box(getX() - getWidth() / 2, getY() - getHeight()
+		AbstractScreen.shapeRenderer.begin(ShapeType.Line);
+		AbstractScreen.shapeRenderer.setColor(1, 0, 0, 0);
+		AbstractScreen.shapeRenderer.box(getX() - getWidth() / 2, getY() - getHeight()
 				/ 2, 0, getWidth(), getHeight(), 0);
-		Screen.shapeRenderer.end();
+		AbstractScreen.shapeRenderer.end();
 
 		batch.begin();
 	}

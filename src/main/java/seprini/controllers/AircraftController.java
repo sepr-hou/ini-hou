@@ -185,7 +185,7 @@ public final class AircraftController extends InputListener implements
 			}
 
 			if (planeI.getAltitude() <= 0) {
-				screen.setScreen(new EndScreen(timer));
+				screen.getGame().showEndScreen(timer);
 			}
 
 		}
@@ -248,7 +248,7 @@ public final class AircraftController extends InputListener implements
 		Art.getSound("crash").play(0.6f);
 
 		// change the screen to the endScreen
-		screen.setScreen(new EndScreen(timer));
+		screen.getGame().showEndScreen(timer);
 	}
 
 	/**

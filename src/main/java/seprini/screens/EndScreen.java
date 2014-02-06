@@ -1,5 +1,6 @@
 package seprini.screens;
 
+import seprini.ATC;
 import seprini.data.Art;
 
 import com.badlogic.gdx.Gdx;
@@ -13,14 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-public class EndScreen extends Screen {
+public class EndScreen extends AbstractScreen
+{
+	public EndScreen(ATC game, float time) {
 
-	private final Stage root;
+		super(game);
 
-	public EndScreen(float time) {
-		root = new Stage();
-		Gdx.input.setInputProcessor(root);
-
+		Stage root = getStage();
 		Table ui = new Table();
 
 		ui.setFillParent(true);
@@ -30,7 +30,7 @@ public class EndScreen extends Screen {
 			@Override
 			public boolean keyDown(InputEvent event, int keycode) {
 				if (keycode == Keys.ESCAPE)
-					setScreen(new MenuScreen());
+					getGame().showMenuScreen();
 
 				return false;
 			}
@@ -59,26 +59,10 @@ public class EndScreen extends Screen {
 		button.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				setScreen(new MenuScreen());
+				getGame().showMenuScreen();
 			}
 		});
 
 		ui.add(button).width(150);
 	}
-
-	@Override
-	public void render() {
-		root.draw();
-	}
-
-	@Override
-	public void update() {
-		root.act();
-	}
-
-	@Override
-	public void removed() {
-		root.dispose();
-	}
-
 }
