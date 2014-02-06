@@ -46,9 +46,10 @@ public class ATC extends Game
 	 * Shows the end screen
 	 *
 	 * @param time final time
+	 * @param score final score
 	 */
-	public void showEndScreen(float time)
+	public void showEndScreen(float time, float score)
 	{
-		setScreen(new EndScreen(this, time));
+		setScreen(new EndScreen(this, time, score));
 	}
 }

@@ -3,6 +3,7 @@ package seprini.models;
 import java.util.ArrayList;
 import java.util.Random;
 
+import seprini.controllers.AircraftController;
 import seprini.data.Config;
 import seprini.data.Debug;
 import seprini.models.types.AircraftType;
@@ -122,19 +123,27 @@ public final class Aircraft extends Entity {
 
 		ShapeRenderer drawer = AbstractScreen.shapeRenderer;
 
-		// if the user takes control of the aircraft, draw a line to the
-		// exitpoint
+		// if the user takes control of the aircraft, 
+		// show full flight plan.
 		if (selected) {
-			Waypoint exitpoint = waypoints.get(waypoints.size() - 1);
+			
+			Vector2 current = new Vector2(this.getX(), this.getY());
+			for (int i = 0; i < waypoints.size(); i++)
+			{
+				Vector2 nextWaypoint = new Vector2(waypoints.get(i).getX(), waypoints.get(i).getY());
+				
+				
+				batch.end();
 
-			batch.end();
+				drawer.begin(ShapeType.Line);
+				drawer.setColor(1, 0, 0, 0);
+				drawer.line(current.x, current.y, nextWaypoint.x, nextWaypoint.y);
+				drawer.end();
 
-			drawer.begin(ShapeType.Line);
-			drawer.setColor(1, 0, 0, 0);
-			drawer.line(getX(), getY(), exitpoint.getX(), exitpoint.getY());
-			drawer.end();
-
-			batch.begin();
+				batch.begin();
+				
+				current = nextWaypoint;
+			}
 		}
 
 		// if the aircraft is either selected or is breaching, draw a circle
@@ -185,6 +194,7 @@ public final class Aircraft extends Entity {
 
 	/**
 	 * Update the aircraft rotation & position
+	 * @param  
 	 */
 	public void act() {
 		// if player is holding D or -> on the keyboard, turn right
@@ -233,6 +243,7 @@ public final class Aircraft extends Entity {
 			// close enough is dictated by the WP size in the config.
 			if (nextWaypoint.sub(coords).len() < Config.WAYPOINT_SIZE.x / 2) {
 				waypoints.remove(0);
+				AircraftController.score += 111; 
 			}
 
 			// set velocity angle to fit rotation, allows for smooth turning
@@ -510,4 +521,6 @@ public final class Aircraft extends Entity {
 		return "Aircraft - x: " + getX() + " y: " + getY()
 				+ "\n\r flight plan: " + waypoints.toString();
 	}
+	
+
 }

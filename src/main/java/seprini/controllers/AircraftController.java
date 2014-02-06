@@ -57,6 +57,9 @@ public final class AircraftController extends InputListener implements
 
 	// game timer
 	private float timer = 0;
+	
+	// game score
+	public static float score = 0;
 
 	/**
 	 * 
@@ -134,6 +137,9 @@ public final class AircraftController extends InputListener implements
 
 		// Update timer
 		timer += Gdx.graphics.getDeltaTime();
+		
+		// Update score
+		score += 22*(Gdx.graphics.getDeltaTime());
 
 		breachingSound = false;
 
@@ -185,7 +191,7 @@ public final class AircraftController extends InputListener implements
 			}
 
 			if (planeI.getAltitude() <= 0) {
-				screen.getGame().showEndScreen(timer);
+				screen.getGame().showEndScreen(timer, score);
 			}
 
 		}
@@ -248,7 +254,7 @@ public final class AircraftController extends InputListener implements
 		Art.getSound("crash").play(0.6f);
 
 		// change the screen to the endScreen
-		screen.getGame().showEndScreen(timer);
+		screen.getGame().showEndScreen(timer, score);
 	}
 
 	/**
@@ -371,6 +377,10 @@ public final class AircraftController extends InputListener implements
 
 	public float getTimer() {
 		return timer;
+	}
+	
+	public float getScore() {
+		return score;
 	}
 
 	public Aircraft getSelectedAircraft() {

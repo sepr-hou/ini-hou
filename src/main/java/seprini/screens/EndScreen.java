@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class EndScreen extends AbstractScreen
 {
-	public EndScreen(ATC game, float time) {
+	public EndScreen(ATC game, float time, float score) {
 
 		super(game);
 
@@ -46,7 +46,9 @@ public class EndScreen extends AbstractScreen
 						+ "However, surprisingly, you managed to avoid a crash for exactly "
 						+ Math.round(time)
 						+ " seconds, which is respectable (at least by some standards).\n"
-						+ "\n"
+						+ "In addition you achieved a score of "
+						+ Math.round(score)
+						+ ".\n"
 						+ "\nPRESS ESC TO RETURN TO MAIN MENU ",
 				Art.getSkin(), "textStyle");
 
