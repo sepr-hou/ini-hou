@@ -18,7 +18,7 @@ import com.esotericsoftware.tablelayout.Cell;
 /**
  * Controls the sidebar in the GameScreen
  * 
- * @author Paulius, Miguel, Rob
+ * @author Jack H lol (fuck you other guys)
  * 
  */
 public final class SidebarController extends ChangeListener implements
@@ -144,7 +144,7 @@ public final class SidebarController extends ChangeListener implements
 		bottomButtons.row();
 		
 		createLabel("", " Score:", bottomButtons).width(100);
-		createLabel("Score", "..", bottomButtons).width(100);
+		createLabel("score", "..", bottomButtons).width(100);
 		
 		bottomButtons.row();
 
@@ -162,6 +162,9 @@ public final class SidebarController extends ChangeListener implements
 
 		// update timer
 		labels.get("timer").setText("" + Math.round(aircrafts.getTimer()));
+		
+		// update score
+		labels.get("score").setText("" + Math.round(aircrafts.getScore()));
 
 		// if there is no selected aircraft, return immediately to avoid errors
 		// otherwise set it to the local selectedAircraft variable and update

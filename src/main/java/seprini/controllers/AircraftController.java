@@ -57,6 +57,9 @@ public final class AircraftController extends InputListener implements
 
 	// game timer
 	private float timer = 0;
+	
+	// game score
+	private float score = 0;
 
 	/**
 	 * 
@@ -134,6 +137,9 @@ public final class AircraftController extends InputListener implements
 
 		// Update timer
 		timer += Gdx.graphics.getDeltaTime();
+		
+		// Update score
+		score += 44*(Gdx.graphics.getDeltaTime());
 
 		breachingSound = false;
 
@@ -371,6 +377,10 @@ public final class AircraftController extends InputListener implements
 
 	public float getTimer() {
 		return timer;
+	}
+	
+	public float getScore() {
+		return score;
 	}
 
 	public Aircraft getSelectedAircraft() {
