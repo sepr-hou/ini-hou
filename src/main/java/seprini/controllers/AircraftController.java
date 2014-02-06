@@ -59,7 +59,7 @@ public final class AircraftController extends InputListener implements
 	private float timer = 0;
 	
 	// game score
-	private float score = 0;
+	public static float score = 0;
 
 	/**
 	 * 
@@ -139,7 +139,7 @@ public final class AircraftController extends InputListener implements
 		timer += Gdx.graphics.getDeltaTime();
 		
 		// Update score
-		score += 44*(Gdx.graphics.getDeltaTime());
+		score += 22*(Gdx.graphics.getDeltaTime());
 
 		breachingSound = false;
 

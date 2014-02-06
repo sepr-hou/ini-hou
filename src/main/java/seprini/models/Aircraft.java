@@ -3,6 +3,7 @@ package seprini.models;
 import java.util.ArrayList;
 import java.util.Random;
 
+import seprini.controllers.AircraftController;
 import seprini.data.Config;
 import seprini.data.Debug;
 import seprini.models.types.AircraftType;
@@ -193,6 +194,7 @@ public final class Aircraft extends Entity {
 
 	/**
 	 * Update the aircraft rotation & position
+	 * @param  
 	 */
 	public void act() {
 		// if player is holding D or -> on the keyboard, turn right
@@ -241,6 +243,7 @@ public final class Aircraft extends Entity {
 			// close enough is dictated by the WP size in the config.
 			if (nextWaypoint.sub(coords).len() < Config.WAYPOINT_SIZE.x / 2) {
 				waypoints.remove(0);
+				AircraftController.score += 111; 
 			}
 
 			// set velocity angle to fit rotation, allows for smooth turning
