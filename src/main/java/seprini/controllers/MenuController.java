@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import seprini.data.Art;
 import seprini.data.GameDifficulty;
-import seprini.screens.GameScreen;
 import seprini.screens.MenuScreen;
 
 import com.badlogic.gdx.Gdx;

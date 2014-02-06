@@ -15,7 +15,6 @@ import seprini.models.Airspace;
 import seprini.models.Map;
 import seprini.models.Waypoint;
 import seprini.models.types.AircraftType;
-import seprini.screens.EndScreen;
 import seprini.screens.GameScreen;
 
 import com.badlogic.gdx.Input.Keys;

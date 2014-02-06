@@ -6,7 +6,6 @@ import seprini.data.Art;
 import seprini.data.Config;
 import seprini.models.Aircraft;
 import seprini.screens.GameScreen;
-import seprini.screens.MenuScreen;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -18,7 +17,7 @@ import com.esotericsoftware.tablelayout.Cell;
 /**
  * Controls the sidebar in the GameScreen
  * 
- * @author Jack H lol (fuck you other guys)
+ * @author Rob
  * 
  */
 public final class SidebarController extends ChangeListener implements
