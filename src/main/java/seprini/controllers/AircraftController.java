@@ -58,7 +58,7 @@ public final class AircraftController extends InputListener implements
 	private float timer = 0;
 	
 	// game score
-	public float score = 0;
+	public static float score = 0;
 
 	/**
 	 * 
