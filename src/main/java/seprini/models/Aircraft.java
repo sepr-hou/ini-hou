@@ -243,6 +243,7 @@ public final class Aircraft extends Entity {
 			// close enough is dictated by the WP size in the config.
 			if (nextWaypoint.sub(coords).len() < Config.WAYPOINT_SIZE.x / 2) {
 				waypoints.remove(0);
+				// Adds to score when aircraft moves through waypoint
 				AircraftController.score += 111; 
 			}
 
@@ -499,6 +500,7 @@ public final class Aircraft extends Entity {
 		}
 
 		if (waypoints.size() == 0) {
+			//Adds to score when aircraft moves through exit point
 			AircraftController.score += 77;
 			this.isActive = false;
 			Debug.msg("Aircraft id " + id + ": Reached exit WP");
