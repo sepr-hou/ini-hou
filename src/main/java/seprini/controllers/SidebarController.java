@@ -2,8 +2,6 @@ package seprini.controllers;
 
 import java.util.HashMap;
 
-import com.badlogic.gdx.Gdx;
-import seprini.ATC;
 import seprini.data.Art;
 import seprini.data.Config;
 import seprini.models.Aircraft;
