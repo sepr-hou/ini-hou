@@ -414,7 +414,7 @@ public final class Aircraft extends Entity {
 		float angle = 0;
 
 		if (getRotation() - maxTurningRate * 2 < 0)
-			angle = (float) (360 - maxTurningRate * 2);
+			angle = (360 - maxTurningRate * 2);
 
 		if (angle == 0) {
 			this.rotate(-maxTurningRate * 2);
@@ -433,7 +433,7 @@ public final class Aircraft extends Entity {
 		float angle = 0;
 
 		if (getRotation() + maxTurningRate * 2 >= 360.0f)
-			angle = (float) (maxTurningRate * 2);
+			angle = (maxTurningRate * 2);
 
 		if (angle == 0) {
 			this.rotate(maxTurningRate * 2);
