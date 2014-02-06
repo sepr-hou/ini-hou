@@ -140,7 +140,12 @@ public final class SidebarController extends ChangeListener implements
 
 		createLabel("", " Time:", bottomButtons).width(100);
 		createLabel("timer", "..", bottomButtons).width(100);
-
+		
+		bottomButtons.row();
+		
+		createLabel("", " Score:", bottomButtons).width(100);
+		createLabel("Score", "..", bottomButtons).width(100);
+		
 		bottomButtons.row();
 
 		// adding buttons to bottom
