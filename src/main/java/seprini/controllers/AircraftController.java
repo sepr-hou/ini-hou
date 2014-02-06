@@ -77,6 +77,9 @@ public final class AircraftController extends InputListener implements
 		this.airspace = airspace;
 		this.screen = screen;
 
+		// TODO: jcowgill - this is a massive hack but it will do at the moment
+		score = 0;
+
 		// add the background
 		airspace.addActor(new Map());
 
