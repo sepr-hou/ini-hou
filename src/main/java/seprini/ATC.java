@@ -15,8 +15,6 @@ import seprini.screens.MenuScreen;
  */
 public class ATC extends Game
 {
-	private MenuScreen menuScreen;
-
 	@Override
 	public void create()
 	{
@@ -29,9 +27,7 @@ public class ATC extends Game
 	 */
 	public void showMenuScreen()
 	{
-		if (menuScreen == null)
-			menuScreen = new MenuScreen(this);
-		setScreen(menuScreen);
+		setScreen(new MenuScreen(this));
 	}
 
 	/**
