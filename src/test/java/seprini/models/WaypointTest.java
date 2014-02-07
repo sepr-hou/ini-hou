@@ -14,7 +14,7 @@ public class WaypointTest {
 	@Before
 	public void setUp() throws Exception {
 
-		Waypoint testwaypoint = new Waypoint(3f, 3f, true);
+		Waypoint testwaypoint = new Waypoint(3f, 3f, true, true);
 		waypoint = testwaypoint;
 
 	}

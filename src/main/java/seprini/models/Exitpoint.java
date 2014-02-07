@@ -9,7 +9,7 @@ public final class Exitpoint extends Waypoint {
 	protected int radius;
 
 	public Exitpoint(Vector2 position) {
-		super(position, false);
+		super(position, false, true);
 		this.texture = Art.getTextureRegion("exitpoint");
 	}
 }
