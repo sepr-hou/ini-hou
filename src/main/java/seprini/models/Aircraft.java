@@ -126,8 +126,9 @@ public final class Aircraft extends Entity {
 		// if the user takes control of the aircraft, 
 		// show full flight plan.
 		if (selected) {
-			
+			//Initialises current to plane's current position.
 			Vector2 current = new Vector2(this.getX(), this.getY());
+			//Loops through waypoints in flight plan drawing a line between them
 			for (int i = 0; i < waypoints.size(); i++)
 			{
 				Vector2 nextWaypoint = new Vector2(waypoints.get(i).getX(), waypoints.get(i).getY());
