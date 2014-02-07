@@ -105,8 +105,6 @@ public final class Aircraft extends Entity {
 		this.velocity.setAngle(relativeAngle);
 		this.setRotation(relativeAngle);
 
-		velocity.len();
-
 		Debug.msg("||\nGenerated aircraft id " + id + "\nEntry point: "
 				+ coords + "\nRelative angle to first waypoint: "
 				+ relativeAngle + "\nVelocity" + velocity + "\nWaypoints: "
