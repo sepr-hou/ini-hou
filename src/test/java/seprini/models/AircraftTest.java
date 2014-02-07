@@ -19,11 +19,11 @@ public class AircraftTest {
 	public void setUp() throws Exception {
 		AircraftType defaultAircraft = new AircraftType();
 
-		defaultAircraft.setCoords(new Vector2(0, 0)).setActive(true)
+		defaultAircraft.setActive(true)
 				.setMaxClimbRate(10).setMaxSpeed(0.8f).setMaxTurningSpeed(0.4f)
 				.setRadius(15).setSeparationRadius(100)
 				.setTexture(Art.getTextureRegion("aircraft"))
-				.setVelocity(new Vector2(0.8f, 0.8f));
+				.setInitialSpeed(0.5f);
 
 		ArrayList<Waypoint> plan = new ArrayList<Waypoint>();
 		plan.add(new Waypoint(3, 5, true, true));

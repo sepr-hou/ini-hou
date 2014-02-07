@@ -6,8 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class AircraftType {
 
 	private String aircraftName;
-	private Vector2 coords;
-	private Vector2 velocity;
+	private float initialSpeed;
 	private int radius;
 	private int separationRadius;
 	private TextureRegion texture;
@@ -16,21 +15,12 @@ public class AircraftType {
 	private float maxSpeed;
 	private boolean isActive;
 
-	public Vector2 getCoords() {
-		return coords.cpy();
+	public float getInitialSpeed() {
+		return initialSpeed;
 	}
 
-	public AircraftType setCoords(Vector2 coords) {
-		this.coords = coords;
-		return this;
-	}
-
-	public Vector2 getVelocity() {
-		return velocity.cpy();
-	}
-
-	public AircraftType setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
+	public AircraftType setInitialSpeed(float initialSpeed) {
+		this.initialSpeed = initialSpeed;
 		return this;
 	}
 

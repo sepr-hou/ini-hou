@@ -122,12 +122,11 @@ public final class AircraftController extends InputListener implements
 		}
 
 		// initialise aircraft types.
-		float sqrt2 = (float) Math.sqrt(2);
-		defaultAircraft.setCoords(new Vector2(0, 0)).setActive(true)
+		defaultAircraft.setActive(true)
 				.setMaxClimbRate(10).setMaxSpeed(1.5f).setMaxTurningSpeed(0.8f)
 				.setRadius(15).setSeparationRadius(separationRadius)
 				.setTexture(Art.getTextureRegion("aircraft"))
-				.setVelocity(new Vector2(0.5f / sqrt2, 0.5f / sqrt2));
+				.setInitialSpeed(0.5f);
 
 		// add aircraft types to airplaneTypes array.
 		aircraftTypeList.add(defaultAircraft);

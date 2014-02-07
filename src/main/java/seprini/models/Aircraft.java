@@ -75,7 +75,7 @@ public final class Aircraft extends Entity {
 		maxClimbRate = aircraftType.getMaxClimbRate();
 		maxSpeed = aircraftType.getMaxSpeed();
 		minSpeed = maxSpeed - 1;
-		velocity = aircraftType.getVelocity();
+		velocity = new Vector2(aircraftType.getInitialSpeed(), 0);
 
 		Random rand = new Random();
 		altitude = Config.ALTITUDES[rand.nextInt(Config.ALTITUDES.length)];
