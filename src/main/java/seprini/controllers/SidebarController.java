@@ -252,6 +252,9 @@ public final class SidebarController extends ChangeListener implements
 							? false
 							: true);
 
+				if (actor.equals(buttons.get("land")))
+					selectedAircraft.landAircraft();
+				
 				if (actor.equals(buttons.get("up")))
 					selectedAircraft.increaseAltitude();
 

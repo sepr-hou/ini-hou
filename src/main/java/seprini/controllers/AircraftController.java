@@ -380,6 +380,7 @@ public final class AircraftController extends InputListener implements
 
 		getSelectedAircraft().insertWaypoint(waypoint);
 	}
+	
 
 	public float getTimer() {
 		return timer;

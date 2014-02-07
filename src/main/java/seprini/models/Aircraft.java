@@ -19,6 +19,8 @@ import com.badlogic.gdx.math.Vector2;
 public final class Aircraft extends Entity {
 
 	private final int id;
+	
+	private Random rand = new Random();
 
 	private static final float INITIAL_VELOCITY_SCALAR = 0.5f;
 	private static final float SPEED_CHANGE = 0.1f;
@@ -336,7 +338,7 @@ public final class Aircraft extends Entity {
 	public void insertWaypoint(Waypoint newWaypoint) {
 		waypoints.add(0, newWaypoint);
 	}
-
+	
 	/**
 	 * Increase speed of the aircraft <br>
 	 * Actually changes a scalar which is later multiplied by the velocity
@@ -443,6 +445,26 @@ public final class Aircraft extends Entity {
 
 		velocity.setAngle(getRotation());
 	}
+	
+	public void landAircraft(){
+		if (!selected)
+			return;
+		
+		Waypoint waypoint3 = new Waypoint(464, 395, true, true);
+		Waypoint waypoint2 = new Waypoint(310, 275, true, true);
+		Waypoint waypoint1 = null;
+		int choice = rand.nextInt(2);
+		if (choice == 0){
+			waypoint1 = new Waypoint(230, 275, true, true);
+		} else {
+			waypoint1 = new Waypoint(310, 195, true, true);
+		}
+		
+		this.insertWaypoint(waypoint3);
+		this.insertWaypoint(waypoint2);
+		this.insertWaypoint(waypoint1);
+	}
+
 
 	/**
 	 * Get the whole flightplan for this aircraft
