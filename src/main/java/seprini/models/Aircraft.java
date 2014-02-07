@@ -22,7 +22,12 @@ public final class Aircraft extends Entity {
 	
 	private Random rand = new Random();
 
-	private static final float INITIAL_VELOCITY_SCALAR = 0.5f;
+	/**
+	 * Used to convert speed to velocity length
+	 *
+	 * velocity.len() == getSpeed() * SPEED_MULTIPLIER
+	 */
+	private static final float SPEED_MULTIPLIER = 0.5f;
 	private static final float SPEED_CHANGE = 0.1f;
 	private static final int ALTITUDE_CHANGE = 5000;
 
@@ -36,10 +41,6 @@ public final class Aircraft extends Entity {
 	private final float radius, separationRadius, maxTurningRate, maxClimbRate,
 			maxSpeed, minSpeed;
 
-	private float velocityScalar;
-
-	@SuppressWarnings("unused")
-	private final int sepRulesBreachCounter = 0;
 	private boolean breaching;
 
 	private boolean isActive = true;
@@ -74,7 +75,6 @@ public final class Aircraft extends Entity {
 		maxClimbRate = aircraftType.getMaxClimbRate();
 		maxSpeed = aircraftType.getMaxSpeed();
 		minSpeed = maxSpeed - 1;
-		velocityScalar = INITIAL_VELOCITY_SCALAR;
 		velocity = aircraftType.getVelocity();
 
 		Random rand = new Random();
@@ -260,7 +260,7 @@ public final class Aircraft extends Entity {
 		}
 
 		// finally updating coordinates
-		coords.add(velocity.cpy().scl(velocityScalar));
+		coords.add(velocity);
 
 		// allows for smooth decent/ascent
 		if (altitude > desiredAltitude) {
@@ -349,13 +349,15 @@ public final class Aircraft extends Entity {
 	 *         (maxSpeed)
 	 */
 	public boolean increaseSpeed() {
-		if (velocity.cpy().scl(velocityScalar + SPEED_CHANGE).len() > maxSpeed)
+
+		float prevSpeed = getSpeed();
+		float newSpeed = prevSpeed + SPEED_CHANGE;
+
+		if (newSpeed > maxSpeed)
 			return false;
 
-		velocityScalar += SPEED_CHANGE;
-
-		Debug.msg("Increasing speed; Velocity Scalar: " + velocityScalar);
-
+		velocity.scl(newSpeed / prevSpeed);
+		Debug.msg("Increasing speed; New Speed: " + newSpeed);
 		return true;
 	}
 
@@ -369,13 +371,16 @@ public final class Aircraft extends Entity {
 	 *         (minSpeed)
 	 */
 	public boolean decreaseSpeed() {
-		if (velocity.cpy().scl(velocityScalar - SPEED_CHANGE).len() < minSpeed)
+
+
+		float prevSpeed = getSpeed();
+		float newSpeed = prevSpeed - SPEED_CHANGE;
+
+		if (newSpeed < minSpeed)
 			return false;
 
-		velocityScalar -= SPEED_CHANGE;
-
-		Debug.msg("Decreasing speed; Velocity scalar: " + velocityScalar);
-
+		velocity.scl(newSpeed / prevSpeed);
+		Debug.msg("Decreasing speed; New Speed: " + newSpeed);
 		return true;
 	}
 
@@ -502,7 +507,7 @@ public final class Aircraft extends Entity {
 	 * @return the velocity scalar
 	 */
 	public float getSpeed() {
-		return velocityScalar;
+		return velocity.len() /  SPEED_MULTIPLIER;
 	}
 
 	/**
