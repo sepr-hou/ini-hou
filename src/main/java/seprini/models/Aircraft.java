@@ -198,6 +198,9 @@ public final class Aircraft extends Entity {
 	 * @param  
 	 */
 	public void act() {
+		if (!isActive)
+			return;
+
 		// if player is holding D or -> on the keyboard, turn right
 		if (turnRight)
 			turnRight();
@@ -240,23 +243,8 @@ public final class Aircraft extends Entity {
 				previousAngle = relativeAngle;
 			}
 
-			// checking whether aircraft is at the next waypoint. Whether it's
-			// close enough is dictated by the WP size in the config.
-			if (nextWaypoint.sub(coords).len() < Config.WAYPOINT_SIZE.x / 2) {
-				waypoints.remove(0);
-				// Adds to score when aircraft moves through waypoint
-				AircraftController.score += 111; 
-			}
-
 			// set velocity angle to fit rotation, allows for smooth turning
 			velocity.setAngle(getRotation());
-		}
-
-		// For when the user takes control of the aircraft. Allows the aircraft
-		// to detect when it is at its designated exit WP.
-		if (waypoints.get(waypoints.size() - 1).cpy().getCoords().sub(coords)
-				.len() < Config.EXIT_WAYPOINT_SIZE.x / 2) {
-			waypoints.clear();
 		}
 
 		// finally updating coordinates
@@ -272,6 +260,22 @@ public final class Aircraft extends Entity {
 		// updating bounds to make sure the aircraft is clickable
 		this.setBounds(getX() - getWidth() / 2, getY() - getWidth() / 2,
 				getWidth(), getHeight());
+
+		// finally, test waypoint collisions using new coordinates
+		testWaypointCollisions();
+
+		// test screen boundary
+		if (isActive)
+		{
+			if (getX() < -10 ||
+				getY() < -10 ||
+				getX() > Config.SCREEN_WIDTH - 190 ||
+				getY() > Config.SCREEN_HEIGHT + 105) {
+
+				isActive = false;
+				Debug.msg("Aircraft id " + id + ": Out of bounds, last coordinates: " + coords);
+			}
+		}
 	}
 
 	/**
@@ -328,6 +332,43 @@ public final class Aircraft extends Entity {
 	 */
 	private float relativeAngleToWaypoint(Vector2 waypoint) {
 		return new Vector2(waypoint.x - getX(), waypoint.y - getY()).angle();
+	}
+
+	/**
+	 * Tests whether this aircraft has collided with any waypoints
+	 */
+	private void testWaypointCollisions()
+	{
+		int numWaypoints = waypoints.size();
+
+		if (numWaypoints > 0)
+		{
+			float distanceToWaypoint = coords.cpy().sub(waypoints.get(0).getCoords()).len();
+
+			if (numWaypoints == 1)
+			{
+				if (distanceToWaypoint < Config.EXIT_WAYPOINT_SIZE.x / 2)
+				{
+					// Collided with exit point
+					AircraftController.score += 77;
+					Debug.msg("Aircraft id " + id + ": Reached exit WP");
+
+					waypoints.clear();
+					isActive = false;
+				}
+			}
+			else
+			{
+				if (distanceToWaypoint < Config.WAYPOINT_SIZE.x / 2)
+				{
+					// Collided with normal waypoint
+					AircraftController.score += 111;
+					Debug.msg("Aircraft id " + id + ": Hit waypoint");
+
+					waypoints.remove(0);
+				}
+			}
+		}
 	}
 
 	/**
@@ -511,27 +552,11 @@ public final class Aircraft extends Entity {
 	}
 
 	/**
-	 * Returns false if aircraft flightplan is empty, true otherwise.
+	 * Returns false if aircraft has hit the exit point or if it is off the screen
 	 * 
 	 * @return whether is active
 	 */
 	public boolean isActive() {
-		// FIXME
-		if (getX() < -10 || getY() < -10 || getX() > Config.SCREEN_WIDTH - 190
-				|| getY() > Config.SCREEN_HEIGHT + 105) {
-			this.isActive = false;
-
-			Debug.msg("Aircraft id " + id
-					+ ": Out of bounds, last coordinates: " + coords);
-		}
-
-		if (waypoints.size() == 0) {
-			//Adds to score when aircraft moves through exit point
-			AircraftController.score += 77;
-			this.isActive = false;
-			Debug.msg("Aircraft id " + id + ": Reached exit WP");
-		}
-
 		return isActive;
 	}
 
