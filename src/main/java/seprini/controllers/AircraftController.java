@@ -59,6 +59,7 @@ public final class AircraftController extends InputListener implements
 	
 	// game score
 	public static float score = 0;
+	private int scoreMultiplier; 
 
 	/**
 	 * 
@@ -99,16 +100,19 @@ public final class AircraftController extends InputListener implements
 			maxAircraft = 10;
 			timeBetweenGenerations = 4;
 			separationRadius = 150;
+			scoreMultiplier = 17;
 			break;
 		case MEDIUM:
 			maxAircraft = 10;
 			timeBetweenGenerations = 3;
 			separationRadius = 100;
+			scoreMultiplier = 22;
 			break;
 		case HARD:
 			maxAircraft = 10;
 			timeBetweenGenerations = 2;
 			separationRadius = 75;
+			scoreMultiplier = 27;
 			break;
 		default:
 			maxAircraft = 1;
@@ -141,7 +145,7 @@ public final class AircraftController extends InputListener implements
 		timer += Gdx.graphics.getDeltaTime();
 		
 		// Update score
-		score += 22*(Gdx.graphics.getDeltaTime());
+		score += scoreMultiplier*(Gdx.graphics.getDeltaTime());
 
 		breachingSound = false;
 
