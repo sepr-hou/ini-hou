@@ -450,14 +450,14 @@ public final class Aircraft extends Entity {
 		if (!selected)
 			return;
 		
-		Waypoint waypoint3 = new Waypoint(464, 395, true, true);
-		Waypoint waypoint2 = new Waypoint(310, 275, true, true);
+		Waypoint waypoint3 = new Waypoint(464, 395, true, false);
+		Waypoint waypoint2 = new Waypoint(310, 275, true, false);
 		Waypoint waypoint1 = null;
 		int choice = rand.nextInt(2);
 		if (choice == 0){
-			waypoint1 = new Waypoint(230, 275, true, true);
+			waypoint1 = new Waypoint(230, 275, true, false);
 		} else {
-			waypoint1 = new Waypoint(310, 195, true, true);
+			waypoint1 = new Waypoint(310, 195, true, false);
 		}
 		
 		this.insertWaypoint(waypoint3);

@@ -54,16 +54,6 @@ public class WaypointComponent {
 		createWaypoint(450, 100, true, true);
 		
 		
-		//create the airport waypoints
-		
-		//Start
-		createWaypoint(310, 275, true, true);
-		//Prestart
-		createWaypoint(230, 275, true, true);
-		createWaypoint(310, 195, true, true);
-		//End
-		createWaypoint(464, 395, true, true);
-		
 		Collections.shuffle(permanentList, new Random());
 	}
 
