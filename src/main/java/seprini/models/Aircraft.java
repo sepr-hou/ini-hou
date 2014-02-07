@@ -352,7 +352,7 @@ public final class Aircraft extends Entity {
 
 		velocityScalar += SPEED_CHANGE;
 
-		Debug.msg("Decrease speed; Velocity Scalar: " + velocityScalar);
+		Debug.msg("Increasing speed; Velocity Scalar: " + velocityScalar);
 
 		return true;
 	}
@@ -372,7 +372,7 @@ public final class Aircraft extends Entity {
 
 		velocityScalar -= SPEED_CHANGE;
 
-		Debug.msg("Increasing speed; Velocity scalar: " + velocityScalar);
+		Debug.msg("Decreasing speed; Velocity scalar: " + velocityScalar);
 
 		return true;
 	}
