@@ -123,10 +123,14 @@ public final class AircraftController extends InputListener implements
 
 		// initialise aircraft types.
 		defaultAircraft.setActive(true)
-				.setMaxClimbRate(10).setMaxSpeed(1.5f).setMaxTurningSpeed(0.8f)
-				.setRadius(15).setSeparationRadius(separationRadius)
+				.setMaxClimbRate(600)
+				.setMinSpeed(30f)
+				.setMaxSpeed(90f)
+				.setMaxTurningSpeed(48f)
+				.setRadius(15)
+				.setSeparationRadius(separationRadius)
 				.setTexture(Art.getTextureRegion("aircraft"))
-				.setInitialSpeed(0.5f);
+				.setInitialSpeed(30f);
 
 		// add aircraft types to airplaneTypes array.
 		aircraftTypeList.add(defaultAircraft);
@@ -138,14 +142,12 @@ public final class AircraftController extends InputListener implements
 	 * Updates the aircraft positions. Generates a new aircraft and adds it to
 	 * the stage. Collision Detection. Removes aircraft if inactive.
 	 */
-	public void update() {
-		Aircraft planeI, planeJ;
-
+	public void update(float delta) {
 		// Update timer
-		timer += Gdx.graphics.getDeltaTime();
+		timer += delta;
 		
 		// Update score
-		score += scoreMultiplier*(Gdx.graphics.getDeltaTime());
+		score += scoreMultiplier * delta;
 
 		breachingSound = false;
 
@@ -156,17 +158,17 @@ public final class AircraftController extends InputListener implements
 		// Removes aircraft which are no longer active from aircraftList.
 		// Manages collision detection.
 		for (int i = 0; i < aircraftList.size(); i++) {
+			Aircraft planeI = aircraftList.get(i);
+
 			// Update aircraft.
-			(planeI = aircraftList.get(i)).act();
+			planeI.act(delta);
 			planeI.isBreaching(false);
 
 			// Collision Detection + Separation breach detection.
-			for (int j = 0; j < aircraftList.size(); j++) {
+			for (Aircraft planeJ : aircraftList) {
 
 				// Quite simply checks if distance between the centres of both
-				// the aircraft <= the radius of aircraft i + radius of aircraft
-				// j
-				planeJ = aircraftList.get(j);
+				// the aircraft <= the radius of aircraft i + radius of aircraft j
 
 				if (!planeI.equals(planeJ)
 						// Check difference in altitude.

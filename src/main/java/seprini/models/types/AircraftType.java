@@ -13,6 +13,7 @@ public class AircraftType {
 	private float maxTurningSpeed;
 	private float maxClimbRate;
 	private float maxSpeed;
+	private float minSpeed;
 	private boolean isActive;
 
 	public float getInitialSpeed() {
@@ -75,6 +76,15 @@ public class AircraftType {
 
 	public AircraftType setMaxSpeed(float maxSpeed) {
 		this.maxSpeed = maxSpeed;
+		return this;
+	}
+
+	public float getMinSpeed() {
+		return minSpeed;
+	}
+
+	public AircraftType setMinSpeed(float minSpeed) {
+		this.minSpeed = minSpeed;
 		return this;
 	}
 

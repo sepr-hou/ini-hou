@@ -24,7 +24,7 @@ public final class Config {
 	public final static Vector2 SIDEBAR_SIZE = new Vector2(200, SCREEN_HEIGHT);
 
 	// Game related
-	public final static float AIRCRAFT_SPEED_MULTIPLIER = 800f;
+	public final static float AIRCRAFT_SPEED_MULTIPLIER = 40f / 3f;
 	public final static int MIN_ALTITUDE_DIFFERENCE = 1000;
 	public static final int[] ALTITUDES = { 5000, 10000, 15000 };
 

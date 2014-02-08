@@ -57,7 +57,7 @@ public class GameScreen extends AbstractScreen
 			@Override
 			public void act(float delta)
 			{
-				controller.update();
+				controller.update(delta);
 			}
 		});
 

@@ -22,13 +22,7 @@ public final class Aircraft extends Entity {
 	
 	private Random rand = new Random();
 
-	/**
-	 * Used to convert speed to velocity length
-	 *
-	 * velocity.len() == getSpeed() * SPEED_MULTIPLIER
-	 */
-	private static final float SPEED_MULTIPLIER = 0.5f;
-	private static final float SPEED_CHANGE = 0.1f;
+	private static final float SPEED_CHANGE = 6f;
 	private static final int ALTITUDE_CHANGE = 5000;
 
 	private int desiredAltitude;
@@ -74,7 +68,7 @@ public final class Aircraft extends Entity {
 		maxTurningRate = aircraftType.getMaxTurningSpeed();
 		maxClimbRate = aircraftType.getMaxClimbRate();
 		maxSpeed = aircraftType.getMaxSpeed();
-		minSpeed = maxSpeed - 1;
+		minSpeed = aircraftType.getMinSpeed();
 		velocity = new Vector2(aircraftType.getInitialSpeed(), 0);
 
 		Random rand = new Random();
@@ -178,7 +172,7 @@ public final class Aircraft extends Entity {
 
 
 		// debug line from aircraft centre to waypoint centre
-		if (Config.DEBUG_UI) {
+		if (Config.DEBUG_UI && waypoints.size() > 0) {
 			Vector2 nextWaypoint = vectorToWaypoint();
 
 			batch.end();
@@ -197,64 +191,22 @@ public final class Aircraft extends Entity {
 	 * Update the aircraft rotation & position
 	 * @param  
 	 */
-	public void act() {
+	public void act(float delta) {
+
 		if (!isActive)
 			return;
 
-		// if player is holding D or -> on the keyboard, turn right
-		if (turnRight)
-			turnRight();
-
-		// if the player is holding A or <-, turn left
-		if (turnLeft)
-			turnLeft();
-
-		// if the player has taken control of the aircraft, ignore all waypoints
-		if (!ignorePath) {
-
-			// Vector to next waypoint
-			Vector2 nextWaypoint = vectorToWaypoint();
-
-			// relative angle from the aircraft coordinates to the next waypoint
-			float relativeAngle = angleCoordsToWaypoint(nextWaypoint);
-
-			// smoothly rotate aircraft
-			// sets a threshold due to float imprecision, should be generally
-			// relativeAngle != 0
-			if (relativeAngle > 1) {
-				
-				// if the current angle is bigger than the previous, it means we
-				// are rotating towards the wrong side
-				if (previousAngle < relativeAngle) {
-					// switch to rotate to the other side
-					rotateRight = (rotateRight) ? false : true;
-				}
-
-				// instead of using two rotation variables, it is enough to
-				// store one and just switch that one
-				if (rotateRight) {
-					rotate(maxTurningRate);
-				} else {
-					rotate(-maxTurningRate);
-				}
-
-				// save the current angle as the previous angle for the next
-				// iteration
-				previousAngle = relativeAngle;
-			}
-
-			// set velocity angle to fit rotation, allows for smooth turning
-			velocity.setAngle(getRotation());
-		}
+		// handle aircraft rotation
+		rotateAircraft(delta);
 
 		// finally updating coordinates
-		coords.add(velocity);
+		coords.add(velocity.cpy().scl(delta));
 
 		// allows for smooth decent/ascent
 		if (altitude > desiredAltitude) {
-			this.altitude -= this.maxClimbRate;
+			this.altitude -= this.maxClimbRate * delta;
 		} else if (altitude < desiredAltitude) {
-			this.altitude += this.maxClimbRate;
+			this.altitude += this.maxClimbRate * delta;
 		}
 
 		// updating bounds to make sure the aircraft is clickable
@@ -332,6 +284,78 @@ public final class Aircraft extends Entity {
 	 */
 	private float relativeAngleToWaypoint(Vector2 waypoint) {
 		return new Vector2(waypoint.x - getX(), waypoint.y - getY()).angle();
+	}
+
+	/**
+	 * Handles aircraft rotation during the act method call
+	 * @param delta time step
+	 */
+	private void rotateAircraft(float delta)
+	{
+		float baseRate = maxTurningRate * delta;
+		float rate = 0;
+
+		// Calculate turning rate
+		if (turnRight)
+		{
+			ignorePath = true;
+			rate = -baseRate;
+		}
+		else if (turnLeft)
+		{
+			ignorePath = true;
+			rate = baseRate;
+		}
+		else if (!ignorePath && waypoints.size() > 0)
+		{
+			// Vector to next waypoint
+			Vector2 nextWaypoint = vectorToWaypoint();
+
+			// relative angle from the aircraft coordinates to the next waypoint
+			float relativeAngle = angleCoordsToWaypoint(nextWaypoint);
+
+			// smoothly rotate aircraft
+			// sets a threshold due to float imprecision, should be generally
+			// relativeAngle != 0
+			if (relativeAngle > 1) {
+
+				// if the current angle is bigger than the previous, it means we
+				// are rotating towards the wrong side
+				if (previousAngle < relativeAngle) {
+					// switch to rotate to the other side
+					rotateRight = (!rotateRight);
+				}
+
+				// instead of using two rotation variables, it is enough to
+				// store one and just switch that one
+				if (rotateRight) {
+					rate = -baseRate;
+				} else {
+					rate = baseRate;
+				}
+
+				// save the current angle as the previous angle for the next
+				// iteration
+				previousAngle = relativeAngle;
+			}
+		}
+
+		// Do the turning (while handling wraparound)
+		if (rate != 0)
+		{
+			float newRotation = getRotation() + rate;
+			if (newRotation < 0)
+			{
+				newRotation += 360;
+			}
+			else if (newRotation > 360)
+			{
+				newRotation -= 360;
+			}
+
+			setRotation(newRotation);
+			velocity.setAngle(getRotation());
+		}
 	}
 
 	/**
@@ -452,45 +476,6 @@ public final class Aircraft extends Entity {
 	public void turnLeft(boolean set) {
 		turnLeft = set;
 	}
-
-	/**
-	 * Turns right by maxTurningRate * 2
-	 */
-	public void turnRight() {
-
-		ignorePath = true;
-		float angle = 0;
-
-		if (getRotation() - maxTurningRate * 2 < 0)
-			angle = (360 - maxTurningRate * 2);
-
-		if (angle == 0) {
-			this.rotate(-maxTurningRate * 2);
-		} else {
-			this.setRotation(angle);
-		}
-
-		velocity.setAngle(getRotation());
-	}
-
-	/**
-	 * Turns left by maxTurningRate * 2
-	 */
-	public void turnLeft() {
-		ignorePath = true;
-		float angle = 0;
-
-		if (getRotation() + maxTurningRate * 2 >= 360.0f)
-			angle = (maxTurningRate * 2);
-
-		if (angle == 0) {
-			this.rotate(maxTurningRate * 2);
-		} else {
-			this.setRotation(angle);
-		}
-
-		velocity.setAngle(getRotation());
-	}
 	
 	public void landAircraft(){
 		if (!selected)
@@ -510,7 +495,6 @@ public final class Aircraft extends Entity {
 		this.insertWaypoint(waypoint2);
 		this.insertWaypoint(waypoint1);
 	}
-
 
 	/**
 	 * Get the whole flightplan for this aircraft
@@ -543,12 +527,12 @@ public final class Aircraft extends Entity {
 	}
 
 	/**
-	 * Returns aircraft velocity scalar times 700
+	 * Returns aircraft speed (pixels per second)
 	 * 
 	 * @return the velocity scalar
 	 */
 	public float getSpeed() {
-		return velocity.len() /  SPEED_MULTIPLIER;
+		return velocity.len();
 	}
 
 	/**
