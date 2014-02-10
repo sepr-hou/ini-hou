@@ -19,8 +19,6 @@ import com.badlogic.gdx.math.Vector2;
 public final class Aircraft extends Entity {
 
 	private final int id;
-	
-	private Random rand = new Random();
 
 	private static final float SPEED_CHANGE = 6f;
 	private static final int ALTITUDE_CHANGE = 5000;
@@ -476,24 +474,45 @@ public final class Aircraft extends Entity {
 	public void turnLeft(boolean set) {
 		turnLeft = set;
 	}
-	
+	/**
+	 * Creates and inserts landing flightplan
+	 * 
+	 * - Creates waypoints at start and end of waypoints invisible to user
+	 * - Calculates position of aircraft relative to runway and selects appropriate approach waypoint position
+	 * - Creates appropriate invisible approach waypoint
+	 * - Adds route to start of flightplan
+	 */
 	public void landAircraft(){
 		if (!selected)
 			return;
-		
-		Waypoint waypoint3 = new Waypoint(464, 395, true, false);
-		Waypoint waypoint2 = new Waypoint(310, 275, true, false);
-		Waypoint waypoint1 = null;
-		int choice = rand.nextInt(2);
+		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
+		Waypoint runwayStart = new Waypoint(310, 275, true, false);
+		Waypoint approach = null;
+		int choice = 0;
+		//Calculates if aircraft is in Pos A or B to decide which approach waypoint to use.
+		//
+		//--------
+		//|     /|
+		//| A  / |
+		//|   /  |
+		//|  /   |
+		//| /  B |
+		//|/     |
+		//--------
+		//
+		//Adds 1 to avoid 0 error
+		if (((this.getX() + 1) / (this.getY() + 1)) > 1.8){
+			choice = 1;
+		}
 		if (choice == 0){
-			waypoint1 = new Waypoint(230, 275, true, false);
+			approach = new Waypoint(230, 275, true, false);
 		} else {
-			waypoint1 = new Waypoint(310, 195, true, false);
+			approach = new Waypoint(310, 195, true, false);
 		}
 		
-		this.insertWaypoint(waypoint3);
-		this.insertWaypoint(waypoint2);
-		this.insertWaypoint(waypoint1);
+		this.insertWaypoint(runwayEnd);
+		this.insertWaypoint(runwayStart);
+		this.insertWaypoint(approach);
 	}
 
 	/**
