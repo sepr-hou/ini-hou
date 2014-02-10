@@ -3,7 +3,6 @@ package seprini.controllers;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
 import seprini.controllers.components.FlightPlanComponent;
 import seprini.controllers.components.WaypointComponent;
 import seprini.data.Art;
@@ -18,7 +17,6 @@ import seprini.models.types.AircraftType;
 import seprini.screens.GameScreen;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

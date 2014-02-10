@@ -1,6 +1,5 @@
 package seprini.models;
 
-import com.badlogic.gdx.math.Vector2;
 import org.junit.Before;
 import org.junit.Test;
 import seprini.data.Art;
