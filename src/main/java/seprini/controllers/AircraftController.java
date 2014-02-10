@@ -196,9 +196,11 @@ public final class AircraftController extends InputListener implements
 				removeAircraft(i);
 			}
 
-			if (planeI.getAltitude() <= 0) {
+			if (planeI.getAltitude() < 0) {
 				screen.getGame().showEndScreen(timer, score);
 			}
+			
+			
 
 		}
 

@@ -31,7 +31,8 @@ public final class Aircraft extends Entity {
 	private final ArrayList<Waypoint> waypoints;
 
 	private final float radius, separationRadius, maxTurningRate, maxClimbRate,
-			maxSpeed, minSpeed;
+			maxSpeed;
+	private float minSpeed;
 
 	private boolean breaching;
 
@@ -211,6 +212,7 @@ public final class Aircraft extends Entity {
 		this.setBounds(getX() - getWidth() / 2, getY() - getWidth() / 2,
 				getWidth(), getHeight());
 
+		
 		// finally, test waypoint collisions using new coordinates
 		testWaypointCollisions();
 
@@ -402,6 +404,10 @@ public final class Aircraft extends Entity {
 		waypoints.add(0, newWaypoint);
 	}
 	
+	public Waypoint getNextWaypoint() {
+		return waypoints.get(0);
+	}
+	
 	/**
 	 * Increase speed of the aircraft <br>
 	 * Actually changes a scalar which is later multiplied by the velocity
@@ -481,6 +487,7 @@ public final class Aircraft extends Entity {
 	 * - Calculates position of aircraft relative to runway and selects appropriate approach waypoint position
 	 * - Creates appropriate invisible approach waypoint
 	 * - Adds route to start of flightplan
+	 * - Allows plane to have min speed of 0
 	 */
 	public void landAircraft(){
 		if (!selected)
@@ -491,14 +498,14 @@ public final class Aircraft extends Entity {
 		int choice = 0;
 		//Calculates if aircraft is in Pos A or B to decide which approach waypoint to use.
 		//
-		//--------
-		//|     /|
-		//| A  / |
-		//|   /  |
-		//|  /   |
-		//| /  B |
-		//|/     |
-		//--------
+		//--------------
+		//|          _/|
+		//| A      _/  |
+		//|      _/    |
+		//|    _/      |
+		//|  _/     B  |
+		//|_/          |
+		//--------------
 		//
 		//Adds 1 to avoid 0 error
 		if (((this.getX() + 1) / (this.getY() + 1)) > 1.8){
@@ -513,6 +520,7 @@ public final class Aircraft extends Entity {
 		this.insertWaypoint(runwayEnd);
 		this.insertWaypoint(runwayStart);
 		this.insertWaypoint(approach);
+		this.minSpeed = 0;
 	}
 
 	/**
