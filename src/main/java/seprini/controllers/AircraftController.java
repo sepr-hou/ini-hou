@@ -36,7 +36,6 @@ public final class AircraftController extends InputListener implements
 	private float lastGenerated, lastWarned;
 	private boolean breachingSound, breachingIsPlaying;
 
-	private final AircraftType defaultAircraft = new AircraftType();
 	private Aircraft selectedAircraft;
 
 	private final GameDifficulty difficulty;
@@ -120,7 +119,8 @@ public final class AircraftController extends InputListener implements
 		}
 
 		// initialise aircraft types.
-		defaultAircraft.setActive(true)
+		aircraftTypeList.add(new AircraftType()
+				.setActive(true)
 				.setMaxClimbRate(600)
 				.setMinSpeed(30f)
 				.setMaxSpeed(90f)
@@ -128,10 +128,7 @@ public final class AircraftController extends InputListener implements
 				.setRadius(15)
 				.setSeparationRadius(separationRadius)
 				.setTexture(Art.getTextureRegion("aircraft"))
-				.setInitialSpeed(30f);
-
-		// add aircraft types to airplaneTypes array.
-		aircraftTypeList.add(defaultAircraft);
+				.setInitialSpeed(30f));
 
 		this.sidebar.init();
 	}
