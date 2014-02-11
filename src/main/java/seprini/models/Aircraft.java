@@ -212,6 +212,24 @@ public final class Aircraft extends Entity {
 		this.setBounds(getX() - getWidth() / 2, getY() - getWidth() / 2,
 				getWidth(), getHeight());
 
+		//Landing speed changes
+		Waypoint approach1 = new Waypoint(230, 275, true, false);
+		Waypoint approach2 = new Waypoint(310, 195, true, false);
+		if (this.getNextWaypoint().getCoords().equals(approach1.getCoords()) || this.getNextWaypoint().getCoords().equals(approach2.getCoords())){
+			this.setLandingSpeed();
+		}
+		
+		Waypoint runwayStart = new Waypoint(310, 275, true, false);
+		if (this.getNextWaypoint().getCoords().equals(runwayStart.getCoords())){
+			this.decreaseSpeed();
+		}
+		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
+		if (this.getNextWaypoint().getCoords().equals(runwayEnd.getCoords())){
+			this.minSpeed = 0;
+			for (int i = 0; i<6; i++){
+				this.decreaseSpeed();
+			}
+		}
 		
 		// finally, test waypoint collisions using new coordinates
 		testWaypointCollisions();
@@ -531,9 +549,31 @@ public final class Aircraft extends Entity {
 		this.insertWaypoint(runwayEnd);
 		this.insertWaypoint(runwayStart);
 		this.insertWaypoint(approach);
-		this.minSpeed = 0;
 	}
 
+	public void setLandingSpeed(){
+		if (this.getSpeed() == 1200){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 1120){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 1040){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 960){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 880){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 800){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 720){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 640){
+			this.decreaseSpeed();
+		} if (this.getSpeed() == 560){
+			this.decreaseSpeed();
+		}
+
+	}
+	
 	/**
 	 * Get the whole flightplan for this aircraft
 	 * 
