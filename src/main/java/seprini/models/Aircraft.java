@@ -18,21 +18,18 @@ import com.badlogic.gdx.math.Vector2;
 
 public final class Aircraft extends Entity {
 
-	private final int id;
-
 	private static final float SPEED_CHANGE = 6f;
 	private static final int ALTITUDE_CHANGE = 5000;
 
-	private int desiredAltitude;
-
-	private int altitude;
-	private Vector2 velocity = new Vector2(0, 0);
+	private final int id;
 
 	private final ArrayList<Waypoint> waypoints;
+	private final AircraftType aircraftType;
 
-	private final float radius, separationRadius, maxTurningRate, maxClimbRate,
-			maxSpeed;
-	private float minSpeed;
+	private int desiredAltitude;
+	private int altitude;
+
+	private Vector2 velocity = new Vector2(0, 0);
 
 	private boolean breaching;
 
@@ -48,6 +45,7 @@ public final class Aircraft extends Entity {
 	// used for smooth turning
 	// rememeber last angle to check if it's increasing or not
 	private float previousAngle = 0;
+
 	// if is increasing, switch rotation sides so it uses the 'smaller' angle
 	private boolean rotateRight = false;
 
@@ -58,16 +56,12 @@ public final class Aircraft extends Entity {
 		debugShape = true;
 
 		this.id = id;
+		this.aircraftType = aircraftType;
 
-		// initialise all of the aircraft values according to the passed
-		// aircraft type
-		radius = aircraftType.getRadius();
-		separationRadius = aircraftType.getSeparationRadius();
+		// initialize entity
 		texture = aircraftType.getTexture();
-		maxTurningRate = aircraftType.getMaxTurningSpeed();
-		maxClimbRate = aircraftType.getMaxClimbRate();
-		maxSpeed = aircraftType.getMaxSpeed();
-		minSpeed = aircraftType.getMinSpeed();
+
+		// initialize velocity and altitude
 		velocity = new Vector2(aircraftType.getInitialSpeed(), 0);
 
 		Random rand = new Random();
@@ -203,9 +197,9 @@ public final class Aircraft extends Entity {
 
 		// allows for smooth decent/ascent
 		if (altitude > desiredAltitude) {
-			this.altitude -= this.maxClimbRate * delta;
+			this.altitude -= aircraftType.getMaxClimbRate() * delta;
 		} else if (altitude < desiredAltitude) {
-			this.altitude += this.maxClimbRate * delta;
+			this.altitude += aircraftType.getMaxClimbRate() * delta;
 		}
 
 		// updating bounds to make sure the aircraft is clickable
@@ -233,8 +227,7 @@ public final class Aircraft extends Entity {
 		
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayEnd.getCoords())){
-			this.minSpeed = 0.00000000001f;
-			this.setSpeed(minSpeed);
+			this.setSpeed(0.00000000001f);
 			this.altitude = 0;
 		}
 		
@@ -317,7 +310,7 @@ public final class Aircraft extends Entity {
 	 */
 	private void rotateAircraft(float delta)
 	{
-		float baseRate = maxTurningRate * delta;
+		float baseRate = aircraftType.getMaxTurningSpeed() * delta;
 		float rate = 0;
 
 		// Calculate turning rate
@@ -443,8 +436,8 @@ public final class Aircraft extends Entity {
 		float prevSpeed = getSpeed();
 		float newSpeed = prevSpeed + SPEED_CHANGE;
 
-		if (newSpeed > maxSpeed)
-			newSpeed = maxSpeed;
+		if (newSpeed > aircraftType.getMaxSpeed())
+			newSpeed = aircraftType.getMaxSpeed();
 
 		setSpeed(newSpeed);
 		Debug.msg("Increasing speed; New Speed: " + newSpeed);
@@ -461,8 +454,8 @@ public final class Aircraft extends Entity {
 		float prevSpeed = getSpeed();
 		float newSpeed = prevSpeed - SPEED_CHANGE;
 
-		if (newSpeed < minSpeed)
-			newSpeed = minSpeed;
+		if (newSpeed < aircraftType.getMinSpeed())
+			newSpeed = aircraftType.getMinSpeed();
 
 		setSpeed(newSpeed);
 		Debug.msg("Decreasing speed; New Speed: " + newSpeed);
@@ -566,11 +559,11 @@ public final class Aircraft extends Entity {
 	 * @return int radius
 	 */
 	public float getRadius() {
-		return radius;
+		return aircraftType.getRadius();
 	}
 
 	public float getSeparationRadius() {
-		return separationRadius;
+		return aircraftType.getSeparationRadius();
 	}
 
 	public void isBreaching(boolean is) {
