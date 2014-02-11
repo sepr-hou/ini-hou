@@ -236,6 +236,7 @@ public final class Aircraft extends Entity {
 			this.minSpeed = 0.00000000001f;
 			this.setSpeed(minSpeed);
 			this.altitude = 0;
+			AircraftController.setLanding(false);
 		}
 		
 		// finally, test waypoint collisions using new coordinates
@@ -517,8 +518,9 @@ public final class Aircraft extends Entity {
 	 * - Changes in altitude and speed are handled in act.
 	 */
 	public void landAircraft(){
-		if (!selected)
+		if (!selected || AircraftController.getLanding())
 			return;
+		AircraftController.setLanding(true);
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		Waypoint runwayMid = new Waypoint(387, 335, true, false);
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
