@@ -104,6 +104,11 @@ public final class SidebarController extends ChangeListener implements
 
 		aircraftControls.row();
 
+		createButton("returnToPath", " Return to Path", aircraftControls, false)
+				.width(200).colspan(2);
+
+		aircraftControls.row();
+
 		createButton("accelerate", " Accelerate", aircraftControls, false)
 				.width(200).colspan(2);
 		
@@ -242,6 +247,9 @@ public final class SidebarController extends ChangeListener implements
 				allowRedirection = (allowRedirection) ? false : true;
 
 			if (selectedAircraft != null) {
+				if (actor.equals(buttons.get("returnToPath")))
+					selectedAircraft.returnToPath();
+
 				if (actor.equals(buttons.get("left")))
 					selectedAircraft.turnLeft(turningLeft = (turningLeft)
 							? false

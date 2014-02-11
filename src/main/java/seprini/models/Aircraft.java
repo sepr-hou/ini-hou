@@ -480,6 +480,17 @@ public final class Aircraft extends Entity {
 	public void turnLeft(boolean set) {
 		turnLeft = set;
 	}
+
+	/**
+	 * Causes the aircraft to return to its flightplan after being manually controlled
+	 */
+	public void returnToPath()
+	{
+		turnLeft = false;
+		turnRight = false;
+		ignorePath = false;
+	}
+
 	/**
 	 * Creates and inserts landing flightplan
 	 * 
