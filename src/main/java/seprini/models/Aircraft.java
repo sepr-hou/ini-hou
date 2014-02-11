@@ -212,7 +212,7 @@ public final class Aircraft extends Entity {
 		this.setBounds(getX() - getWidth() / 2, getY() - getWidth() / 2,
 				getWidth(), getHeight());
 
-		//Landing speed changes
+		//Landing speed and altitude changes
 		Waypoint approach1 = new Waypoint(230, 275, true, false);
 		Waypoint approach2 = new Waypoint(310, 195, true, false);
 		if (this.getNextWaypoint().getCoords().equals(approach1.getCoords()) || this.getNextWaypoint().getCoords().equals(approach2.getCoords())){
@@ -236,6 +236,8 @@ public final class Aircraft extends Entity {
 			this.minSpeed = 0.00000000001f;
 			this.setSpeed(minSpeed);
 			this.altitude = 0;
+			// Plane has landed! - "Another Happy Landing!" - Obi Wan Kenobi, Star Wars Episode III "Revenge of the Sith."
+			AircraftController.setLanding(false);
 		}
 		
 		// finally, test waypoint collisions using new coordinates
@@ -513,11 +515,13 @@ public final class Aircraft extends Entity {
 	 * - Calculates position of aircraft relative to runway and selects appropriate approach waypoint position
 	 * - Creates appropriate invisible approach waypoint
 	 * - Adds route to start of flightplan
-	 * - Allows plane to have min speed of 0
+	 * 
+	 * - Changes in altitude and speed are handled in act.
 	 */
 	public void landAircraft(){
-		if (!selected)
+		if (!selected || AircraftController.getLanding())
 			return;
+		AircraftController.setLanding(true);
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		Waypoint runwayMid = new Waypoint(387, 335, true, false);
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
