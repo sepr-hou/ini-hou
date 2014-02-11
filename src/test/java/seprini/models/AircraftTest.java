@@ -18,7 +18,7 @@ public class AircraftTest {
 	public void setUp() throws Exception {
 		AircraftType defaultAircraft = new AircraftType();
 
-		defaultAircraft.setActive(true)
+		defaultAircraft
 				.setMaxClimbRate(10).setMaxSpeed(0.8f).setMaxTurningSpeed(0.4f)
 				.setRadius(15).setSeparationRadius(100)
 				.setTexture(Art.getTextureRegion("aircraft"))
