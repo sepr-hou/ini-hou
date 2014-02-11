@@ -430,53 +430,35 @@ public final class Aircraft extends Entity {
 	 * Increase speed of the aircraft <br>
 	 * Actually changes a scalar which is later multiplied by the velocity
 	 * vector
-	 * 
-	 * @return <b>true</b> on success <br>
-	 *         <b>false</b> when increased speed will be more than allowed
-	 *         (maxSpeed)
 	 */
-	public boolean increaseSpeed() {
+	public void increaseSpeed() {
 
 		float prevSpeed = getSpeed();
 		float newSpeed = prevSpeed + SPEED_CHANGE;
 
 		if (newSpeed > maxSpeed)
-		{
 			newSpeed = maxSpeed;
-			if (prevSpeed == newSpeed)
-				return false;
-		}
 
-		velocity.scl(newSpeed / prevSpeed);
+		setSpeed(newSpeed);
 		Debug.msg("Increasing speed; New Speed: " + newSpeed);
-		return true;
 	}
 
 	/**
 	 * Decrease speed of the aircraft <br>
 	 * Actually changes a scalar which is later multiplied by the velocity
 	 * vector
-	 * 
-	 * @return <b>true</b> on success <br>
-	 *         <b>false</b> when decreased speed will be less than allowed
-	 *         (minSpeed)
 	 */
-	public boolean decreaseSpeed() {
+	public void decreaseSpeed() {
 
 
 		float prevSpeed = getSpeed();
 		float newSpeed = prevSpeed - SPEED_CHANGE;
 
 		if (newSpeed < minSpeed)
-		{
 			newSpeed = minSpeed;
-			if (prevSpeed == newSpeed)
-				return false;
-		}
 
-		velocity.scl(newSpeed / prevSpeed);
+		setSpeed(newSpeed);
 		Debug.msg("Decreasing speed; New Speed: " + newSpeed);
-		return true;
 	}
 
 	/**
@@ -610,6 +592,20 @@ public final class Aircraft extends Entity {
 
 	public int getAltitude() {
 		return altitude;
+	}
+
+
+	/**
+	 * Sets the speed of the aircraft (ignoring minimum and maximum speeds)
+	 *
+	 * @param speed new speed
+	 */
+	private void setSpeed(float speed)
+	{
+		if (speed == 0)
+			throw new IllegalArgumentException("speed cannot be 0");
+
+		velocity.clamp(speed, speed);
 	}
 
 	/**
