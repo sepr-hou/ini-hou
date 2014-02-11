@@ -14,7 +14,6 @@ public class ExitpointTest {
 	public void setUp() throws Exception {
 
 		Exitpoint testexitpoint = new Exitpoint(new Vector2(3f, 3f));
-		testexitpoint.radius = 5;
 		exitpoint = testexitpoint;
 
 	}

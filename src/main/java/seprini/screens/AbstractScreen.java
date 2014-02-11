@@ -103,11 +103,10 @@ public class AbstractScreen implements Screen
 	 * @param x
 	 * @param y
 	 */
-	public static void draw(TextureRegion region, int x, int y,
-			SpriteBatch batch) {
-		if (region == null)
-			Gdx.app.error("Screen", "Region drawing is null");
+	public static void draw(TextureRegion region, int x, int y, SpriteBatch batch) {
 
+		if (region == null)
+			throw new IllegalArgumentException("region to draw to is null");
 
 		int width = region.getRegionWidth() + 1;
 

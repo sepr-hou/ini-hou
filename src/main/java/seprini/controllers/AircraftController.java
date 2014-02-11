@@ -31,12 +31,9 @@ public final class AircraftController extends InputListener implements
 	private final ArrayList<AircraftType> aircraftTypeList = new ArrayList<AircraftType>();
 	private final ArrayList<Aircraft> aircraftList = new ArrayList<Aircraft>();
 
-	private final int maxAircraft, timeBetweenGenerations, separationRadius;
-
 	private float lastGenerated, lastWarned;
 	private boolean breachingSound, breachingIsPlaying;
 
-	private final AircraftType defaultAircraft = new AircraftType();
 	private Aircraft selectedAircraft;
 
 	private final GameDifficulty difficulty;
@@ -57,7 +54,7 @@ public final class AircraftController extends InputListener implements
 	
 	// game score
 	public static float score = 0;
-	private int scoreMultiplier; 
+
 
 	/**
 	 * 
@@ -91,47 +88,16 @@ public final class AircraftController extends InputListener implements
 		// helper for creating the flight plan of an aircraft
 		this.flightplan = new FlightPlanComponent(waypoints);
 
-		// insert code here to initialise variables (eg max no of aircraft) to
-		// wanted value for that difficulty level.
-		switch (difficulty) {
-		case EASY:
-			maxAircraft = 10;
-			timeBetweenGenerations = 4;
-			separationRadius = 150;
-			scoreMultiplier = 17;
-			break;
-		case MEDIUM:
-			maxAircraft = 10;
-			timeBetweenGenerations = 3;
-			separationRadius = 100;
-			scoreMultiplier = 22;
-			break;
-		case HARD:
-			maxAircraft = 10;
-			timeBetweenGenerations = 2;
-			separationRadius = 75;
-			scoreMultiplier = 27;
-			break;
-		default:
-			maxAircraft = 1;
-			timeBetweenGenerations = 1;
-			separationRadius = 100;
-			break;
-		}
-
 		// initialise aircraft types.
-		defaultAircraft.setActive(true)
+		aircraftTypeList.add(new AircraftType()
 				.setMaxClimbRate(600)
 				.setMinSpeed(30f)
 				.setMaxSpeed(90f)
 				.setMaxTurningSpeed(48f)
 				.setRadius(15)
-				.setSeparationRadius(separationRadius)
+				.setSeparationRadius(diff.getSeparationRadius())
 				.setTexture(Art.getTextureRegion("aircraft"))
-				.setInitialSpeed(30f);
-
-		// add aircraft types to airplaneTypes array.
-		aircraftTypeList.add(defaultAircraft);
+				.setInitialSpeed(30f));
 
 		this.sidebar.init();
 	}
@@ -145,7 +111,7 @@ public final class AircraftController extends InputListener implements
 		timer += delta;
 		
 		// Update score
-		score += scoreMultiplier * delta;
+		score += difficulty.getScoreMultiplier() * delta;
 
 		breachingSound = false;
 
@@ -244,6 +210,9 @@ public final class AircraftController extends InputListener implements
 			Art.getSound("ding").play(0.5f);
 		}
 
+		// sort aircraft so they appear in the right order
+		airspace.sortAircraft();
+
 		// finally, update the sidebar
 		sidebar.update();
 	}
@@ -297,12 +266,12 @@ public final class AircraftController extends InputListener implements
 	 */
 	private Aircraft generateAircraft() {
 		// number of aircraft has reached maximum, abort
-		if (aircraftList.size() == maxAircraft)
+		if (aircraftList.size() >= difficulty.getMaxAircraft())
 			return null;
 
 		// time difference between aircraft generated - depends on difficulty
 		// selected
-		if (timer - lastGenerated < timeBetweenGenerations + rand.nextInt(100))
+		if (timer - lastGenerated < difficulty.getTimeBetweenGenerations() + rand.nextInt(100))
 			return null;
 
 		Aircraft newAircraft = new Aircraft(randomAircraftType(),
@@ -426,6 +395,12 @@ public final class AircraftController extends InputListener implements
 
 			if (keycode == Keys.Q)
 				selectedAircraft.decreaseSpeed();
+			
+			if (keycode == Keys.R)
+				selectedAircraft.returnToPath();
+			
+			if (keycode == Keys.G)
+				selectedAircraft.landAircraft();
 
 		}
 

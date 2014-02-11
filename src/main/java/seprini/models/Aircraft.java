@@ -18,21 +18,18 @@ import com.badlogic.gdx.math.Vector2;
 
 public final class Aircraft extends Entity {
 
-	private final int id;
-
 	private static final float SPEED_CHANGE = 6f;
 	private static final int ALTITUDE_CHANGE = 5000;
 
-	private int desiredAltitude;
-
-	private int altitude;
-	private Vector2 velocity = new Vector2(0, 0);
+	private final int id;
 
 	private final ArrayList<Waypoint> waypoints;
+	private final AircraftType aircraftType;
 
-	private final float radius, separationRadius, maxTurningRate, maxClimbRate,
-			maxSpeed;
-	private float minSpeed;
+	private int desiredAltitude;
+	private int altitude;
+
+	private Vector2 velocity = new Vector2(0, 0);
 
 	private boolean breaching;
 
@@ -52,6 +49,7 @@ public final class Aircraft extends Entity {
 	// used for smooth turning
 	// rememeber last angle to check if it's increasing or not
 	private float previousAngle = 0;
+
 	// if is increasing, switch rotation sides so it uses the 'smaller' angle
 	private boolean rotateRight = false;
 
@@ -62,16 +60,12 @@ public final class Aircraft extends Entity {
 		debugShape = true;
 
 		this.id = id;
+		this.aircraftType = aircraftType;
 
-		// initialise all of the aircraft values according to the passed
-		// aircraft type
-		radius = aircraftType.getRadius();
-		separationRadius = aircraftType.getSeparationRadius();
+		// initialize entity
 		texture = aircraftType.getTexture();
-		maxTurningRate = aircraftType.getMaxTurningSpeed();
-		maxClimbRate = aircraftType.getMaxClimbRate();
-		maxSpeed = aircraftType.getMaxSpeed();
-		minSpeed = aircraftType.getMinSpeed();
+
+		// initialize velocity and altitude
 		velocity = new Vector2(aircraftType.getInitialSpeed(), 0);
 
 		Random rand = new Random();
@@ -123,25 +117,25 @@ public final class Aircraft extends Entity {
 		// if the user takes control of the aircraft, 
 		// show full flight plan.
 		if (selected) {
-			//Initialises current to plane's current position.
-			Vector2 current = new Vector2(this.getX(), this.getY());
+			//Initialises previous to plane's current position.
+			Vector2 previous = coords;
+
+			batch.end();
+
 			//Loops through waypoints in flight plan drawing a line between them
-			for (int i = 0; i < waypoints.size(); i++)
+			for (Waypoint waypoint : waypoints)
 			{
-				Vector2 nextWaypoint = new Vector2(waypoints.get(i).getX(), waypoints.get(i).getY());
-				
-				
-				batch.end();
+				Vector2 coords = waypoint.getCoords();
 
 				drawer.begin(ShapeType.Line);
 				drawer.setColor(1, 0, 0, 0);
-				drawer.line(current.x, current.y, nextWaypoint.x, nextWaypoint.y);
+				drawer.line(previous.x, previous.y, coords.x, coords.y);
 				drawer.end();
 
-				batch.begin();
-				
-				current = nextWaypoint;
+				previous = coords;
 			}
+
+			batch.begin();
 		}
 
 		// if the aircraft is either selected or is breaching, draw a circle
@@ -208,9 +202,9 @@ public final class Aircraft extends Entity {
 
 		// allows for smooth decent/ascent
 		if (altitude > desiredAltitude) {
-			this.altitude -= this.maxClimbRate * delta;
+			this.altitude -= aircraftType.getMaxClimbRate() * delta;
 		} else if (altitude < desiredAltitude) {
-			this.altitude += this.maxClimbRate * delta;
+			this.altitude += aircraftType.getMaxClimbRate() * delta;
 		}
 
 		// updating bounds to make sure the aircraft is clickable
@@ -235,7 +229,6 @@ public final class Aircraft extends Entity {
 			this.setSpeed(200 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 			this.altitude = 2500;
 		}
-		
 		
 		// finally, test waypoint collisions using new coordinates
 		testWaypointCollisions();
@@ -316,7 +309,7 @@ public final class Aircraft extends Entity {
 	 */
 	private void rotateAircraft(float delta)
 	{
-		float baseRate = maxTurningRate * delta;
+		float baseRate = aircraftType.getMaxTurningSpeed() * delta;
 		float rate = 0;
 
 		// Calculate turning rate
@@ -447,8 +440,8 @@ public final class Aircraft extends Entity {
 		float prevSpeed = getSpeed();
 		float newSpeed = prevSpeed + SPEED_CHANGE;
 
-		if (newSpeed > maxSpeed)
-			newSpeed = maxSpeed;
+		if (newSpeed > aircraftType.getMaxSpeed())
+			newSpeed = aircraftType.getMaxSpeed();
 
 		setSpeed(newSpeed);
 		Debug.msg("Increasing speed; New Speed: " + newSpeed);
@@ -465,8 +458,8 @@ public final class Aircraft extends Entity {
 		float prevSpeed = getSpeed();
 		float newSpeed = prevSpeed - SPEED_CHANGE;
 
-		if (newSpeed < minSpeed)
-			newSpeed = minSpeed;
+		if (newSpeed < aircraftType.getMinSpeed())
+			newSpeed = aircraftType.getMinSpeed();
 
 		setSpeed(newSpeed);
 		Debug.msg("Decreasing speed; New Speed: " + newSpeed);
@@ -527,7 +520,7 @@ public final class Aircraft extends Entity {
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		Waypoint runwayMid = new Waypoint(387, 335, true, false);
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
-		Waypoint approach = null;
+		Waypoint approach;
 		int choice = 0;
 		//Calculates if aircraft is in Pos A or B to decide which approach waypoint to use.
 		//
@@ -585,11 +578,11 @@ public final class Aircraft extends Entity {
 	 * @return int radius
 	 */
 	public float getRadius() {
-		return radius;
+		return aircraftType.getRadius();
 	}
 
 	public float getSeparationRadius() {
-		return separationRadius;
+		return aircraftType.getSeparationRadius();
 	}
 
 	public void isBreaching(boolean is) {
