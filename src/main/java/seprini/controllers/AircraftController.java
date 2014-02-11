@@ -212,6 +212,9 @@ public final class AircraftController extends InputListener implements
 			Art.getSound("ding").play(0.5f);
 		}
 
+		// sort aircraft so they appear in the right order
+		airspace.sortAircraft();
+
 		// finally, update the sidebar
 		sidebar.update();
 	}
