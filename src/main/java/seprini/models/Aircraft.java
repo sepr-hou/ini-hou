@@ -113,25 +113,25 @@ public final class Aircraft extends Entity {
 		// if the user takes control of the aircraft, 
 		// show full flight plan.
 		if (selected) {
-			//Initialises current to plane's current position.
-			Vector2 current = new Vector2(this.getX(), this.getY());
+			//Initialises previous to plane's current position.
+			Vector2 previous = coords;
+
+			batch.end();
+
 			//Loops through waypoints in flight plan drawing a line between them
-			for (int i = 0; i < waypoints.size(); i++)
+			for (Waypoint waypoint : waypoints)
 			{
-				Vector2 nextWaypoint = new Vector2(waypoints.get(i).getX(), waypoints.get(i).getY());
-				
-				
-				batch.end();
+				Vector2 coords = waypoint.getCoords();
 
 				drawer.begin(ShapeType.Line);
 				drawer.setColor(1, 0, 0, 0);
-				drawer.line(current.x, current.y, nextWaypoint.x, nextWaypoint.y);
+				drawer.line(previous.x, previous.y, coords.x, coords.y);
 				drawer.end();
 
-				batch.begin();
-				
-				current = nextWaypoint;
+				previous = coords;
 			}
+
+			batch.begin();
 		}
 
 		// if the aircraft is either selected or is breaching, draw a circle
