@@ -440,6 +440,9 @@ public final class AircraftController extends InputListener implements
 			
 			if (keycode == Keys.R)
 				selectedAircraft.returnToPath();
+			
+			if (keycode == Keys.G)
+				selectedAircraft.landAircraft();
 
 		}
 
