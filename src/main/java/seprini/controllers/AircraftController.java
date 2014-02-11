@@ -120,7 +120,6 @@ public final class AircraftController extends InputListener implements
 
 		// initialise aircraft types.
 		aircraftTypeList.add(new AircraftType()
-				.setActive(true)
 				.setMaxClimbRate(600)
 				.setMinSpeed(30f)
 				.setMaxSpeed(90f)

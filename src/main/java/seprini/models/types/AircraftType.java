@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AircraftType {
 
-	private String aircraftName;
 	private float initialSpeed;
 	private int radius;
 	private int separationRadius;
@@ -13,7 +12,6 @@ public class AircraftType {
 	private float maxClimbRate;
 	private float maxSpeed;
 	private float minSpeed;
-	private boolean isActive;
 
 	public float getInitialSpeed() {
 		return initialSpeed;
@@ -84,24 +82,6 @@ public class AircraftType {
 
 	public AircraftType setMinSpeed(float minSpeed) {
 		this.minSpeed = minSpeed;
-		return this;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public AircraftType setActive(boolean isActive) {
-		this.isActive = isActive;
-		return this;
-	}
-
-	public String getAircraftName() {
-		return aircraftName;
-	}
-
-	public AircraftType setAircraftName(String aircraftName) {
-		this.aircraftName = aircraftName;
 		return this;
 	}
 }
