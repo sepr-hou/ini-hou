@@ -222,11 +222,20 @@ public final class Aircraft extends Entity {
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayStart.getCoords())){
 			this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
+			this.altitude = 5000;
 		}
+		
+		Waypoint runwayMid = new Waypoint(387, 335, true, false);
+		if (this.getNextWaypoint().getCoords().equals(runwayMid.getCoords())){
+			this.setSpeed(200 / Config.AIRCRAFT_SPEED_MULTIPLIER);
+			this.altitude = 2500;
+		}
+		
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayEnd.getCoords())){
 			this.minSpeed = 0.00000000001f;
 			this.setSpeed(minSpeed);
+			this.altitude = 0;
 		}
 		
 		// finally, test waypoint collisions using new coordinates
@@ -510,6 +519,7 @@ public final class Aircraft extends Entity {
 		if (!selected)
 			return;
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
+		Waypoint runwayMid = new Waypoint(387, 335, true, false);
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
 		Waypoint approach = null;
 		int choice = 0;
@@ -535,31 +545,9 @@ public final class Aircraft extends Entity {
 		}
 		
 		this.insertWaypoint(runwayEnd);
+		this.insertWaypoint(runwayMid);
 		this.insertWaypoint(runwayStart);
 		this.insertWaypoint(approach);
-	}
-
-	public void setLandingSpeed(){
-		if (this.getSpeed() == 1200){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 1120){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 1040){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 960){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 880){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 800){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 720){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 640){
-			this.decreaseSpeed();
-		} if (this.getSpeed() == 560){
-			this.decreaseSpeed();
-		}
-
 	}
 	
 	/**
