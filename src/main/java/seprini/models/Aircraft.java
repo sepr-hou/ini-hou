@@ -441,7 +441,11 @@ public final class Aircraft extends Entity {
 		float newSpeed = prevSpeed + SPEED_CHANGE;
 
 		if (newSpeed > maxSpeed)
-			return false;
+		{
+			newSpeed = maxSpeed;
+			if (prevSpeed == newSpeed)
+				return false;
+		}
 
 		velocity.scl(newSpeed / prevSpeed);
 		Debug.msg("Increasing speed; New Speed: " + newSpeed);
@@ -464,7 +468,11 @@ public final class Aircraft extends Entity {
 		float newSpeed = prevSpeed - SPEED_CHANGE;
 
 		if (newSpeed < minSpeed)
-			return false;
+		{
+			newSpeed = minSpeed;
+			if (prevSpeed == newSpeed)
+				return false;
+		}
 
 		velocity.scl(newSpeed / prevSpeed);
 		Debug.msg("Decreasing speed; New Speed: " + newSpeed);
