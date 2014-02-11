@@ -226,7 +226,7 @@ public final class Aircraft extends Entity {
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayEnd.getCoords())){
 			this.minSpeed = 0;
-			for (int i = 0; i<6; i++){
+			while (this.getSpeed() > 0){
 				this.decreaseSpeed();
 			}
 		}
