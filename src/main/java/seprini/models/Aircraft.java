@@ -216,12 +216,12 @@ public final class Aircraft extends Entity {
 		Waypoint approach1 = new Waypoint(230, 275, true, false);
 		Waypoint approach2 = new Waypoint(310, 195, true, false);
 		if (this.getNextWaypoint().getCoords().equals(approach1.getCoords()) || this.getNextWaypoint().getCoords().equals(approach2.getCoords())){
-			this.setSpeed(400);
+			this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 		}
 		
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayStart.getCoords())){
-			this.setSpeed(400);
+			this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 		}
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayEnd.getCoords())){
