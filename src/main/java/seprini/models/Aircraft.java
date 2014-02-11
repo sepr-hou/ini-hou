@@ -42,6 +42,10 @@ public final class Aircraft extends Entity {
 
 	// whether the aircraft is selected by the player
 	private boolean selected;
+	
+	//landing
+	private boolean landing = false;
+	private boolean landed = false;
 
 	private boolean turnRight, turnLeft;
 
@@ -194,7 +198,8 @@ public final class Aircraft extends Entity {
 
 		if (!isActive)
 			return;
-
+		if (landed)
+			return;
 		// handle aircraft rotation
 		rotateAircraft(delta);
 
@@ -231,14 +236,6 @@ public final class Aircraft extends Entity {
 			this.altitude = 2500;
 		}
 		
-		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
-		if (this.getNextWaypoint().getCoords().equals(runwayEnd.getCoords())){
-			this.minSpeed = 0.00000000001f;
-			this.setSpeed(minSpeed);
-			this.altitude = 0;
-			// Plane has landed! - "Another Happy Landing!" - Obi Wan Kenobi, Star Wars Episode III "Revenge of the Sith."
-			AircraftController.setLanding(false);
-		}
 		
 		// finally, test waypoint collisions using new coordinates
 		testWaypointCollisions();
@@ -415,7 +412,12 @@ public final class Aircraft extends Entity {
 					// Collided with normal waypoint
 					AircraftController.score += 111;
 					Debug.msg("Aircraft id " + id + ": Hit waypoint");
-
+					Waypoint runwayMid = new Waypoint(387, 335, true, false);
+					if (waypoints.get(0).getCoords().equals(runwayMid.getCoords())){
+						this.setSpeed(0.00000000001f);
+						this.altitude = 0;
+						this.landed = true;
+					}
 					waypoints.remove(0);
 				}
 			}
@@ -519,9 +521,9 @@ public final class Aircraft extends Entity {
 	 * - Changes in altitude and speed are handled in act.
 	 */
 	public void landAircraft(){
-		if (!selected || AircraftController.getLanding())
+		if (!selected || landing)
 			return;
-		AircraftController.setLanding(true);
+		landing = true;
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		Waypoint runwayMid = new Waypoint(387, 335, true, false);
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
@@ -552,6 +554,20 @@ public final class Aircraft extends Entity {
 		this.insertWaypoint(runwayMid);
 		this.insertWaypoint(runwayStart);
 		this.insertWaypoint(approach);
+	}
+	
+	/**
+	 * Makes an Aircraft take off
+	 * 
+	 * - Checks aircraft is landed
+	 * - Increases speed + altitude
+	 * 
+	 */
+	public void takeOff(){
+		if (!landed)
+			return;
+		this.landed = false;
+		this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 	}
 	
 	/**
@@ -625,7 +641,11 @@ public final class Aircraft extends Entity {
 	public boolean selected(boolean newSelected) {
 		return this.selected = newSelected;
 	}
-
+	
+	public boolean getLanding(){
+		return landing;
+	}
+	
 	@Override
 	public String toString() {
 		return "Aircraft - x: " + getX() + " y: " + getY()
