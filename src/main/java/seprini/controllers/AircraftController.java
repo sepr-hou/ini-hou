@@ -54,6 +54,9 @@ public final class AircraftController extends InputListener implements
 	
 	// game score
 	public static float score = 0;
+	
+	//landing
+	private static boolean landing = false;
 
 	/**
 	 * 
@@ -357,6 +360,14 @@ public final class AircraftController extends InputListener implements
 		return score;
 	}
 
+	public static boolean getLanding() {
+		return landing;
+	}
+	
+	public static void setLanding(boolean choice){
+		landing = choice;
+	}
+	
 	public Aircraft getSelectedAircraft() {
 		return selectedAircraft;
 	}
@@ -391,6 +402,12 @@ public final class AircraftController extends InputListener implements
 
 			if (keycode == Keys.Q)
 				selectedAircraft.decreaseSpeed();
+			
+			if (keycode == Keys.R)
+				selectedAircraft.returnToPath();
+			
+			if (keycode == Keys.G)
+				selectedAircraft.landAircraft();
 
 		}
 
