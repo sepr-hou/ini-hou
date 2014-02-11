@@ -515,7 +515,7 @@ public final class Aircraft extends Entity {
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		Waypoint runwayMid = new Waypoint(387, 335, true, false);
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
-		Waypoint approach = null;
+		Waypoint approach;
 		int choice = 0;
 		//Calculates if aircraft is in Pos A or B to decide which approach waypoint to use.
 		//

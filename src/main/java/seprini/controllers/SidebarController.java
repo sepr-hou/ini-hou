@@ -244,21 +244,17 @@ public final class SidebarController extends ChangeListener implements
 		if (!screen.isPaused()) {
 
 			if (actor.equals(buttons.get("assignWaypoint")))
-				allowRedirection = (allowRedirection) ? false : true;
+				allowRedirection = (!allowRedirection);
 
 			if (selectedAircraft != null) {
 				if (actor.equals(buttons.get("returnToPath")))
 					selectedAircraft.returnToPath();
 
 				if (actor.equals(buttons.get("left")))
-					selectedAircraft.turnLeft(turningLeft = (turningLeft)
-							? false
-							: true);
+					selectedAircraft.turnLeft(turningLeft = (!turningLeft));
 
 				if (actor.equals(buttons.get("right")))
-					selectedAircraft.turnRight(turningRight = (turningRight)
-							? false
-							: true);
+					selectedAircraft.turnRight(turningRight = (!turningRight));
 
 				if (actor.equals(buttons.get("land")))
 					selectedAircraft.landAircraft();

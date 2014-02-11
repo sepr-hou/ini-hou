@@ -131,17 +131,11 @@ public class Art {
 
 	/**
 	 * Splits a texture from given position with size and width
-	 * 
-	 * @param texture
-	 * @param x
-	 * @param y
-	 * @param size
-	 * @param width
+	 *
 	 * @return The requested TextureRegion
 	 */
-	private static TextureRegion split(Texture texture, int x, int y, int size,
-			int width) {
-		return new TextureRegion(texture, x, y, size, width);
+	private static TextureRegion split(Texture texture, int x, int y, int width, int height) {
+		return new TextureRegion(texture, x, y, width, height);
 	}
 
 	/**
@@ -151,8 +145,7 @@ public class Art {
 	 * @return Texture
 	 */
 	private static Texture loadTexture(String textureName) {
-		Texture texture = new Texture(Gdx.files.internal(textureName), true);
-		return texture;
+		return new Texture(Gdx.files.internal(textureName), true);
 	}
 
 	/**
