@@ -236,6 +236,7 @@ public final class Aircraft extends Entity {
 			this.minSpeed = 0.00000000001f;
 			this.setSpeed(minSpeed);
 			this.altitude = 0;
+			// Plane has landed! - "Another Happy Landing!" - Obi Wan Kenobi, Star Wars Episode III "Revenge of the Sith."
 			AircraftController.setLanding(false);
 		}
 		
