@@ -426,6 +426,9 @@ public final class AircraftController extends InputListener implements
 
 			if (keycode == Keys.Q)
 				selectedAircraft.decreaseSpeed();
+			
+			if (keycode == Keys.R)
+				selectedAircraft.returnToPath();
 
 		}
 
