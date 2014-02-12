@@ -40,8 +40,7 @@ public final class Aircraft extends Entity {
 	// whether the aircraft is selected by the player
 	private boolean selected;
 	
-	//landing
-	private boolean landing = false;
+	//landed
 	private boolean landed = false;
 
 	private boolean turnRight, turnLeft;
@@ -514,9 +513,9 @@ public final class Aircraft extends Entity {
 	 * - Changes in altitude and speed are handled in act.
 	 */
 	public void landAircraft(){
-		if (!selected || landing)
+		if (!selected || AircraftController.isLanding())
 			return;
-		landing = true;
+		AircraftController.setLanding(true);
 		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
 		Waypoint runwayMid = new Waypoint(387, 335, true, false);
 		Waypoint runwayStart = new Waypoint(310, 275, true, false);
@@ -559,6 +558,7 @@ public final class Aircraft extends Entity {
 	public void takeOff(){
 		if (!landed)
 			return;
+		AircraftController.setLanding(false);
 		this.landed = false;
 		this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 	}
@@ -633,10 +633,6 @@ public final class Aircraft extends Entity {
 	 */
 	public boolean selected(boolean newSelected) {
 		return this.selected = newSelected;
-	}
-	
-	public boolean getLanding(){
-		return landing;
 	}
 	
 	@Override
