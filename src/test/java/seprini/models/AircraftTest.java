@@ -25,8 +25,8 @@ public class AircraftTest {
 				.setInitialSpeed(0.5f);
 
 		ArrayList<Waypoint> plan = new ArrayList<Waypoint>();
-		plan.add(new Waypoint(3, 5, true, true));
-		plan.add(new Waypoint(4, 7, true, true));
+		plan.add(new Waypoint(3, 5, true));
+		plan.add(new Waypoint(4, 7, true));
 
 		aircraft = new Aircraft(defaultAircraft, plan, 0);
 
@@ -50,7 +50,7 @@ public class AircraftTest {
 
 	@Test
 	public void testInsertWaypoint() {
-		Waypoint newWaypoint = new Waypoint(7, 8, true, true);
+		Waypoint newWaypoint = new Waypoint(7, 8, true);
 		aircraft.insertWaypoint(newWaypoint);
 		assertEquals(aircraft.getFlightPlan().get(0), newWaypoint);
 

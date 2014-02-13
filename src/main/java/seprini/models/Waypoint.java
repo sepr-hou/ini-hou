@@ -8,24 +8,16 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Waypoint extends Entity {
 
-	private final boolean deletable;
 	private final boolean visible;
 
-	public Waypoint(Vector2 position, boolean deletable, boolean visible) {
+	public Waypoint(float x, float y, boolean visible) {
+		this(new Vector2(x, y), visible);
+	}
+
+	public Waypoint(Vector2 position, boolean visible) {
 		coords = position;
-		this.deletable = deletable;
 		this.visible = visible;
-		init();
-	}
 
-	public Waypoint(float x, float y, boolean deletable, boolean visible) {
-		coords = new Vector2(x, y);
-		this.deletable = deletable;
-		this.visible= visible;
-		init();
-	}
-
-	private void init() {
 		this.debugShape = true;
 		this.texture = Art.getTextureRegion("waypoint");
 		this.size = Config.WAYPOINT_SIZE;
@@ -36,10 +28,6 @@ public class Waypoint extends Entity {
 		// set its bounds so it's clickable
 		this.setBounds(getX() - getWidth() / 2, getY() - getWidth() / 2,
 				getWidth(), getHeight());
-	}
-
-	public boolean isDeletable() {
-		return deletable;
 	}
 	
 	public boolean isVisible() {
@@ -52,7 +40,7 @@ public class Waypoint extends Entity {
 	}
 
 	public Waypoint cpy() {
-		return new Waypoint(getX(), getY(), this.deletable, this.visible);
+		return new Waypoint(getX(), getY(), this.visible);
 	}
 	
 	@Override

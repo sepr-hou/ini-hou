@@ -14,7 +14,7 @@ public class WaypointTest {
 	@Before
 	public void setUp() throws Exception {
 
-		Waypoint testwaypoint = new Waypoint(3f, 3f, true, true);
+		Waypoint testwaypoint = new Waypoint(3f, 3f, true);
 		waypoint = testwaypoint;
 
 	}
@@ -27,7 +27,6 @@ public class WaypointTest {
 
 	@Test
 	public void testWaypointFloatFloatBoolean() {
-		assertTrue(waypoint.isDeletable() == true);
 		Vector2 testCoordinates = new Vector2(3f, 3f);
 		Vector2 result = waypoint.coords;
 		assertEquals(testCoordinates.x, result.x, 0);
@@ -36,14 +35,8 @@ public class WaypointTest {
 	}
 
 	@Test
-	public void testIsDeletable() {
-		assertTrue(waypoint.isDeletable());
-	}
-
-	@Test
 	public void testCpy() {
 		assertTrue(waypoint.cpy().toString().equals(waypoint.toString()));
-		assertTrue(waypoint.cpy().isDeletable() == waypoint.isDeletable());
 
 	}
 }

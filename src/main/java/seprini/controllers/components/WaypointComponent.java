@@ -74,7 +74,7 @@ public class WaypointComponent {
 
 		Debug.msg("Waypoint at: " + x + ":" + y + " created");
 
-		final Waypoint waypoint = new Waypoint(x, y, permanent, visible);
+		final Waypoint waypoint = new Waypoint(x, y, visible);
 
 		// add it to the correct list according to whether it is user created or
 		// not

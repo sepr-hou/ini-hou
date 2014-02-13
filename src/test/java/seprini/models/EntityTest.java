@@ -16,7 +16,7 @@ public class EntityTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Entity entitytest = new Waypoint(0, 1, false, true);
+		Entity entitytest = new Waypoint(0, 1, true);
 		entitytest.texture = new TextureRegion();
 		entitytest.size = new Vector2(1, 2);
 		entitytest.debugShape = false;

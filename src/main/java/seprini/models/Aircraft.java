@@ -211,19 +211,19 @@ public final class Aircraft extends Entity {
 				getWidth(), getHeight());
 
 		//Landing speed and altitude changes
-		Waypoint approach1 = new Waypoint(230, 275, true, false);
-		Waypoint approach2 = new Waypoint(310, 195, true, false);
+		Waypoint approach1 = new Waypoint(230, 275, false);
+		Waypoint approach2 = new Waypoint(310, 195, false);
 		if (this.getNextWaypoint().getCoords().equals(approach1.getCoords()) || this.getNextWaypoint().getCoords().equals(approach2.getCoords())){
 			this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 		}
 		
-		Waypoint runwayStart = new Waypoint(310, 275, true, false);
+		Waypoint runwayStart = new Waypoint(310, 275, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayStart.getCoords())){
 			this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 			this.altitude = 5000;
 		}
 		
-		Waypoint runwayMid = new Waypoint(387, 335, true, false);
+		Waypoint runwayMid = new Waypoint(387, 335, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayMid.getCoords())){
 			this.setSpeed(200 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 			this.altitude = 2500;
@@ -404,7 +404,7 @@ public final class Aircraft extends Entity {
 					// Collided with normal waypoint
 					AircraftController.score += 111;
 					Debug.msg("Aircraft id " + id + ": Hit waypoint");
-					Waypoint runwayMid = new Waypoint(387, 335, true, false);
+					Waypoint runwayMid = new Waypoint(387, 335, false);
 					if (waypoints.get(0).getCoords().equals(runwayMid.getCoords())){
 						this.setSpeed(0.00000000001f);
 						this.altitude = 0;
@@ -516,9 +516,9 @@ public final class Aircraft extends Entity {
 		if (!selected || AircraftController.isLanding())
 			return;
 		AircraftController.setLanding(true);
-		Waypoint runwayEnd = new Waypoint(464, 395, true, false);
-		Waypoint runwayMid = new Waypoint(387, 335, true, false);
-		Waypoint runwayStart = new Waypoint(310, 275, true, false);
+		Waypoint runwayEnd = new Waypoint(464, 395, false);
+		Waypoint runwayMid = new Waypoint(387, 335, false);
+		Waypoint runwayStart = new Waypoint(310, 275, false);
 		Waypoint approach;
 		int choice = 0;
 		//Calculates if aircraft is in Pos A or B to decide which approach waypoint to use.
@@ -537,9 +537,9 @@ public final class Aircraft extends Entity {
 			choice = 1;
 		}
 		if (choice == 0){
-			approach = new Waypoint(230, 275, true, false);
+			approach = new Waypoint(230, 275, false);
 		} else {
-			approach = new Waypoint(310, 195, true, false);
+			approach = new Waypoint(310, 195, false);
 		}
 		
 		this.insertWaypoint(runwayEnd);
