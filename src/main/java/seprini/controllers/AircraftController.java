@@ -78,6 +78,7 @@ public final class AircraftController extends InputListener implements
 
 		// TODO: jcowgill - this is a massive hack but it will do at the moment
 		score = 0;
+		landing = false;
 
 		// add the background
 		airspace.addActor(new Map());
