@@ -230,19 +230,20 @@ public final class Aircraft extends Entity {
 		Waypoint approach1 = new Waypoint(230, 275, false);
 		Waypoint approach2 = new Waypoint(310, 195, false);
 		if (this.getNextWaypoint().getCoords().equals(approach1.getCoords()) || this.getNextWaypoint().getCoords().equals(approach2.getCoords())){
-			this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
+			this.setSpeed(350 / Config.AIRCRAFT_SPEED_MULTIPLIER);
+			this.desiredAltitude = 2500;
 		}
 		
 		Waypoint runwayStart = new Waypoint(310, 275, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayStart.getCoords())){
-			this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
-			this.altitude = 5000;
+			this.setSpeed(250 / Config.AIRCRAFT_SPEED_MULTIPLIER);
+			this.desiredAltitude = 1250;
 		}
 		
 		Waypoint runwayMid = new Waypoint(387, 335, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayMid.getCoords())){
-			this.setSpeed(200 / Config.AIRCRAFT_SPEED_MULTIPLIER);
-			this.altitude = 2500;
+			this.setSpeed(150 / Config.AIRCRAFT_SPEED_MULTIPLIER);
+			this.desiredAltitude = 0;
 		}
 		
 		// finally, test waypoint collisions using new coordinates
@@ -499,7 +500,7 @@ public final class Aircraft extends Entity {
 
 		this.desiredAltitude -= ALTITUDE_CHANGE;
 	}
-
+	
 	public void turnRight(boolean set) {
 		turnRight = set;
 	}
@@ -583,7 +584,7 @@ public final class Aircraft extends Entity {
 	public boolean isMustLand() {
 		return mustLand;
 	}
-
+	
 	/**
 	 * Get the whole flightplan for this aircraft
 	 * 
