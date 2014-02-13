@@ -46,7 +46,7 @@ public final class Aircraft extends Entity {
 	private boolean turnRight, turnLeft;
 
 	// used for smooth turning
-	// rememeber last angle to check if it's increasing or not
+	// remember last angle to check if it's increasing or not
 	private float previousAngle = 0;
 
 	// if is increasing, switch rotation sides so it uses the 'smaller' angle

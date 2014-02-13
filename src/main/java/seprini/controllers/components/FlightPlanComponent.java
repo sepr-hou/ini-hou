@@ -13,17 +13,10 @@ public class FlightPlanComponent {
 	static Random rand = new Random();
 
 	private WaypointComponent waypoints;
-	private boolean shouldLand;
 
 	public FlightPlanComponent(WaypointComponent waypoints) {
 		this.waypoints = waypoints;
-		int landChoice = rand.nextInt(6);
-		if (landChoice == 5){
-			this.shouldLand = true;
-		} else {
-			this.shouldLand = false;
-		}
-			
+		
 
 	}
 
@@ -169,10 +162,6 @@ public class FlightPlanComponent {
 		}
 
 		return chosenExitPoint;
-	}
-
-	public boolean isShouldLand() {
-		return shouldLand;
 	}
 
 }
