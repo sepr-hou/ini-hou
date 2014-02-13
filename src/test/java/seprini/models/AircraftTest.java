@@ -27,8 +27,8 @@ public class AircraftTest {
 		ArrayList<Waypoint> plan = new ArrayList<Waypoint>();
 		plan.add(new Waypoint(3, 5, true));
 		plan.add(new Waypoint(4, 7, true));
-
-		aircraft = new Aircraft(defaultAircraft, plan, 0);
+//TODO Rob - fixed for now may need to change
+		aircraft = new Aircraft(defaultAircraft, plan, 0, false);
 
 	}
 

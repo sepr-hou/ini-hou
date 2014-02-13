@@ -278,8 +278,14 @@ public final class AircraftController extends InputListener implements
 		if (timer - lastGenerated < difficulty.getTimeBetweenGenerations() + rand.nextInt(100))
 			return null;
 
+		int landChoice = rand.nextInt(6);
+		boolean shouldLand = false;
+		if (landChoice == 5){
+			shouldLand = true;
+		}
+		
 		Aircraft newAircraft = new Aircraft(randomAircraftType(),
-				flightplan.generate(), aircraftId++);
+				flightplan.generate(), aircraftId++, shouldLand);
 
 		aircraftList.add(newAircraft);
 
