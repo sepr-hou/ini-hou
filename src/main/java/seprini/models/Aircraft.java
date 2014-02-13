@@ -563,6 +563,7 @@ public final class Aircraft extends Entity {
 		this.insertWaypoint(runwayMid);
 		this.insertWaypoint(runwayStart);
 		this.insertWaypoint(approach);
+		returnToPath();
 	}
 	
 	/**
