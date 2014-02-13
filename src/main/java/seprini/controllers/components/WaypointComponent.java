@@ -45,13 +45,13 @@ public class WaypointComponent {
 
 		// add some waypoints
 		
-		createWaypoint(150, 360, true, true);
-		createWaypoint(300, 500, true, true);
-		createWaypoint(600, 650, true, true);
-		createWaypoint(700, 200, true, true);
-		createWaypoint(850, 360, true, true);
-		createWaypoint(700, 500, true, true);
-		createWaypoint(450, 100, true, true);
+		createWaypoint(150, 360);
+		createWaypoint(300, 500);
+		createWaypoint(600, 650);
+		createWaypoint(700, 200);
+		createWaypoint(850, 360);
+		createWaypoint(700, 500);
+		createWaypoint(450, 100);
 		
 		
 		Collections.shuffle(permanentList, new Random());
@@ -59,6 +59,7 @@ public class WaypointComponent {
 
 	/**
 	 * Creates a new waypoint.
+	 *
 	 * <p>
 	 * Creates a new user waypoint when the user left-clicks within the airspace
 	 * window.
@@ -67,19 +68,15 @@ public class WaypointComponent {
 	 * 
 	 * @param x
 	 * @param y
-	 * @param permanent
 	 */
-	public boolean createWaypoint(float x, float y, final boolean permanent, final boolean visible) {
+	public boolean createWaypoint(float x, float y) {
 		Debug.msg("Creating waypoint at: " + x + ":" + y);
 
-		Debug.msg("Waypoint at: " + x + ":" + y + " created");
-
-		final Waypoint waypoint = new Waypoint(x, y, visible);
+		final Waypoint waypoint = new Waypoint(x, y, true);
 
 		// add it to the correct list according to whether it is user created or
 		// not
-		if (permanent)
-			getPermanentList().add(waypoint);
+		getPermanentList().add(waypoint);
 
 		// add it to the airspace so it is automatically drawn using root.draw()
 		controller.getAirspace().addActor(waypoint);
@@ -129,7 +126,7 @@ public class WaypointComponent {
 	 * @param y
 	 */
 	private void createEntrypoint(float x, float y) {
-		Entrypoint point = new Entrypoint(new Vector2(x, y), false);
+		Entrypoint point = new Entrypoint(new Vector2(x, y));
 		getEntryList().add(point);
 		controller.getAirspace().addActor(point);
 	}
