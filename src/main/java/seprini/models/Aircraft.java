@@ -580,6 +580,7 @@ public final class Aircraft extends Entity {
 		this.landed = false;
 		this.setSpeed(400 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 		this.mustLand = false;
+		this.desiredAltitude = 5000;
 	}
 	
 	public boolean isMustLand() {
