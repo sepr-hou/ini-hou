@@ -315,7 +315,10 @@ public final class AircraftController extends InputListener implements
 
 		if (aircraft.equals(selectedAircraft))
 			selectedAircraft = null;
-
+		
+		if (aircraft.isMustLand()){
+			score -= 1000;
+		}
 		// removes the aircraft from the list of aircrafts on screen
 		aircraftList.remove(i);
 

@@ -580,6 +580,10 @@ public final class Aircraft extends Entity {
 		this.mustLand = false;
 	}
 	
+	public boolean isMustLand() {
+		return mustLand;
+	}
+
 	/**
 	 * Get the whole flightplan for this aircraft
 	 * 
