@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test class or {@link WaypointComponent}
+ * Test class for {@link WaypointComponent}
  */
 @RunWith(JUnit4.class)
 public class WaypointComponentTest
