@@ -182,6 +182,23 @@ public class AircraftTest
 		fail("did not exit airspace in the allowed time");
 	}
 
+	@Test
+	public void testReturnToPath()
+	{
+		// Take manual control for 2 ticks and then return it
+		aircraft.act(1);
+		aircraft.turnRight(true);
+		aircraft.act(1);
+		aircraft.act(1);
+		aircraft.returnToPath();
+
+		// Must still be active
+		assertThat(aircraft.isActive(), is(true));
+
+		// Must now follow the flight plan
+		testFollowFlightPath();
+	}
+
 	/** Converts primitive integer arrays to their object equivalent */
 	private static Integer[] arrayToObject(int[] array)
 	{
