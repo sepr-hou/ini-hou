@@ -20,9 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * The game screen - all game logic starts here
- * 
- * @author Paulius, Miguel
- * 
  */
 public class GameScreen extends AbstractScreen
 {

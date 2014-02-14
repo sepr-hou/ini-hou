@@ -10,8 +10,6 @@ import seprini.screens.MenuScreen;
 /**
  * Main class, calls all subsequent classes. Initialises Input, Art classes,
  * first and last class to be called
- * 
- * @author Crembo
  */
 public class ATC extends Game
 {
@@ -31,7 +29,7 @@ public class ATC extends Game
 	}
 
 	/**
-	 * Shows the game screen
+	 * Shows the game screen based on the selected difficulty
 	 */
 	public void showGameScreen(GameDifficulty difficulty)
 	{

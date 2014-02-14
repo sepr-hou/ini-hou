@@ -16,9 +16,6 @@ import com.esotericsoftware.tablelayout.Cell;
 
 /**
  * Menu Controller
- * 
- * @author Crembo
- * 
  */
 public final class MenuController extends ChangeListener {
 

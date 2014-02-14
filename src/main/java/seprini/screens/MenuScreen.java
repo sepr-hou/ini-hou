@@ -10,9 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 /**
  * Menu Screen, displays the menu with buttons to start and exit the game
- * 
- * @author Paulius, Miguel
- * 
  */
 public class MenuScreen extends AbstractScreen
 {
