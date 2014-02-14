@@ -585,6 +585,11 @@ public final class Aircraft extends Entity {
 		this.desiredAltitude = 5000;
 	}
 	
+	/**
+	 *  Returns whether or not the aircraft is required to land.
+	 * 
+	 * @return boolean mustLand
+	 */
 	public boolean isMustLand() {
 		return mustLand;
 	}

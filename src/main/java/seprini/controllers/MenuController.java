@@ -20,7 +20,7 @@ import com.esotericsoftware.tablelayout.Cell;
  * @author Crembo
  * 
  */
-public final class MenuController extends ChangeListener implements Controller {
+public final class MenuController extends ChangeListener {
 
 	private final Table ui;
 	private final MenuScreen screen;

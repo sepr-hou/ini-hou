@@ -22,8 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public final class AircraftController extends InputListener implements
-		Controller {
+public final class AircraftController extends InputListener {
 
 	private Random rand = new Random();
 

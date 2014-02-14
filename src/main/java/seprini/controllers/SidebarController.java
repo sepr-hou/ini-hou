@@ -15,13 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.esotericsoftware.tablelayout.Cell;
 
 /**
- * Controls the sidebar in the GameScreen
- * 
- * @author Rob
- * 
+ * Controls the sidebar in the GameScreen 
  */
-public final class SidebarController extends ChangeListener implements
-		Controller {
+public final class SidebarController extends ChangeListener {
 
 	private final AircraftController aircrafts;
 
