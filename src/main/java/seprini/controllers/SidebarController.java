@@ -30,10 +30,6 @@ public final class SidebarController extends ChangeListener implements
 	private final HashMap<String, TextButton> buttons = new HashMap<String, TextButton>();
 	private final HashMap<String, Label> labels = new HashMap<String, Label>();
 
-	// store whether the allow redirection button has been
-	// clicked
-	private boolean allowRedirection = false;
-
 	private final GameScreen screen;
 
 	// UI wrappers for the controls and the buttons at the bottom
@@ -58,12 +54,13 @@ public final class SidebarController extends ChangeListener implements
 		this.sidebar = sidebar;
 		this.aircrafts = aircrafts;
 		this.screen = screen;
+		this.init();
 	}
 
 	/**
 	 * Initialise all the buttons and labels
 	 */
-	public void init() {
+	private void init() {
 
 		// wrapper for aicraft controls
 		aircraftControls = new Table();
@@ -244,7 +241,7 @@ public final class SidebarController extends ChangeListener implements
 		if (!screen.isPaused()) {
 
 			if (actor.equals(buttons.get("assignWaypoint")))
-				allowRedirection = (!allowRedirection);
+				aircrafts.setAllowRedirection(!aircrafts.allowRedirection());
 
 			if (selectedAircraft != null) {
 				if (actor.equals(buttons.get("returnToPath")))
@@ -287,17 +284,4 @@ public final class SidebarController extends ChangeListener implements
 		}
 
 	}
-
-
-
-	/**
-	 * True when then button to redirect aircraft has been clicked, false
-	 * otherwise
-	 * 
-	 * @return whether the button as be clicked or not
-	 */
-	public boolean allowRedirection() {
-		return allowRedirection;
-	}
-
 }

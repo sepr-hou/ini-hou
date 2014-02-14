@@ -44,8 +44,9 @@ public final class AircraftController extends InputListener implements
 
 	// ui related
 	private final Airspace airspace;
-	private final SidebarController sidebar;
 	private final GameScreen screen;
+
+	private boolean allowRedirection;
 
 	private int aircraftId = 0;
 
@@ -67,11 +68,9 @@ public final class AircraftController extends InputListener implements
 	 * @param airspace
 	 *            the group where all of the waypoints and aircraft will be
 	 *            added
-	 * @param sidebar
 	 * @param screen
 	 */
-	public AircraftController(GameDifficulty diff, Airspace airspace,
-			Table sidebar, GameScreen screen) {
+	public AircraftController(GameDifficulty diff, Airspace airspace, GameScreen screen) {
 		this.difficulty = diff;
 		this.airspace = airspace;
 		this.screen = screen;
@@ -83,11 +82,8 @@ public final class AircraftController extends InputListener implements
 		// add the background
 		airspace.addActor(new Map());
 
-		// manages the sidebar
-		this.sidebar = new SidebarController(sidebar, this, screen);
-
 		// manages the waypoints
-		this.waypoints = new WaypointComponent(this, this.sidebar);
+		this.waypoints = new WaypointComponent(this);
 
 		// helper for creating the flight plan of an aircraft
 		this.flightplan = new FlightPlanComponent(waypoints);
@@ -102,8 +98,6 @@ public final class AircraftController extends InputListener implements
 				.setSeparationRadius(diff.getSeparationRadius())
 				.setTexture(Art.getTextureRegion("aircraft"))
 				.setInitialSpeed(30f));
-
-		this.sidebar.init();
 	}
 
 	/**
@@ -216,9 +210,6 @@ public final class AircraftController extends InputListener implements
 
 		// sort aircraft so they appear in the right order
 		airspace.sortAircraft();
-
-		// finally, update the sidebar
-		sidebar.update();
 	}
 
 	/**
@@ -385,6 +376,9 @@ public final class AircraftController extends InputListener implements
 		return airspace;
 	}
 
+	public boolean allowRedirection() { return allowRedirection; }
+
+	public void setAllowRedirection(boolean value) { allowRedirection = value; }
 
 	@Override
 	public boolean keyDown(InputEvent event, int keycode) {
