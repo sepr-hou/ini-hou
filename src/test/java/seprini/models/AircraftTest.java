@@ -12,6 +12,7 @@ import java.util.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.isIn;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static seprhou.logic.IsCloseToFloat.closeTo;
 
 /**
@@ -32,8 +33,8 @@ public class AircraftTest
 		// Create flight plan
 		ArrayList<Waypoint> flightPlan = new ArrayList<Waypoint>();
 		flightPlan.add(new Waypoint(0, 0, true));
-		flightPlan.add(new Waypoint(100, 800, true));
-		flightPlan.add(new Waypoint(1000, 1000, true));
+		flightPlan.add(new Waypoint(100, 500, true));
+		flightPlan.add(new Waypoint(700, 700, true));
 		originalFlightPlan = new ArrayList<Waypoint>(flightPlan);
 
 		// Create aircraft type
@@ -123,6 +124,62 @@ public class AircraftTest
 		{
 			assertThat(aircraft.getAltitude(), is(initialAltitude));
 		}
+	}
+
+	@Test
+	public void testFollowFlightPath()
+	{
+		int prevWaypointsLeft = aircraft.getFlightPlan().size();
+
+		// The plane should eventually follow the waypoints and complete the flight plan by itself
+		for (int i = 0; i < 100; i++)
+		{
+			aircraft.act(1);
+
+			// Number of waypoints left muct decrease by 1 or stay the same
+			int waypointsLeft = aircraft.getFlightPlan().size();
+
+			assertThat(waypointsLeft, is(either(equalTo(prevWaypointsLeft)).or(equalTo(prevWaypointsLeft - 1))));
+			prevWaypointsLeft = waypointsLeft;
+
+			// Exit if there are no waypoints left
+			if (waypointsLeft == 0)
+				return;
+		}
+
+		// Did not complete in the time
+		fail("did not complete flight plan in the allowed time");
+	}
+
+	@Test
+	public void testManualControl()
+	{
+		// Take manual control for 2 ticks
+		aircraft.act(1);
+		aircraft.turnRight(true);
+		aircraft.act(1);
+		aircraft.act(1);
+		aircraft.turnRight(false);
+
+		// Must still be active
+		assertThat(aircraft.isActive(), is(true));
+
+		// Should exit without hitting any waypoints
+		for (int i = 0; i < 100; i++)
+		{
+			aircraft.act(1);
+
+			// Test flight plan has not changed
+			assertThat(aircraft.getFlightPlan(), hasSize(2));
+			assertThat(aircraft.getSpeed(), is(closeTo(aircraftType.getInitialSpeed())));
+
+			// If inactive, exit now
+			if (!aircraft.isActive())
+				return;
+		}
+
+		// Did not complete in the time
+		fail("did not exit airspace in the allowed time");
 	}
 
 	/** Converts primitive integer arrays to their object equivalent */
