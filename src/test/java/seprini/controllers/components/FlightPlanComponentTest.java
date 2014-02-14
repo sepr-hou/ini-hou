@@ -1,12 +1,8 @@
 package seprini.controllers.components;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.junit.runners.Parameterized;
 import seprini.controllers.AircraftController;
 import seprini.data.GameDifficulty;
