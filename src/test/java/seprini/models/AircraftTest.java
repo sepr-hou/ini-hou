@@ -45,7 +45,7 @@ public class AircraftTest
 				.setMaxTurningSpeed(50f)
 				.setRadius(15)
 				.setSeparationRadius(100)
-				.setInitialSpeed(50f);
+				.setInitialSpeed(30f);
 
 		// Create aircraft
 		aircraft = new Aircraft(aircraftType, flightPlan, 1);
@@ -63,7 +63,7 @@ public class AircraftTest
 		assertThat(aircraft.getFlightPlan(),   hasSize(originalFlightPlan.size() - 1));
 		assertThat(aircraft.getNextWaypoint(), is(originalFlightPlan.get(1)));
 		assertThat(aircraft.getCoords(),       is(originalFlightPlan.get(0).getCoords()));
-		assertThat(aircraft.getSpeed(),        is(aircraftType.getInitialSpeed()));
+		assertThat(aircraft.getSpeed(),        is(closeTo(aircraftType.getInitialSpeed())));
 	}
 
 	@Test
@@ -140,11 +140,12 @@ public class AircraftTest
 			int waypointsLeft = aircraft.getFlightPlan().size();
 
 			assertThat(waypointsLeft, is(either(equalTo(prevWaypointsLeft)).or(equalTo(prevWaypointsLeft - 1))));
-			prevWaypointsLeft = waypointsLeft;
 
 			// Exit if there are no waypoints left
 			if (waypointsLeft == 0)
 				return;
+
+			prevWaypointsLeft = waypointsLeft;
 		}
 
 		// Did not complete in the time
@@ -154,10 +155,9 @@ public class AircraftTest
 	@Test
 	public void testManualControl()
 	{
-		// Take manual control for 2 ticks
+		// Take manual control for 1 tick
 		aircraft.act(1);
 		aircraft.turnRight(true);
-		aircraft.act(1);
 		aircraft.act(1);
 		aircraft.turnRight(false);
 
