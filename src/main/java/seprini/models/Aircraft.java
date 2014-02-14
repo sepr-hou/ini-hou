@@ -205,22 +205,17 @@ public final class Aircraft extends Entity {
 	 */
 	public void act(float delta) {
 
-		if (!isActive)
+		if (!isActive || landed)
 			return;
-		if (landed)
-			return;
+
 		// handle aircraft rotation
 		rotateAircraft(delta);
 
+		// update altitude
+		updateAltitude(delta);
+
 		// finally updating coordinates
 		coords.add(velocity.cpy().scl(delta));
-
-		// allows for smooth decent/ascent
-		if (altitude > desiredAltitude) {
-			this.altitude -= aircraftType.getMaxClimbRate() * delta;
-		} else if (altitude < desiredAltitude) {
-			this.altitude += aircraftType.getMaxClimbRate() * delta;
-		}
 
 		// updating bounds to make sure the aircraft is clickable
 		this.setBounds(getX() - getWidth() / 2, getY() - getWidth() / 2,
@@ -388,6 +383,28 @@ public final class Aircraft extends Entity {
 
 			setRotation(newRotation);
 			velocity.setAngle(getRotation());
+		}
+	}
+
+	/**
+	 * Updates the altitude according to the current desiredAltitude value
+	 */
+	private void updateAltitude(float delta)
+	{
+		float maxAmount = aircraftType.getMaxClimbRate() * delta;
+
+		// Move altititude value at most maxAmount units
+		if (desiredAltitude > altitude)
+		{
+			altitude += maxAmount;
+			if (altitude > desiredAltitude)
+				altitude = desiredAltitude;
+		}
+		else if (desiredAltitude < altitude)
+		{
+			altitude -= maxAmount;
+			if (altitude < desiredAltitude)
+				altitude = desiredAltitude;
 		}
 	}
 
