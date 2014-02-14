@@ -19,7 +19,6 @@ import seprini.screens.GameScreen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public final class AircraftController extends InputListener implements
@@ -124,7 +123,7 @@ public final class AircraftController extends InputListener implements
 
 			// Update aircraft.
 			planeI.act(delta);
-			planeI.isBreaching(false);
+			planeI.setBreaching(false);
 
 			// Collision Detection + Separation breach detection.
 			for (Aircraft planeJ : aircraftList) {
@@ -239,8 +238,8 @@ public final class AircraftController extends InputListener implements
 	 */
 	private void separationRulesBreached(Aircraft a, Aircraft b) {
 		// for scoring mechanisms, if applicable
-		a.isBreaching(true);
-		b.isBreaching(true);
+		a.setBreaching(true);
+		b.setBreaching(true);
 
 		breachingSound = true;
 	}
