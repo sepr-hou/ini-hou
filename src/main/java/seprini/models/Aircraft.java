@@ -107,7 +107,7 @@ public final class Aircraft extends Entity {
 	}
 
 	/**
-	 * Additional drawing for if the aircraft is breaching
+	 * Additional drawing for if the aircraft is breaching or is required to land
 	 * 
 	 * @param batch
 	 */
@@ -153,7 +153,7 @@ public final class Aircraft extends Entity {
 			batch.begin();
 		}
 		
-		// if the aircraft should land, draw a circle
+		// if the aircraft should land, draw a small blue circle
 		// around it
 		if (mustLand) {
 			batch.end();
@@ -226,7 +226,7 @@ public final class Aircraft extends Entity {
 		this.setBounds(getX() - getWidth() / 2, getY() - getWidth() / 2,
 				getWidth(), getHeight());
 
-		//Landing speed and altitude changes
+		//Reduce speed and altitude between landing waypoints to simulate a smooth landing.
 		Waypoint approach1 = new Waypoint(230, 275, false);
 		Waypoint approach2 = new Waypoint(310, 195, false);
 		if (this.getNextWaypoint().getCoords().equals(approach1.getCoords()) || this.getNextWaypoint().getCoords().equals(approach2.getCoords())){
@@ -328,7 +328,7 @@ public final class Aircraft extends Entity {
 		float baseRate = aircraftType.getMaxTurningSpeed() * delta;
 		float rate = 0;
 
-		// Calculate turning rate
+		// Calculate turning rate and give manual control to user
 		if (turnRight)
 		{
 			ignorePath = true;
@@ -421,6 +421,8 @@ public final class Aircraft extends Entity {
 					// Collided with normal waypoint
 					AircraftController.score += 111;
 					Debug.msg("Aircraft id " + id + ": Hit waypoint");
+					// Sets aircraft speed to 0 if it has reached the middle of runway.
+					// Only occurs when landing as runwayMid can only be part of a landing flight plan.
 					Waypoint runwayMid = new Waypoint(387, 335, false);
 					if (waypoints.get(0).getCoords().equals(runwayMid.getCoords())){
 						this.setSpeed(0.00000000001f);
@@ -482,7 +484,7 @@ public final class Aircraft extends Entity {
 	}
 
 	/**
-	 * Increases rate of altitude change
+	 * Increases altitude smoothly
 	 */
 	public void increaseAltitude() {
 		if (desiredAltitude + ALTITUDE_CHANGE > 15000)
@@ -492,7 +494,7 @@ public final class Aircraft extends Entity {
 	}
 
 	/**
-	 * Decreasing rate of altitude change
+	 * Decreasing altitude smoothly
 	 */
 	public void decreaseAltitude() {
 		if (desiredAltitude - ALTITUDE_CHANGE < 5000)

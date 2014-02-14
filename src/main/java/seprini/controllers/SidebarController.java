@@ -104,40 +104,40 @@ public final class SidebarController extends ChangeListener implements
 
 		aircraftControls.row();
 
-		createButton("returnToPath", " Return to Path", aircraftControls, false)
+		createButton("returnToPath", " Return to Path (R)", aircraftControls, false)
 				.width(200).colspan(2);
 
 		aircraftControls.row();
 
-		createButton("accelerate", " Accelerate", aircraftControls, false)
+		createButton("accelerate", " Accelerate (E)", aircraftControls, false)
 				.width(200).colspan(2);
 		
 		aircraftControls.row().colspan(2);
 
-		createButton("decelerate", " Decelerate", aircraftControls, false)
+		createButton("decelerate", " Decelerate (Q)", aircraftControls, false)
 				.width(200);
 		
 		aircraftControls.row().colspan(2);
 		
-		createButton("takeOff", "Take Off", aircraftControls, false).width(200);
+		createButton("takeOff", "Take Off (T)", aircraftControls, false).width(200);
 
 		aircraftControls.row().colspan(2);
 		
-		createButton("land", "Land", aircraftControls, false).width(200);
+		createButton("land", "Land (G)", aircraftControls, false).width(200);
 
 		aircraftControls.row().spaceTop(100);
 
-		createButton("up", " Up", aircraftControls, false).width(100)
+		createButton("up", " Up (W)", aircraftControls, false).width(100)
 				.colspan(2);
 
 		aircraftControls.row();
 
-		createButton("left", " Left", aircraftControls, true).width(100);
-		createButton("right", "Right", aircraftControls, true).width(100);
+		createButton("left", " Left (A)", aircraftControls, true).width(100);
+		createButton("right", "Right (D)", aircraftControls, true).width(100);
 
 		aircraftControls.row();
 
-		createButton("down", "Down", aircraftControls, false).width(100)
+		createButton("down", "Down (S)", aircraftControls, false).width(100)
 				.colspan(2);
 
 		aircraftControls.row();

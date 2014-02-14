@@ -396,6 +396,9 @@ public final class AircraftController extends InputListener implements
 
 
 	@Override
+	/**
+	 * Enables Keyboard Shortcuts as alternatives to the on screen buttons
+	 */
 	public boolean keyDown(InputEvent event, int keycode) {
 		if (selectedAircraft != null && !screen.isPaused()) {
 
@@ -432,6 +435,9 @@ public final class AircraftController extends InputListener implements
 	}
 
 	@Override
+	/**
+	 * Enables Keyboard Shortcuts to disable the turn left and turn right buttons on screen
+	 */
 	public boolean keyUp(InputEvent event, int keycode) {
 
 		if (selectedAircraft != null) {
