@@ -14,7 +14,7 @@ import seprini.models.Airspace;
 import seprini.models.Map;
 import seprini.models.Waypoint;
 import seprini.models.types.AircraftType;
-import seprini.screens.GameScreen;
+import seprini.screens.ScreenBase;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -43,7 +43,7 @@ public final class AircraftController extends InputListener implements
 
 	// ui related
 	private final Airspace airspace;
-	private final GameScreen screen;
+	private final ScreenBase screen;
 
 	private boolean allowRedirection;
 
@@ -69,7 +69,7 @@ public final class AircraftController extends InputListener implements
 	 *            added
 	 * @param screen
 	 */
-	public AircraftController(GameDifficulty diff, Airspace airspace, GameScreen screen) {
+	public AircraftController(GameDifficulty diff, Airspace airspace, ScreenBase screen) {
 		this.difficulty = diff;
 		this.airspace = airspace;
 		this.screen = screen;

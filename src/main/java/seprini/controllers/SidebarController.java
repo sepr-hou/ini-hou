@@ -5,7 +5,7 @@ import java.util.HashMap;
 import seprini.data.Art;
 import seprini.data.Config;
 import seprini.models.Aircraft;
-import seprini.screens.GameScreen;
+import seprini.screens.ScreenBase;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -30,7 +30,7 @@ public final class SidebarController extends ChangeListener implements
 	private final HashMap<String, TextButton> buttons = new HashMap<String, TextButton>();
 	private final HashMap<String, Label> labels = new HashMap<String, Label>();
 
-	private final GameScreen screen;
+	private final ScreenBase screen;
 
 	// UI wrappers for the controls and the buttons at the bottom
 	private Table sidebar, aircraftControls, bottomButtons;
@@ -49,8 +49,7 @@ public final class SidebarController extends ChangeListener implements
 	 * @param screen
 	 *            for changing screens once Menu or Pause have been clicked
 	 */
-	public SidebarController(Table sidebar, AircraftController aircrafts,
-			GameScreen screen) {
+	public SidebarController(Table sidebar, AircraftController aircrafts, ScreenBase screen) {
 		this.sidebar = sidebar;
 		this.aircrafts = aircrafts;
 		this.screen = screen;

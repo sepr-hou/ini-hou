@@ -44,6 +44,16 @@ public class Art {
 	 */
 	private final static Skin skin = new Skin();
 
+	/** If true, art is replaced by fake objects used for testing */
+	private static boolean useFakeArt = false;
+
+	/**
+	 * Enables / disables fake art objects
+	 *
+	 * @param value if true, getters return fake artwork objects
+	 */
+	static void setUseFakeArt(boolean value) { useFakeArt = value; }
+
 	/**
 	 * Initialises loading of texture, should be called once
 	 * 
@@ -170,6 +180,9 @@ public class Art {
 	 * @return the required texture region or null if doesn't exist
 	 */
 	public static TextureRegion getTextureRegion(String key) {
+		if (useFakeArt)
+			return new TextureRegion();
+
 		if (!textures.containsKey(key))
 			return null;
 
@@ -183,6 +196,9 @@ public class Art {
 	 * @return the required sound or null if key doesn't exist
 	 */
 	public static Playable getSound(String key) {
+		if (useFakeArt)
+			return new FakeSoundImpl();
+
 		if (!sounds.containsKey(key))
 			return null;
 
@@ -257,5 +273,15 @@ public class Art {
 
 		@Override
 		public void dispose() { music.dispose();}
+	}
+
+	private static class FakeSoundImpl implements Playable
+	{
+		@Override public void play() {}
+		@Override public void playLooping() {}
+		@Override public void play(float volume) {}
+		@Override public void playLooping(float volume) {}
+		@Override public void stop() {}
+		@Override public void dispose() {}
 	}
 }
