@@ -91,6 +91,23 @@ public class AircraftControllerTest extends FakeArtEnabler
 		assertThat(screenBase.gameEnded, is(true));
 	}
 
+	@Test
+	public void testMaxAircraft()
+	{
+		// Generate airspace with 2 aircraft in it (with limit on 2)
+		GameDifficulty difficulty = new GameDifficulty(2, 0, 0, 0);
+		AircraftController controller = new AircraftController(difficulty, new Airspace(), null);
+		controller.getAircraftList().add(makeFakeAircraft(500, 500));
+		controller.getAircraftList().add(makeFakeAircraft(100, 100));
+
+		// Keep refreshing, no more should appear
+		for (int i = 0; i < 100; i++)
+		{
+			controller.update(1);
+			assertThat(controller.getAircraftList(), hasSize(2));
+		}
+	}
+
 	/**
 	 * Implementation of ScreenBase which detects when the game ends
 	 */
