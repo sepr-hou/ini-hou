@@ -3,6 +3,7 @@ package seprini.screens;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import seprini.ATC;
 import seprini.controllers.AircraftController;
+import seprini.controllers.SidebarController;
 import seprini.data.Art;
 import seprini.data.Config;
 import seprini.data.GameDifficulty;
@@ -45,8 +46,11 @@ public class GameScreen extends AbstractScreen
 
 		// create and add the Airspace group, contains aircraft and waypoints
 		Airspace airspace = new Airspace();
-		controller = new AircraftController(diff, airspace, sidebar, this);
+		controller = new AircraftController(diff, airspace, this);
 		root.setKeyboardFocus(airspace);
+
+		// create sidebar
+		final SidebarController sidebarController = new SidebarController(sidebar, controller, this);
 
 		// set controller update as first actor
 		ui.addActor(new Actor()
@@ -55,6 +59,7 @@ public class GameScreen extends AbstractScreen
 			public void act(float delta)
 			{
 				controller.update(delta);
+				sidebarController.update();
 			}
 		});
 

@@ -23,12 +23,9 @@ public class WaypointComponent {
 	private ArrayList<Exitpoint> exitList = new ArrayList<Exitpoint>();
 
 	private final AircraftController controller;
-	private final SidebarController sidebar;
 	
-	public WaypointComponent(AircraftController controller,
-			SidebarController sidebar) {
+	public WaypointComponent(AircraftController controller) {
 
-		this.sidebar = sidebar;
 		this.controller = controller;
 
 		// add entry waypoints to entryList
@@ -92,7 +89,7 @@ public class WaypointComponent {
 			public boolean touchDown(InputEvent event, float tX, float tY,
 					int pointer, int button) {
 
-				if (button == Buttons.LEFT && sidebar.allowRedirection()) {
+				if (button == Buttons.LEFT && controller.allowRedirection()) {
 					controller.redirectAircraft(waypoint);
 					return true;
 				}

@@ -2,135 +2,209 @@ package seprini.models;
 
 import org.junit.Before;
 import org.junit.Test;
-import seprini.data.Art;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import seprini.data.Config;
 import seprini.models.types.AircraftType;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.isIn;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+import static seprhou.logic.IsCloseToFloat.closeTo;
 
-public class AircraftTest {
+/**
+ * Test class for {@link Aircraft}
+ */
+@RunWith(JUnit4.class)
+public class AircraftTest
+{
+	private static final Integer[] OBJECT_ALTITUDES = arrayToObject(Config.ALTITUDES);
 
 	private Aircraft aircraft;
+	private AircraftType aircraftType;
+	private List<Waypoint> originalFlightPlan;
 
 	@Before
-	public void setUp() throws Exception {
-		AircraftType defaultAircraft = new AircraftType();
+	public void setupAircraft()
+	{
+		// Create flight plan
+		ArrayList<Waypoint> flightPlan = new ArrayList<Waypoint>();
+		flightPlan.add(new Waypoint(0, 0, true));
+		flightPlan.add(new Waypoint(100, 500, true));
+		flightPlan.add(new Waypoint(700, 700, true));
+		originalFlightPlan = new ArrayList<Waypoint>(flightPlan);
 
-		defaultAircraft
-				.setMaxClimbRate(10).setMaxSpeed(0.8f).setMaxTurningSpeed(0.4f)
-				.setRadius(15).setSeparationRadius(100)
-				.setTexture(Art.getTextureRegion("aircraft"))
-				.setInitialSpeed(0.5f);
+		// Create aircraft type
+		aircraftType = new AircraftType()
+				.setMaxClimbRate(100)
+				.setMinSpeed(30f)
+				.setMaxSpeed(90f)
+				.setMaxTurningSpeed(50f)
+				.setRadius(15)
+				.setSeparationRadius(100)
+				.setInitialSpeed(30f);
 
-		ArrayList<Waypoint> plan = new ArrayList<Waypoint>();
-		plan.add(new Waypoint(3, 5, true));
-		plan.add(new Waypoint(4, 7, true));
-//TODO Rob - fixed for now may need to change
-		aircraft = new Aircraft(defaultAircraft, plan, 0, false);
+		// Create aircraft
+		aircraft = new Aircraft(aircraftType, flightPlan, 1, false);
+	}
 
+	/**
+	 * Tests the initial state of the aircraft
+	 */
+	@Test
+	public void testInitialState()
+	{
+		assertThat(aircraft.isActive(),        is(true));
+		assertThat(aircraft.isBreaching(),     is(false));
+		assertThat(aircraft.getAltitude(),     isIn(OBJECT_ALTITUDES));
+		assertThat(aircraft.getFlightPlan(),   hasSize(originalFlightPlan.size() - 1));
+		assertThat(aircraft.getNextWaypoint(), is(originalFlightPlan.get(1)));
+		assertThat(aircraft.getCoords(),       is(originalFlightPlan.get(0).getCoords()));
+		assertThat(aircraft.getSpeed(),        is(closeTo(aircraftType.getInitialSpeed())));
 	}
 
 	@Test
-	public void testAdditionalDraw() {
-		// fail("Not yet implemented");
-	}
+	public void testSpeedChanges()
+	{
+		float initialSpeed = aircraft.getSpeed();
 
-	@Test
-	public void testAircraft() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAct() {
-		// fail("Not yet implemented");
-
-	}
-
-	@Test
-	public void testInsertWaypoint() {
-		Waypoint newWaypoint = new Waypoint(7, 8, true);
-		aircraft.insertWaypoint(newWaypoint);
-		assertEquals(aircraft.getFlightPlan().get(0), newWaypoint);
-
-	}
-
-	/*
-	@Test
-	public void testIncreaseSpeed() {
+		// Test increase
 		aircraft.increaseSpeed();
-		assertEquals(1.1f, aircraft.getSpeed(), 100);
+		aircraft.act(1);
+		assertThat(aircraft.getSpeed(), is(greaterThan(initialSpeed)));
 
-	}
-
-	@Test
-	public void testDecreaseSpeed() {
+		// Test decrease back to original speed
 		aircraft.decreaseSpeed();
-		assertEquals(0.9f, aircraft.getSpeed(), 0);
-	}
-	*/
-
-	@Test
-	public void testIncreaseAltitude() {
-
+		aircraft.act(1);
+		assertThat(aircraft.getSpeed(), is(closeTo(initialSpeed)));
 	}
 
 	@Test
-	public void testDecreaseAltitude() {
+	public void testIncreaseAltitude()
+	{
+		int initialAltitude = aircraft.getAltitude();
 
-	}
+		// Increase altitude
+		aircraft.increaseAltitude();
+		aircraft.act(1);
 
-	@Test
-	public void testTurnRight() {
-	}
-
-	@Test
-	public void testTurnLeft() {
-	}
-
-	@Test
-	public void testGetRadius() {
-
-		assertEquals(15f, aircraft.getRadius(), 0);
-	}
-
-	@Test
-	public void testGetSeparationRadius() {
-		float result = aircraft.getSeparationRadius();
-		assertEquals(result, 100, 0);
-	}
-
-	@Test
-	public void testIsBreaching() {
-	}
-
-	@Test
-	public void testGetAltitude() {
-		float result = aircraft.getAltitude();
-		if (result == 5000) {
-			assertEquals(5000, result, 0);
-		} else if (result == 10000) {
-			assertEquals(10000, result, 0);
-		} else if (result == 15000) {
-			assertEquals(15000, result, 0);
+		// Test result
+		if (initialAltitude != 15000)
+		{
+			// Should have got closer to altitude and eventually get to it
+			int nextHigher = initialAltitude + 5000;
+			assertThat(aircraft.getAltitude(), is(both(greaterThan(initialAltitude)).and(lessThanOrEqualTo(nextHigher))));
+		}
+		else
+		{
+			assertThat(aircraft.getAltitude(), is(initialAltitude));
 		}
 	}
 
-	/*
 	@Test
-	public void testGetSpeed() {
-		float result = aircraft.getSpeed();
-		assertEquals(1f, result, 0);
+	public void testDecreaseAltitude()
+	{
+		int initialAltitude = aircraft.getAltitude();
+
+		// Decrease altitude
+		aircraft.decreaseAltitude();
+		aircraft.act(1);
+
+		// Test result
+		if (initialAltitude != 5000)
+		{
+			// Should have got closer to altitude and eventually get to it
+			int nextLower = initialAltitude - 5000;
+			assertThat(aircraft.getAltitude(), is(both(lessThan(initialAltitude)).and(greaterThanOrEqualTo(nextLower))));
+		}
+		else
+		{
+			assertThat(aircraft.getAltitude(), is(initialAltitude));
+		}
 	}
-	*/
 
 	@Test
-	public void testIsActive() {
-		assertTrue(aircraft.isActive());
+	public void testFollowFlightPath()
+	{
+		int prevWaypointsLeft = aircraft.getFlightPlan().size();
+
+		// The plane should eventually follow the waypoints and complete the flight plan by itself
+		for (int i = 0; i < 100; i++)
+		{
+			aircraft.act(1);
+
+			// Number of waypoints left muct decrease by 1 or stay the same
+			int waypointsLeft = aircraft.getFlightPlan().size();
+
+			assertThat(waypointsLeft, is(either(equalTo(prevWaypointsLeft)).or(equalTo(prevWaypointsLeft - 1))));
+
+			// Exit if there are no waypoints left
+			if (waypointsLeft == 0)
+				return;
+
+			prevWaypointsLeft = waypointsLeft;
+		}
+
+		// Did not complete in the time
+		fail("did not complete flight plan in the allowed time");
 	}
 
 	@Test
-	public void testSelected() {
+	public void testManualControl()
+	{
+		// Take manual control for 1 tick
+		aircraft.act(1);
+		aircraft.turnRight(true);
+		aircraft.act(1);
+		aircraft.turnRight(false);
+
+		// Must still be active
+		assertThat(aircraft.isActive(), is(true));
+
+		// Should exit without hitting any waypoints
+		for (int i = 0; i < 100; i++)
+		{
+			aircraft.act(1);
+
+			// Test flight plan has not changed
+			assertThat(aircraft.getFlightPlan(), hasSize(2));
+			assertThat(aircraft.getSpeed(), is(closeTo(aircraftType.getInitialSpeed())));
+
+			// If inactive, exit now
+			if (!aircraft.isActive())
+				return;
+		}
+
+		// Did not complete in the time
+		fail("did not exit airspace in the allowed time");
+	}
+
+	@Test
+	public void testReturnToPath()
+	{
+		// Take manual control for 2 ticks and then return it
+		aircraft.act(1);
+		aircraft.turnRight(true);
+		aircraft.act(1);
+		aircraft.act(1);
+		aircraft.returnToPath();
+
+		// Must still be active
+		assertThat(aircraft.isActive(), is(true));
+
+		// Must now follow the flight plan
+		testFollowFlightPath();
+	}
+
+	/** Converts primitive integer arrays to their object equivalent */
+	private static Integer[] arrayToObject(int[] array)
+	{
+		Integer[] result = new Integer[array.length];
+		for (int i = 0; i < array.length; i++)
+			result[i] = array[i];
+		return result;
 	}
 }

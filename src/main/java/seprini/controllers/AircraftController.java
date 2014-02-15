@@ -14,12 +14,11 @@ import seprini.models.Airspace;
 import seprini.models.Map;
 import seprini.models.Waypoint;
 import seprini.models.types.AircraftType;
-import seprini.screens.GameScreen;
+import seprini.screens.ScreenBase;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public final class AircraftController extends InputListener {
@@ -43,8 +42,9 @@ public final class AircraftController extends InputListener {
 
 	// ui related
 	private final Airspace airspace;
-	private final SidebarController sidebar;
-	private final GameScreen screen;
+	private final ScreenBase screen;
+
+	private boolean allowRedirection;
 
 	private int aircraftId = 0;
 
@@ -66,11 +66,9 @@ public final class AircraftController extends InputListener {
 	 * @param airspace
 	 *            the group where all of the waypoints and aircraft will be
 	 *            added
-	 * @param sidebar
 	 * @param screen
 	 */
-	public AircraftController(GameDifficulty diff, Airspace airspace,
-			Table sidebar, GameScreen screen) {
+	public AircraftController(GameDifficulty diff, Airspace airspace, ScreenBase screen) {
 		this.difficulty = diff;
 		this.airspace = airspace;
 		this.screen = screen;
@@ -82,11 +80,8 @@ public final class AircraftController extends InputListener {
 		// add the background
 		airspace.addActor(new Map());
 
-		// manages the sidebar
-		this.sidebar = new SidebarController(sidebar, this, screen);
-
 		// manages the waypoints
-		this.waypoints = new WaypointComponent(this, this.sidebar);
+		this.waypoints = new WaypointComponent(this);
 
 		// helper for creating the flight plan of an aircraft
 		this.flightplan = new FlightPlanComponent(waypoints);
@@ -101,8 +96,6 @@ public final class AircraftController extends InputListener {
 				.setSeparationRadius(diff.getSeparationRadius())
 				.setTexture(Art.getTextureRegion("aircraft"))
 				.setInitialSpeed(30f));
-
-		this.sidebar.init();
 	}
 
 	/**
@@ -129,7 +122,7 @@ public final class AircraftController extends InputListener {
 
 			// Update aircraft.
 			planeI.act(delta);
-			planeI.isBreaching(false);
+			planeI.setBreaching(false);
 
 			// Collision Detection + Separation breach detection.
 			for (Aircraft planeJ : aircraftList) {
@@ -215,9 +208,6 @@ public final class AircraftController extends InputListener {
 
 		// sort aircraft so they appear in the right order
 		airspace.sortAircraft();
-
-		// finally, update the sidebar
-		sidebar.update();
 	}
 
 	/**
@@ -247,8 +237,8 @@ public final class AircraftController extends InputListener {
 	 */
 	private void separationRulesBreached(Aircraft a, Aircraft b) {
 		// for scoring mechanisms, if applicable
-		a.isBreaching(true);
-		b.isBreaching(true);
+		a.setBreaching(true);
+		b.setBreaching(true);
 
 		breachingSound = true;
 	}
@@ -393,6 +383,9 @@ public final class AircraftController extends InputListener {
 		return airspace;
 	}
 
+	public boolean allowRedirection() { return allowRedirection; }
+
+	public void setAllowRedirection(boolean value) { allowRedirection = value; }
 
 	@Override
 	/**

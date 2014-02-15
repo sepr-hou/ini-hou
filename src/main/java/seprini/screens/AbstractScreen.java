@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import seprini.data.Config;
 
-public class AbstractScreen implements Screen
+public class AbstractScreen implements ScreenBase
 {
 	public final static ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -48,13 +48,16 @@ public class AbstractScreen implements Screen
 	 *
 	 * @return root game object
 	 */
+	@Override
 	public ATC getGame()
 	{
 		return atc;
 	}
 
+	@Override
 	public boolean isPaused() { return paused; }
 
+	@Override
 	public void setPaused(boolean paused) { this.paused = paused; }
 
 	@Override

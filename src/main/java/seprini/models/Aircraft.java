@@ -633,7 +633,9 @@ public final class Aircraft extends Entity {
 		return aircraftType.getSeparationRadius();
 	}
 
-	public void isBreaching(boolean is) {
+	public boolean isBreaching() { return breaching; }
+
+	public void setBreaching(boolean is) {
 		this.breaching = is;
 	}
 

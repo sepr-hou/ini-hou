@@ -5,7 +5,7 @@ import java.util.HashMap;
 import seprini.data.Art;
 import seprini.data.Config;
 import seprini.models.Aircraft;
-import seprini.screens.GameScreen;
+import seprini.screens.ScreenBase;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -26,11 +26,7 @@ public final class SidebarController extends ChangeListener {
 	private final HashMap<String, TextButton> buttons = new HashMap<String, TextButton>();
 	private final HashMap<String, Label> labels = new HashMap<String, Label>();
 
-	// store whether the allow redirection button has been
-	// clicked
-	private boolean allowRedirection = false;
-
-	private final GameScreen screen;
+	private final ScreenBase screen;
 
 	// UI wrappers for the controls and the buttons at the bottom
 	private Table sidebar, aircraftControls, bottomButtons;
@@ -49,17 +45,17 @@ public final class SidebarController extends ChangeListener {
 	 * @param screen
 	 *            for changing screens once Menu or Pause have been clicked
 	 */
-	public SidebarController(Table sidebar, AircraftController aircrafts,
-			GameScreen screen) {
+	public SidebarController(Table sidebar, AircraftController aircrafts, ScreenBase screen) {
 		this.sidebar = sidebar;
 		this.aircrafts = aircrafts;
 		this.screen = screen;
+		this.init();
 	}
 
 	/**
 	 * Initialise all the buttons and labels
 	 */
-	public void init() {
+	private void init() {
 
 		// wrapper for aicraft controls
 		aircraftControls = new Table();
@@ -240,7 +236,7 @@ public final class SidebarController extends ChangeListener {
 		if (!screen.isPaused()) {
 
 			if (actor.equals(buttons.get("assignWaypoint")))
-				allowRedirection = (!allowRedirection);
+				aircrafts.setAllowRedirection(!aircrafts.allowRedirection());
 
 			if (selectedAircraft != null) {
 				if (actor.equals(buttons.get("returnToPath")))
@@ -283,17 +279,4 @@ public final class SidebarController extends ChangeListener {
 		}
 
 	}
-
-
-
-	/**
-	 * True when then button to redirect aircraft has been clicked, false
-	 * otherwise
-	 * 
-	 * @return whether the button as be clicked or not
-	 */
-	public boolean allowRedirection() {
-		return allowRedirection;
-	}
-
 }
