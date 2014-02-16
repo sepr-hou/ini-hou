@@ -48,14 +48,14 @@ public class EndScreen extends AbstractScreen
 						+ "In addition you achieved a score of "
 						+ Math.round(score)
 						+ ".\n"
-						+ "\nPRESS ESC TO RETURN TO MAIN MENU ",
+						+ "\nPRESS ESC TO RETURN TO THE MENU ",
 				Art.getSkin(), "textStyle");
 
 		ui.add(text).center();
 
 		ui.row();
 
-		TextButton button = new TextButton("Main Menu", Art.getSkin());
+		TextButton button = new TextButton("Menu", Art.getSkin());
 
 		button.addListener(new ChangeListener() {
 			@Override

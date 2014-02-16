@@ -101,4 +101,5 @@ public class GameScreen extends AbstractScreen
 					Color.BLACK, root.getSpriteBatch(), false, 1);
 		}
 	}
+
 }
