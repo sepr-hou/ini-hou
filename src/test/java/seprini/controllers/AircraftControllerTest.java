@@ -1,11 +1,9 @@
 package seprini.controllers;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import seprini.ATC;
-import seprini.data.Config;
 import seprini.data.FakeArtEnabler;
 import seprini.data.GameDifficulty;
 import seprini.models.Aircraft;
@@ -17,10 +15,7 @@ import seprini.screens.ScreenBase;
 import java.util.*;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.isIn;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static seprhou.logic.IsCloseToFloat.closeTo;
 
 /**
  * Test class for {@link AircraftController}

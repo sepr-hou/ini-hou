@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Random;
 
 import seprini.controllers.AircraftController;
-import seprini.controllers.SidebarController;
 import seprini.data.Debug;
 import seprini.models.Entrypoint;
 import seprini.models.Exitpoint;

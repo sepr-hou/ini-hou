@@ -1,6 +1,5 @@
 package seprini.screens;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import seprini.ATC;

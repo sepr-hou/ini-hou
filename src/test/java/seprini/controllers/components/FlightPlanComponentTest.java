@@ -12,7 +12,6 @@ import seprini.models.Waypoint;
 import java.util.*;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.isIn;
 import static org.junit.Assert.assertThat;
 import static seprhou.logic.IsDistinct.distinct;
 
