@@ -10,7 +10,6 @@ import seprini.models.types.AircraftType;
 import java.util.*;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.isIn;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static seprhou.logic.IsCloseToFloat.closeTo;
