@@ -422,6 +422,12 @@ public final class AircraftController extends InputListener {
 				selectedAircraft.takeOff();
 
 		}
+		if (keycode == Keys.SPACE)
+			screen.setPaused(!screen.isPaused());
+		
+		if (keycode == Keys.ESCAPE)
+			Art.getSound("ambience").stop();
+			screen.getGame().showMenuScreen();
 
 		return false;
 	}
