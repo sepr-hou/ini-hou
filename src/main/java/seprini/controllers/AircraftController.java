@@ -348,7 +348,7 @@ public final class AircraftController extends InputListener {
 	public void redirectAircraft(Waypoint waypoint) {
 		Debug.msg("Redirecting aircraft " + 0 + " to " + waypoint);
 
-		if (getSelectedAircraft() == null)
+		if (getSelectedAircraft() == null || getSelectedAircraft().isLanded() == true)
 			return;
 
 		getSelectedAircraft().insertWaypoint(waypoint);
