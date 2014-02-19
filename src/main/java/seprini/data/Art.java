@@ -109,20 +109,13 @@ public class Art {
 		TextButtonStyle textButtonStyle = new TextButtonStyle();
 		textButtonStyle.up = skin.newDrawable("white", 0.07f, 0.1f, 0.22f, 1);
 		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-		textButtonStyle.checked = skin.newDrawable("white", 0.07f, 0.1f, 0.22f,
-				1);
 		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
 		textButtonStyle.font = skin.getFont("default");
 		skin.add("default", textButtonStyle);
 
-		// Configure a TextButtonStyle and name it "default". Skin resources are
-		// stored by type, so this doesn't overwrite the font.
-		TextButtonStyle toggleStyle = new TextButtonStyle();
-		toggleStyle.up = skin.newDrawable("white", 0.07f, 0.1f, 0.22f, 1);
-		toggleStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+		// Toggle style is the same as default, except it has a checked colour as well
+		TextButtonStyle toggleStyle = new TextButtonStyle(textButtonStyle);
 		toggleStyle.checked = skin.newDrawable("white", Color.BLUE);
-		toggleStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-		toggleStyle.font = skin.getFont("default");
 		skin.add("toggle", toggleStyle);
 
 		// labelStyle with background
