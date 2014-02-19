@@ -173,7 +173,11 @@ public final class SidebarController extends ChangeListener {
 			speedText = " Speed: " + Math.round(selectedAircraft.getSpeed()
 							* Config.AIRCRAFT_SPEED_MULTIPLIER) + "km/h";
 		}
-			
+
+		// force left + right buttons to be checked correctly
+		buttons.get("left").setChecked (selectedAircraft != null && selectedAircraft.isTurningLeft());
+		buttons.get("right").setChecked(selectedAircraft != null && selectedAircraft.isTurningRight());
+
 		// update aircraft altitude text
 		labels.get("altitude").setText(altitudeText);
 

@@ -519,12 +519,24 @@ public final class Aircraft extends Entity {
 
 		this.desiredAltitude -= ALTITUDE_CHANGE;
 	}
+
+	public boolean isTurningRight() {
+		return turnRight;
+	}
+
+	public boolean isTurningLeft() {
+		return turnLeft;
+	}
 	
 	public void turnRight(boolean set) {
+		if (set)
+			turnLeft = false;
 		turnRight = set;
 	}
 
 	public void turnLeft(boolean set) {
+		if (set)
+			turnRight = false;
 		turnLeft = set;
 	}
 
