@@ -7,6 +7,7 @@ import seprini.ATC;
 import seprini.data.FakeArtEnabler;
 import seprini.data.GameDifficulty;
 import seprini.models.Aircraft;
+import seprini.models.Airport;
 import seprini.models.Airspace;
 import seprini.models.Waypoint;
 import seprini.models.types.AircraftType;
@@ -38,7 +39,7 @@ public class AircraftControllerTest extends FakeArtEnabler
 		flightPlan.add(new Waypoint(x, y, false));
 		flightPlan.add(new Waypoint(1000, 1000, false));
 
-		Aircraft aircraft = new Aircraft(aircraftType, flightPlan, 1, false);
+		Aircraft aircraft = new Aircraft(aircraftType, flightPlan, 1, false, new Airport());
 
 		// Force middle altitude
 		if (aircraft.getAltitude() < 10000)
@@ -60,7 +61,7 @@ public class AircraftControllerTest extends FakeArtEnabler
 	{
 		// Create 2 aircraft in different places - should not collide
 		ScreenBaseImpl screenBase = new ScreenBaseImpl();
-		AircraftController controller = new AircraftController(getNoAircraftDifficulty(), new Airspace(), screenBase);
+		AircraftController controller = new AircraftController(getNoAircraftDifficulty(), new Airspace(), new Airport(), screenBase);
 
 		controller.getAircraftList().add(makeFakeAircraft(100, 100));
 		controller.getAircraftList().add(makeFakeAircraft(400, 100));
@@ -76,7 +77,7 @@ public class AircraftControllerTest extends FakeArtEnabler
 	{
 		// Create 2 aircraft in same place - should collide
 		ScreenBaseImpl screenBase = new ScreenBaseImpl();
-		AircraftController controller = new AircraftController(getNoAircraftDifficulty(), new Airspace(), screenBase);
+		AircraftController controller = new AircraftController(getNoAircraftDifficulty(), new Airspace(), new Airport(), screenBase);
 
 		controller.getAircraftList().add(makeFakeAircraft(100, 100));
 		controller.getAircraftList().add(makeFakeAircraft(100, 100));
@@ -91,7 +92,7 @@ public class AircraftControllerTest extends FakeArtEnabler
 	{
 		// Generate airspace with 2 aircraft in it (with limit on 2)
 		GameDifficulty difficulty = new GameDifficulty(2, 0, 0, 0);
-		AircraftController controller = new AircraftController(difficulty, new Airspace(), null);
+		AircraftController controller = new AircraftController(difficulty, new Airspace(), new Airport(), null);
 		controller.getAircraftList().add(makeFakeAircraft(500, 500));
 		controller.getAircraftList().add(makeFakeAircraft(100, 100));
 
