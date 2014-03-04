@@ -44,6 +44,13 @@
       <version>${gdx.version}</version>
       <classifier>natives-desktop</classifier>
     </dependency>
+    
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.0.17.Final</version>
+      <scope>compile</scope>
+    </dependency>
 
     <!-- JUnit and Hamcrest for tests -->
     <dependency>
