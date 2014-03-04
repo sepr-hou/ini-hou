@@ -9,7 +9,7 @@ class PacketHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		Packet packet = (Packet) msg;
 		
-		System.out.println(packet);
+		System.out.println("Received Packet: " + packet);
 	}
 
 	@Override

@@ -44,12 +44,19 @@
       <version>${gdx.version}</version>
       <classifier>natives-desktop</classifier>
     </dependency>
-    
+
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
       <version>4.0.17.Final</version>
       <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>0.11.4</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- JUnit and Hamcrest for tests -->

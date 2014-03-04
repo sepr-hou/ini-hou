@@ -6,7 +6,7 @@ public interface Packet {
 	
 	public void readPacket(ByteBuf input) throws Exception;
 	
-	public byte[] getBytes() throws Exception;
+	public void getBytes(ByteBuf out) throws Exception;
 	
 	public int getId();
 	

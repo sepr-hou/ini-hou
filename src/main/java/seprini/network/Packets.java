@@ -1,10 +1,9 @@
 package seprini.network;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-import seprini.network.packets.server.JoinGame;
+import seprini.network.packets.client.JoinGame;
 
 public enum Packets {
 	JOIN_GAME((byte) 0, JoinGame.class);
@@ -25,17 +24,7 @@ public enum Packets {
 		try {
 			final Constructor<? extends Packet> c = clazz.getDeclaredConstructor(new Class[] {});
 			return c.newInstance();
-		} catch (final NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (final SecurityException e) {
-			e.printStackTrace();
-		} catch (final InstantiationException e) {
-			e.printStackTrace();
-		} catch (final IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (final IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (final InvocationTargetException e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -44,7 +33,7 @@ public enum Packets {
 	private static HashMap<Byte, Packets> map = new HashMap<Byte, Packets>();
 
 	public static Packets getPacket(int packetId) {
-		return map.get(packetId);
+		return map.get((byte) packetId);
 	}
 
 	static {
