@@ -8,8 +8,8 @@ public interface Packet {
 	
 	public void getBytes(ByteBuf out) throws Exception;
 	
-	public int getId();
+	public byte getId();
 	
-	public int getVersion();
+	public byte getVersion();
 	
 }

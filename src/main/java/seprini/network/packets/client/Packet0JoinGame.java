@@ -5,9 +5,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import io.netty.buffer.ByteBuf;
-import seprini.network.Packet;
 
-public class JoinGame implements Packet {
+public class Packet0JoinGame implements ClientPacket {
 
 	@Accessors(chain = true) @Getter @Setter private String playerName;
 
@@ -24,12 +23,12 @@ public class JoinGame implements Packet {
 	}
 
 	@Override
-	public int getId() {
-		return 0;
+	public byte getId() {
+		return 0x00;
 	}
 
 	@Override
-	public int getVersion() {
+	public byte getVersion() {
 		return 0;
 	}
 	
