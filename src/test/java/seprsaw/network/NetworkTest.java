@@ -3,9 +3,10 @@ package seprsaw.network;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
 import seprini.network.Client;
 import seprini.network.Server;
-import seprini.network.packets.client.Packet0JoinGame;
+import seprini.network.packet.JoinGamePacket;
 
 /**
  * Test class for networking
@@ -40,7 +41,7 @@ public class NetworkTest {
 			@Override
 			public void run() {
 				try {
-					cli.sendPacket(new Packet0JoinGame().setPlayerName("Test"));
+					cli.sendPacket(new JoinGamePacket("Test"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -49,7 +50,7 @@ public class NetworkTest {
 		cli.start();
 		
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}

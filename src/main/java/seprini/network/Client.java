@@ -1,10 +1,10 @@
 package seprini.network;
 
+import seprini.network.packet.Packet;
+import seprini.network.packet.codec.encoder.Encoder;
 import lombok.Setter;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -36,7 +36,7 @@ public class Client extends Thread {
 			b.handler(new ChannelInitializer<SocketChannel>() {
 				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
-					ch.pipeline().addLast(new PacketDecoder(), new PacketHandler());
+					ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new ChannelHandler());
 				}
 			});
 
@@ -59,15 +59,10 @@ public class Client extends Thread {
 	}
 	
 	public void sendPacket(Packet packet) throws Exception {
-		ByteBuf data = Unpooled.buffer();
-		packet.getBytes(data);
-		
-		ByteBuf buf = Unpooled.buffer();
-		buf.writeInt(data.readableBytes());
-		buf.writeByte(packet.getVersion());
-		buf.writeByte(packet.getId());
-		buf.writeBytes(data);
-		
-		f.channel().writeAndFlush(buf);
+		Encoder<?> encoder = Encoder.get(packet.getId());
+		ByteBuf buf = encoder.encodeGeneric(f.channel().alloc(), packet);
+		Frame frame = new Frame(packet.getId(), buf);
+
+		f.channel().writeAndFlush(frame);
 	}
 }
