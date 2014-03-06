@@ -65,8 +65,4 @@ public class Client extends Thread {
 
 		f.channel().writeAndFlush(frame);
 	}
-
-	public void setOnConnect(Runnable onConnect) {
-		this.onConnect = onConnect;
-	}
 }
