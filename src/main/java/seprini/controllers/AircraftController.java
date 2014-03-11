@@ -109,9 +109,6 @@ public final class AircraftController extends InputListener {
 		// Update timer
 		timer += delta;
 		
-		// Update score
-		score += difficulty.getScoreMultiplier() * delta;
-
 		breachingSound = false;
 
 		// wait at least 2 seconds before allowing to warn again

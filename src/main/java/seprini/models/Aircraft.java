@@ -426,7 +426,7 @@ public final class Aircraft extends Entity {
 				if (distanceToWaypoint < Config.EXIT_WAYPOINT_SIZE.x / 2)
 				{
 					// Collided with exit point
-					AircraftController.score += 77;
+					AircraftController.score += 1000;
 					Debug.msg("Aircraft id " + id + ": Reached exit WP");
 
 					waypoints.clear();
@@ -438,7 +438,7 @@ public final class Aircraft extends Entity {
 				if (distanceToWaypoint < Config.WAYPOINT_SIZE.x / 2)
 				{
 					// Collided with normal waypoint
-					AircraftController.score += 111;
+					AircraftController.score += 100;
 					Debug.msg("Aircraft id " + id + ": Hit waypoint");
 					// Sets aircraft speed to 0 if it has reached the middle of runway.
 					// Only occurs when landing as runwayMid can only be part of a landing flight plan.
