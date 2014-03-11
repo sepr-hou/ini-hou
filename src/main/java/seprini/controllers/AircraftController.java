@@ -418,7 +418,7 @@ public final class AircraftController extends InputListener {
 			if (keycode == Keys.R)
 				selectedAircraft.returnToPath();
 			
-			if (keycode == Keys.G)
+			if (keycode == Keys.F && selectedAircraft.getAltitude() == 5000)
 				selectedAircraft.landAircraft();
 			
 			if (keycode == Keys.T)

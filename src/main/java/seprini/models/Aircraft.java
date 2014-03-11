@@ -570,7 +570,7 @@ public final class Aircraft extends Entity {
 //		Waypoint runwayMid = new Waypoint(387, 335, false);
 //		Waypoint runwayStart = new Waypoint(310, 275, false);
 		Waypoint approach;
-		int choice = 0;
+//		int choice = 0;
 		//Calculates if aircraft is in Pos A or B to decide which approach waypoint to use.
 		//
 		//--------------
@@ -583,15 +583,15 @@ public final class Aircraft extends Entity {
 		//--------------
 		//
 		//Adds 1 to avoid 0 error
-		if (((this.getX() + 1) / (this.getY() + 1)) > 1.8){
-			choice = 1;
-		}
-		if (choice == 0){
-			approach = new Waypoint(230, 275, false);
-		} else {
-			approach = new Waypoint(310, 195, false);
-		}
-		
+//		if (((this.getX() + 1) / (this.getY() + 1)) > 1.8){
+//			choice = 1;
+//		}
+//		if (choice == 0){
+//			approach = new Waypoint(230, 275, false);
+//		} else {
+//			approach = new Waypoint(310, 195, false);
+//		}
+		approach = new Waypoint(this.airport.getStart().getX(), this.airport.getStart().getY()-100, false);
 		this.insertWaypoint(this.airport.getEnd());
 		this.insertWaypoint(this.airport.getMid());
 		this.insertWaypoint(this.airport.getStart());

@@ -6,11 +6,16 @@ import seprini.data.Art;
 
 public final class Airport extends Entity{
 
-	Waypoint runwayEnd = new Waypoint(464, 395, false);
-	Waypoint runwayMid = new Waypoint(387, 335, false);
-	Waypoint runwayStart = new Waypoint(310, 275, false);
+	Waypoint runwayEnd;
+	Waypoint runwayMid;
+	Waypoint runwayStart;
 	
-	public Airport() {
+	public Airport(Vector2 midPoint) {
+		
+		this.runwayMid = new Waypoint(midPoint.x, midPoint.y, false);
+		this.runwayStart = new Waypoint(midPoint.x, midPoint.y -60, false);
+		this.runwayEnd = new Waypoint(midPoint.x, midPoint.y +60, false);
+		
 		this.coords = new Vector2(387, 335);
 		this.size = new Vector2(154, 120);
 		this.texture = Art.getTextureRegion("airport");
