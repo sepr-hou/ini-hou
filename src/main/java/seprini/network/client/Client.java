@@ -1,6 +1,11 @@
-package seprini.network;
+package seprini.network.client;
 
 import java.net.SocketAddress;
+
+import seprini.network.Frame;
+import seprini.network.FrameDecoder;
+import seprini.network.FrameEncoder;
+import seprini.network.FrameHandler;
 import seprini.network.packet.Packet;
 import seprini.network.packet.codec.encoder.Encoder;
 import io.netty.bootstrap.Bootstrap;
@@ -42,7 +47,7 @@ public class Client implements Runnable {
 			b.handler(new ChannelInitializer<SocketChannel>() {
 				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
-					ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler());
+					ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler(this));
 				}
 			});
 

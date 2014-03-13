@@ -1,7 +1,9 @@
-package seprini.network;
+package seprini.network.server;
 
+import seprini.network.FrameDecoder;
+import seprini.network.FrameEncoder;
+import seprini.network.FrameHandler;
 import io.netty.bootstrap.ServerBootstrap;
-
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -31,7 +33,7 @@ public class Server {
 					.childHandler(new ChannelInitializer<SocketChannel>() {
 								@Override
 								public void initChannel(SocketChannel ch) throws Exception {
-									ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler());
+									ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler(new Client()));
 								}
 							})
 					.option(ChannelOption.SO_BACKLOG, 128)
