@@ -65,10 +65,12 @@ public class Client implements Runnable {
 	}
 	
 	public void writePacket(Packet packet) throws InterruptedException {
-		Encoder<?> encoder = Encoder.get(packet.getId());
-		ByteBuf buf = encoder.encodeGeneric(channel.alloc(), packet);
-		Frame frame = new Frame(packet.getId(), buf);
-
-		channel.writeAndFlush(frame);
+		synchronized (this) {
+			Encoder<?> encoder = Encoder.get(packet.getId());
+			ByteBuf buf = encoder.encodeGeneric(channel.alloc(), packet);
+			Frame frame = new Frame(packet.getId(), buf);
+	
+			channel.writeAndFlush(frame);
+		}
 	}
 }
