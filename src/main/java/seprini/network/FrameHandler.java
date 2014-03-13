@@ -16,14 +16,15 @@ public class FrameHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		Frame frame = (Frame) msg;
+		int packetId = frame.getPacketId() & 0xFF;
 
-		Decoder<?> decoder = Decoder.get(frame.getPacketId());
+		Decoder<?> decoder = Decoder.get(packetId);
 		Packet packet = (Packet) decoder.decode(frame.getData());
 
 		try {
-			Handler<?, ?> handler = Handler.get(frame.getPacketId());
+			Handler<?, ?> handler = Handler.get(packetId);
 			if (handler == null) {
-				System.out.println("No handler for frame " + Integer.toHexString(frame.getPacketId()));
+				System.out.println("No handler for frame " + packetId);
 				return;
 			}
 			handler.handleGeneric(packet, attachment);

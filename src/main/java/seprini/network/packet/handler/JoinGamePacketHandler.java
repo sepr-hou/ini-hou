@@ -1,7 +1,12 @@
 package seprini.network.packet.handler;
 
+import java.io.IOException;
+import java.util.Map.Entry;
+
 import seprini.network.packet.JoinGamePacket;
+import seprini.network.packet.PlayerJoinPacket;
 import seprini.network.server.Client;
+import seprini.network.server.Server;
 
 public final class JoinGamePacketHandler extends Handler<JoinGamePacket, Client> {
 	public JoinGamePacketHandler() {
@@ -9,10 +14,20 @@ public final class JoinGamePacketHandler extends Handler<JoinGamePacket, Client>
 	}
 
 	@Override
-	public void handle(JoinGamePacket packet, Client attachment) throws Exception {
-		// TODO Not trust the client.
-		// TODO Assign player an unused ID.
-		attachment.setName(packet.getName());
+	public void handle(JoinGamePacket packet, Client client) throws Exception {
+		Server server = client.getServer();
+		int id = server.getUnusedId();
+
+		if (packet.getName().length() > 32) throw new IOException("Name is too long.");
+
+		client.setName(packet.getName());
+		client.setId(id);
+
+		server.addClient(client);
+
+		for (Entry<Integer, Client> c : server.getClients().entrySet()) {
+			c.getValue().writePacket(new PlayerJoinPacket((byte) id, client.getName()));
+		}
 	}
 
 }

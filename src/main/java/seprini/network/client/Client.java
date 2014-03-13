@@ -37,6 +37,7 @@ public class Client implements Runnable {
 
 	@Override
 	public void run() {
+		final Client client = this;
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 
 		try {
@@ -47,7 +48,7 @@ public class Client implements Runnable {
 			b.handler(new ChannelInitializer<SocketChannel>() {
 				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
-					ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler(this));
+					ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler(client));
 				}
 			});
 
