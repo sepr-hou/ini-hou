@@ -31,7 +31,7 @@ public class Server {
 					.childHandler(new ChannelInitializer<SocketChannel>() {
 								@Override
 								public void initChannel(SocketChannel ch) throws Exception {
-									ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new ChannelHandler());
+									ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler());
 								}
 							})
 					.option(ChannelOption.SO_BACKLOG, 128)

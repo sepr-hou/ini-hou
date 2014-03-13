@@ -1,11 +1,11 @@
 package seprini.network;
 
+import java.net.SocketAddress;
 import seprini.network.packet.Packet;
 import seprini.network.packet.codec.encoder.Encoder;
-import lombok.Setter;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelFuture;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -13,43 +13,49 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class Client extends Thread {
+public class Client implements Runnable {
 	
-	private ChannelFuture f;
-	private String host;
-	private int port;
-	@Setter private Runnable onConnect;
+	private Channel channel;
+	private final SocketAddress host;
+	private final Runnable onConnect;
 	
-	public Client(String host, int port) {
+	public Client(SocketAddress host, Runnable onConnect) {
 		this.host = host;
-		this.port = port;
+		this.onConnect = onConnect;
+
+		new Thread(this).start();
 	}
-	
+
+	public Client(SocketAddress host) {
+		this(host, null);
+	}
+
+	@Override
 	public void run() {
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 
 		try {
 			Bootstrap b = new Bootstrap();
-			b.group(workerGroup);
 			b.channel(NioSocketChannel.class);
+			b.group(workerGroup);
 			b.option(ChannelOption.SO_KEEPALIVE, true);
 			b.handler(new ChannelInitializer<SocketChannel>() {
 				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
-					ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new ChannelHandler());
+					ch.pipeline().addLast(new FrameDecoder(), new FrameEncoder(), new FrameHandler());
 				}
 			});
 
 			try {
 				// Start the client.
-				f = b.connect(host, port).sync();
+				channel = b.connect(host).sync().channel();
 				
 				if (onConnect != null) {
 					onConnect.run();
 				}
 				
 				// Wait until the connection is closed.
-				f.channel().closeFuture().sync();
+				channel.closeFuture().sync();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -58,11 +64,11 @@ public class Client extends Thread {
 		}
 	}
 	
-	public void sendPacket(Packet packet) throws Exception {
+	public void writePacket(Packet packet) throws InterruptedException {
 		Encoder<?> encoder = Encoder.get(packet.getId());
-		ByteBuf buf = encoder.encodeGeneric(f.channel().alloc(), packet);
+		ByteBuf buf = encoder.encodeGeneric(channel.alloc(), packet);
 		Frame frame = new Frame(packet.getId(), buf);
 
-		f.channel().writeAndFlush(frame);
+		channel.writeAndFlush(frame);
 	}
 }

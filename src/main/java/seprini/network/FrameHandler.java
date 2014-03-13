@@ -6,7 +6,7 @@ import seprini.network.packet.handler.Handler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-class ChannelHandler extends ChannelInboundHandlerAdapter {
+class FrameHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		Frame frame = (Frame) msg;
@@ -16,7 +16,10 @@ class ChannelHandler extends ChannelInboundHandlerAdapter {
 
 		try {
 			Handler<?> handler = Handler.get(frame.getPacketId());
-			if (handler == null) return;
+			if (handler == null) {
+				System.out.println("No handler for frame " + Integer.toHexString(frame.getPacketId()));
+				return;
+			}
 			handler.handleGeneric(packet);
 		} catch (Exception e) {
 			e.printStackTrace();
