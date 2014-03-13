@@ -177,6 +177,8 @@ public final class SidebarController extends ChangeListener {
 		// force left + right buttons to be checked correctly
 		buttons.get("left").setChecked (selectedAircraft != null && selectedAircraft.isTurningLeft());
 		buttons.get("right").setChecked(selectedAircraft != null && selectedAircraft.isTurningRight());
+		buttons.get("up").setChecked (selectedAircraft != null && selectedAircraft.isAscending());
+		buttons.get("down").setChecked (selectedAircraft != null && selectedAircraft.isDescending());
 
 		// update aircraft altitude text
 		labels.get("altitude").setText(altitudeText);
