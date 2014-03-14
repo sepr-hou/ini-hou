@@ -33,6 +33,7 @@ public class Airspace extends Group {
 				{
 					// aircraft > non-aircraft
 					return 1;
+					
 				}
 			}
 			else

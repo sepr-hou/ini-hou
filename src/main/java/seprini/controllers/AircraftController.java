@@ -10,6 +10,7 @@ import seprini.data.Config;
 import seprini.data.Debug;
 import seprini.data.GameDifficulty;
 import seprini.models.Aircraft;
+import seprini.models.Airport;
 import seprini.models.Airspace;
 import seprini.models.Map;
 import seprini.models.Waypoint;
@@ -42,6 +43,7 @@ public final class AircraftController extends InputListener {
 
 	// ui related
 	private final Airspace airspace;
+	private final Airport airport;
 	private final ScreenBase screen;
 
 	private boolean allowRedirection;
@@ -68,9 +70,10 @@ public final class AircraftController extends InputListener {
 	 *            added
 	 * @param screen
 	 */
-	public AircraftController(GameDifficulty diff, Airspace airspace, ScreenBase screen) {
+	public AircraftController(GameDifficulty diff, Airspace airspace, Airport airport, ScreenBase screen) {
 		this.difficulty = diff;
 		this.airspace = airspace;
+		this.airport = airport;
 		this.screen = screen;
 
 		// TODO: jcowgill - this is a massive hack but it will do at the moment
@@ -106,9 +109,6 @@ public final class AircraftController extends InputListener {
 		// Update timer
 		timer += delta;
 		
-		// Update score
-		score += difficulty.getScoreMultiplier() * delta;
-
 		breachingSound = false;
 
 		// wait at least 2 seconds before allowing to warn again
@@ -274,7 +274,7 @@ public final class AircraftController extends InputListener {
 		}
 		
 		Aircraft newAircraft = new Aircraft(randomAircraftType(),
-				flightplan.generate(), aircraftId++, shouldLand);
+				flightplan.generate(), aircraftId++, shouldLand, this.airport);
 
 		aircraftList.add(newAircraft);
 
@@ -415,7 +415,7 @@ public final class AircraftController extends InputListener {
 			if (keycode == Keys.R)
 				selectedAircraft.returnToPath();
 			
-			if (keycode == Keys.G)
+			if (keycode == Keys.F && selectedAircraft.getAltitude() == 5000)
 				selectedAircraft.landAircraft();
 			
 			if (keycode == Keys.T)

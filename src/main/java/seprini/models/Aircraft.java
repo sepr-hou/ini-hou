@@ -25,6 +25,7 @@ public final class Aircraft extends Entity {
 
 	private final ArrayList<Waypoint> waypoints;
 	private final AircraftType aircraftType;
+	private final Airport airport;
 
 	private int desiredAltitude;
 	private int altitude;
@@ -55,8 +56,9 @@ public final class Aircraft extends Entity {
 	private boolean mustLand;
 
 	public Aircraft(AircraftType aircraftType, ArrayList<Waypoint> flightPlan,
-			int id, boolean mustLand) {
-
+			int id, boolean mustLand, Airport airport) {
+		
+		this.airport = airport;
 		// allows drawing debug shape of this entity
 		debugShape = true;
 
@@ -111,6 +113,7 @@ public final class Aircraft extends Entity {
 	 * 
 	 * @param batch
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	protected void additionalDraw(SpriteBatch batch) {
 
@@ -229,13 +232,13 @@ public final class Aircraft extends Entity {
 			this.desiredAltitude = 2500;
 		}
 		
-		Waypoint runwayStart = new Waypoint(310, 275, false);
+		Waypoint runwayStart = this.airport.getStart();//new Waypoint(310, 275, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayStart.getCoords())){
 			this.setSpeed(250 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 			this.desiredAltitude = 1250;
 		}
 		
-		Waypoint runwayMid = new Waypoint(387, 335, false);
+		Waypoint runwayMid = this.airport.getMid();//new Waypoint(387, 335, false);
 		if (this.getNextWaypoint().getCoords().equals(runwayMid.getCoords())){
 			this.setSpeed(150 / Config.AIRCRAFT_SPEED_MULTIPLIER);
 			this.desiredAltitude = 0;
@@ -424,7 +427,7 @@ public final class Aircraft extends Entity {
 				if (distanceToWaypoint < Config.EXIT_WAYPOINT_SIZE.x / 2)
 				{
 					// Collided with exit point
-					AircraftController.score += 77;
+					AircraftController.score += 1000;
 					Debug.msg("Aircraft id " + id + ": Reached exit WP");
 
 					waypoints.clear();
@@ -436,7 +439,7 @@ public final class Aircraft extends Entity {
 				if (distanceToWaypoint < Config.WAYPOINT_SIZE.x / 2)
 				{
 					// Collided with normal waypoint
-					AircraftController.score += 111;
+					AircraftController.score += 100;
 					Debug.msg("Aircraft id " + id + ": Hit waypoint");
 					// Sets aircraft speed to 0 if it has reached the middle of runway.
 					// Only occurs when landing as runwayMid can only be part of a landing flight plan.
@@ -452,7 +455,7 @@ public final class Aircraft extends Entity {
 		}
 	}
 
-	/**
+	/**b
 	 * Adding a new waypoint to the head of the arraylist
 	 * 
 	 * @param newWaypoint
@@ -519,6 +522,14 @@ public final class Aircraft extends Entity {
 
 		this.desiredAltitude -= ALTITUDE_CHANGE;
 	}
+	
+	public boolean isAscending() {
+		return this.altitude < this.desiredAltitude;
+	}
+	
+	public boolean isDescending() {
+		return this.altitude > this.desiredAltitude;
+	}
 
 	public boolean isTurningRight() {
 		return turnRight;
@@ -564,11 +575,11 @@ public final class Aircraft extends Entity {
 		if (!selected || AircraftController.isLanding() || mustLand == false)
 			return;
 		AircraftController.setLanding(true);
-		Waypoint runwayEnd = new Waypoint(464, 395, false);
-		Waypoint runwayMid = new Waypoint(387, 335, false);
-		Waypoint runwayStart = new Waypoint(310, 275, false);
+//		Waypoint runwayEnd = new Waypoint(464, 395, false);
+//		Waypoint runwayMid = new Waypoint(387, 335, false);
+//		Waypoint runwayStart = new Waypoint(310, 275, false);
 		Waypoint approach;
-		int choice = 0;
+//		int choice = 0;
 		//Calculates if aircraft is in Pos A or B to decide which approach waypoint to use.
 		//
 		//--------------
@@ -581,18 +592,18 @@ public final class Aircraft extends Entity {
 		//--------------
 		//
 		//Adds 1 to avoid 0 error
-		if (((this.getX() + 1) / (this.getY() + 1)) > 1.8){
-			choice = 1;
-		}
-		if (choice == 0){
-			approach = new Waypoint(230, 275, false);
-		} else {
-			approach = new Waypoint(310, 195, false);
-		}
-		
-		this.insertWaypoint(runwayEnd);
-		this.insertWaypoint(runwayMid);
-		this.insertWaypoint(runwayStart);
+//		if (((this.getX() + 1) / (this.getY() + 1)) > 1.8){
+//			choice = 1;
+//		}
+//		if (choice == 0){
+//			approach = new Waypoint(230, 275, false);
+//		} else {
+//			approach = new Waypoint(310, 195, false);
+//		}
+		approach = new Waypoint(this.airport.getStart().getX(), this.airport.getStart().getY()-100, false);
+		this.insertWaypoint(this.airport.getEnd());
+		this.insertWaypoint(this.airport.getMid());
+		this.insertWaypoint(this.airport.getStart());
 		this.insertWaypoint(approach);
 		returnToPath();
 	}
